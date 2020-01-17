@@ -62,9 +62,6 @@ module.exports = () => (
                 babelrc: true,
               },
             },
-            {
-              loader: 'eslint-loader',
-            },
           ],
           include: includePaths,
           exclude: /node_modules/,

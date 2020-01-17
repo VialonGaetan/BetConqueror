@@ -14,6 +14,9 @@ import {
   View,
   Text,
   StatusBar,
+  TextInput,
+  Button,
+  TouchableOpacity
 } from 'react-native';
 
 import {
@@ -24,52 +27,77 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
+class App extends React.Component {
+
+  state = {
+    input: '',
+    response: '',
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  _sendMessage() {
+    this._client.send(this.state.input);
+  }
+
+  _changeText(text) {
+    this.setState({ input: text });
+  }
+
+  componentDidMount() {
+    this._client = new WebSocket('ws://10.212.120.221:8080/ping')
+    this._client.onopen = () => {
+      console.log("IS connected to server")
+      this.ready = true
+    };
+
+    this._client.onmessage = (e) => {
+      this.setState({ response: e.data })
+      console.log("New message from serveur" + e.data);
+    };
+
+    this._client.onerror = (e) => {
+      // an error occurred
+      console.log(e.message);
+    };
+
+    this._client.onclose = (e) => {
+      // connection closed
+      console.log(e.code, e.reason);
+    };
+  }
+
+
+  render() {
+    const msg = this.state.input;
+
+    return (
+      <View>
+        <Text>Test Web socket</Text>
+        <View style={{ flexDirection: 'row', width: window.width, margin: 10, padding: 4, alignItems: 'center', justifyContent: 'center', borderWidth: 4, borderColor: '#888', borderRadius: 10, backgroundColor: "#fff" }}>
+          <View style={{ flex: 4 }} >
+            <TextInput
+              onChangeText={this._changeText.bind(this)}
+              style={{ backgroundColor: 'transparent' }}
+            />
+          </ View>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity
+              onPress={this._sendMessage.bind(this)}
+              style={this.props.style} >
+              <Text>Envoyer</Text>
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+        </View>
+        <Text>Reponse WEB socket : {this.state.response}</Text>
+      </View>
+
+    );
+
+  }
+
 };
 
 const styles = StyleSheet.create({

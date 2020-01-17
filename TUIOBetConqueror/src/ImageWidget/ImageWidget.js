@@ -8,6 +8,7 @@ import $ from 'jquery/dist/jquery.min';
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import { radToDeg } from 'tuiomanager/core/helpers';
+import SocketClient from '../SocketIOClient/SocketClient';
 
 /**
  * Main class to manage ImageWidget.

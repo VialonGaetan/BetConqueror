@@ -1,4 +1,4 @@
 package org.polytech.si5.betConqueror.protocol;
 
-public class AbstractEventProtocol {
+public abstract class AbstractEventProtocol {
 }

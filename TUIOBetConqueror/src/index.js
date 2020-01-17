@@ -8,15 +8,19 @@ import TUIOManager from 'tuiomanager/core/TUIOManager'
 // import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget'
 import ImageWidget from './ImageWidget/ImageWidget'
 
-import SocketIOClient from './SocketIOClient/SocketIOClient'
-
+//  import SocketIOClient from './SocketIOClient/SocketIOClient'
+import SocketClient from './SocketIOClient/SocketClient'
 /* TUIOManager start */
 const tuioManager = new TUIOManager()
 tuioManager.start()
 
 /* Start SocketIO Client */
-const socketIOClient = new SocketIOClient()
-socketIOClient.start()
+//  const socketIOClient = new SocketIOClient()
+//  socketIOClient.start()
+
+const socketClient = new SocketClient()
+socketClient.start()
+
 
 /* App Code */
 const buildApp = () => {
@@ -25,6 +29,8 @@ const buildApp = () => {
   imageWidget.addTo('#app')
   */
   const imageWidget = new ImageWidget(0, 0, 365, 289, 'assets/UCAlogoQhaut.png')
+
+
   $('#app').append(imageWidget.domElem)
 }
 
