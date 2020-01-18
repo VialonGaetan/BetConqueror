@@ -4,6 +4,7 @@
 
 import $ from 'jquery/dist/jquery.min'
 import TUIOManager from 'tuiomanager/core/TUIOManager'
+import QrCode from 'qrcode'
 
 // import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget'
 import ImageWidget from './ImageWidget/ImageWidget'
@@ -21,6 +22,7 @@ tuioManager.start()
 const socketClient = new SocketClient()
 socketClient.start()
 
+const SERVER_ADRESS = 'http://localhost:8080/'
 
 /* App Code */
 const buildApp = () => {
@@ -29,9 +31,8 @@ const buildApp = () => {
   imageWidget.addTo('#app')
   */
   const imageWidget = new ImageWidget(0, 0, 365, 289, 'assets/UCAlogoQhaut.png')
-
-
-  $('#app').append(imageWidget.domElem)
+  $('#app').append('<canvas id="qr-code" class="canvas" canvas>')
+  QrCode.toCanvas(document.getElementById('qr-code'), SERVER_ADRESS)
 }
 
 $(window).ready(() => {
