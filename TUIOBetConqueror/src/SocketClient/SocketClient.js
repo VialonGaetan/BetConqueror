@@ -1,5 +1,4 @@
 
-import { PONG_SOCKETIO_TYPE } from './constants'
 
 let socketClientInstance = null
 

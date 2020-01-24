@@ -8,15 +8,9 @@
 
 import React from 'react';
 import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
     View,
     Text,
-    StatusBar,
-    TextInput,
     Button,
-    TouchableOpacity,
     FlatList,
     CheckBox
 } from 'react-native';

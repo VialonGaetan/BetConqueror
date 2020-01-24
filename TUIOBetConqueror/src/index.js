@@ -5,12 +5,15 @@
 import $ from 'jquery/dist/jquery.min'
 import TUIOManager from 'tuiomanager/core/TUIOManager'
 import QrCode from 'qrcode'
+import App from './Views/App';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 // import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget'
 import ImageWidget from './ImageWidget/ImageWidget'
 
 //  import SocketIOClient from './SocketIOClient/SocketIOClient'
-import SocketClient from './SocketIOClient/SocketClient'
+import SocketClient from './SocketClient/SocketClient'
 /* TUIOManager start */
 const tuioManager = new TUIOManager()
 tuioManager.start()
@@ -29,7 +32,8 @@ socketClient._client.onmessage = (e) => {
     }
   }
 }
-const SERVER_ADRESS = 'ws://localhost:8080/game'
+const SERVER_ADRESS = 'ws://10.212.120.221:8080/game'
+
 
 /* App Code */
 const buildApp = () => {
@@ -44,6 +48,8 @@ const buildApp = () => {
   QrCode.toCanvas(document.getElementById('qr-code'), SERVER_ADRESS)
 }
 
-$(window).ready(() => {
-  buildApp()
-})
+/*$(window).ready(() => {
+  //buildApp()
+})*/
+
+ReactDOM.render(<App />, document.getElementById('root'));
