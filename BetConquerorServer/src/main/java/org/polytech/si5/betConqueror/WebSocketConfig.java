@@ -1,8 +1,5 @@
 package org.polytech.si5.betConqueror;
 
-
-import org.polytech.si5.betConqueror.services.sockets.PingSocketHandler;
-import org.polytech.si5.betConqueror.services.sockets.game.GameRequestHandler;
 import org.polytech.si5.betConqueror.services.sockets.game.GameSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -17,22 +14,18 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer, WebMvcConfigurer{
 
-    private final PingSocketHandler pingSocket;
     private final GameSocketHandler gameSocket;
 
     @Autowired
-    public WebSocketConfig(PingSocketHandler pingSocketHandler, GameSocketHandler gameSocketHandler) {
-        this.pingSocket = pingSocketHandler;
+    public WebSocketConfig(GameSocketHandler gameSocketHandler) {
         this.gameSocket = gameSocketHandler;
     }
 
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(pingSocket, "/ping").setAllowedOrigins("*");
-        registry.addHandler(pingSocket, "/ping").setAllowedOrigins("*").withSockJS();
-        registry.addHandler(pingSocket, "/game").setAllowedOrigins("*");
-        registry.addHandler(pingSocket, "/game").setAllowedOrigins("*").withSockJS();
+        registry.addHandler(gameSocket, "/game").setAllowedOrigins("*");
+        registry.addHandler(gameSocket, "/game").setAllowedOrigins("*").withSockJS();
     }
 
 

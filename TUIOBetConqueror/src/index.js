@@ -22,7 +22,14 @@ tuioManager.start()
 const socketClient = new SocketClient()
 socketClient.start()
 
-const SERVER_ADRESS = 'http://localhost:8080/'
+socketClient._client.onmessage = (e) => {
+  if (e.data !== undefined) {
+    if (JSON.parse(e.data).response === "GAME_START") {
+      alert("GAME HAS STARTED")
+    }
+  }
+}
+const SERVER_ADRESS = 'ws://localhost:8080/game'
 
 /* App Code */
 const buildApp = () => {
@@ -31,7 +38,9 @@ const buildApp = () => {
   imageWidget.addTo('#app')
   */
   const imageWidget = new ImageWidget(0, 0, 365, 289, 'assets/UCAlogoQhaut.png')
-  $('#app').append('<canvas id="qr-code" class="canvas" canvas>')
+  $('#app').append('<h1 class="title" id="title"> Bet Conqueror</h1>')
+  $('#app').append('<h2 class="description" id="description"> Scan le QrCode avec l\'application mobile Bet Conqueror pour rejoindre la partie </h2>')
+  $('#app').append('<canvas id="qr-code" class="canvas" canvas/>')
   QrCode.toCanvas(document.getElementById('qr-code'), SERVER_ADRESS)
 }
 

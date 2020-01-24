@@ -6,6 +6,7 @@
 
 body {
   background-color: #E8FDFF;
+   background-image: url("./../../assets/fond.jpg")
 }
 
 .field {
@@ -41,6 +42,21 @@ body {
 }
 
 .canvas {
+  margin-top: 5em;
   margin: auto;
   display: block;
+}
+
+.title {
+    font-size: 10em;
+    color: black;
+    text-align: center;
+}
+
+.description{
+  margin-bottom: 1em;
+  font-size: 5em;
+    color: black;
+    text-align: center;
+
 }

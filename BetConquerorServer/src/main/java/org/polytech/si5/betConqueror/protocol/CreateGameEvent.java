@@ -16,5 +16,7 @@ public class CreateGameEvent implements EventProtocol {
     @Override
     public void processEvent() {
 
+
+
     }
 }

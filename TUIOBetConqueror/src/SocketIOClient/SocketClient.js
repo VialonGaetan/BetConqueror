@@ -25,12 +25,14 @@ class SocketClient {
         return new SocketClient()
     }
 
-    start(socketUrl = 'ws://localhost:8080/ping') {
+    start(socketUrl = 'ws://localhost:8080/game') {
         this._client = new WebSocket(socketUrl)
         this._client.onopen = () => {
             console.log("IS connected to server")
+            let request = { request: "TABLE" }
+            console.log()
             this.ready = true
-            this._client.send("TOTO");
+            this._client.send(JSON.stringify(request));
         };
 
         this._client.onmessage = (e) => {
