@@ -1,5 +1,6 @@
 package org.polytech.si5.betConqueror.protocol.init;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.polytech.si5.betConqueror.components.buisness.Game;
 import org.polytech.si5.betConqueror.components.buisness.Messenger;
@@ -36,6 +37,7 @@ public class ChooseRaceEvent implements EventProtocol {
         }
         Race race;
         try {
+            System.out.println(String.valueOf(request.get(InitGameJsonKey.RACE.key)));
             race = Race.valueOf(String.valueOf(request.get(InitGameJsonKey.RACE.key)));
         }catch (Exception e){
             JsonObject error = new JsonObject();
@@ -62,6 +64,12 @@ public class ChooseRaceEvent implements EventProtocol {
         messenger.sendSpecificMessageToAUser(generateResponse().toString());
         logger.info("One player has the race : " + player.getRace().getName());
 
+
+        for(Player aPlayer: game.getPlayerList()){
+            Messenger aMessenger = new Messenger(aPlayer.getSession().get());
+            aMessenger.sendSpecificMessageToAUser(generateResponseForAll(race).toString());
+        }
+        System.out.println("lskjdks");
         if (game.getPlayerList().stream().allMatch(player1 -> player1.getSession().isPresent())){
             new StartGameEvent().processEvent();
         }
@@ -71,6 +79,14 @@ public class ChooseRaceEvent implements EventProtocol {
     private JsonObject generateResponse(){
         JsonObject response = new JsonObject();
         response.addProperty(InitGameJsonKey.RESPONSE.key, "OK");
+
+        return response;
+    }
+
+    private JsonObject generateResponseForAll(Race race){
+        JsonObject response = new JsonObject();
+        response.addProperty(InitGameJsonKey.RESPONSE.key, "RACE_SELECTED");
+        response.addProperty(InitGameJsonKey.NAME.key, race.getName());
         return response;
     }
 }

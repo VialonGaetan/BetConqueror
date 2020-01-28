@@ -6,6 +6,9 @@ import $ from 'jquery/dist/jquery.min'
 import TUIOManager from 'tuiomanager/core/TUIOManager'
 import QrCode from 'qrcode'
 
+// import ImageElementWidget from 'tuiomanager/widgets/ElementWidget/ImageElementWidget/ImageElementWidget'
+import ImageWidget from './ImageWidget/ImageWidget'
+
 //  import SocketIOClient from './SocketIOClient/SocketIOClient'
 import SocketClient from './SocketIOClient/SocketClient'
 import buildBoard from './Board';
@@ -27,23 +30,32 @@ socketClient._client.onmessage = (e) => {
       buildBoard();
     }
   }
-}
-const SERVER_ADRESS = 'ws://localhost:8080/game'
+};
+const SERVER_ADRESS = "ws://10.212.109.249:8080/game";
 
 /* App Code */
 const buildApp = () => {
   /*
   const imageWidget = new ImageElementWidget(0, 0, 365, 289, 0, 1, 'assets/UCAlogoQhaut.png')
-  imageWidget.addTo('#app')²
+  imageWidget.addTo('#app')
   */
-  $('#app').append('<h1 class="title" id="title"> Bet Conqueror</h1>')
-  $('#app').append('<h2 class="description" id="description"> Scan le QrCode avec l\'application mobile Bet Conqueror pour rejoindre la partie </h2>')
-  $('#app').append('<canvas id="qr-code" class="canvas" canvas/>')
-  QrCode.toCanvas(document.getElementById('qr-code'), SERVER_ADRESS)
+  const imageWidget = new ImageWidget(
+    0,
+    0,
+    365,
+    289,
+    "assets/UCAlogoQhaut.png"
+  );
+  $("#app").append('<h1 class="title" id="title"> Bet Conqueror</h1>');
+  $("#app").append(
+    '<h2 class="description" id="description"> Scan le QrCode avec l\'application mobile Bet Conqueror pour rejoindre la partie </h2>'
+  );
+  $("#app").append('<canvas id="qr-code" class="canvas" canvas/>');
+  QrCode.toCanvas(document.getElementById("qr-code"), SERVER_ADRESS);
 
   //buildBoard();
-}
+};
 
 $(window).ready(() => {
-  buildApp()
-})
+  buildApp();
+});

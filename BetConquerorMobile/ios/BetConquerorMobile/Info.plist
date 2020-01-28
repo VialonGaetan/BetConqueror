@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true/>
+	<key>NSAllowsLocalNetworking</key>
+	<true/>
+	<key>NSExceptionDomains</key>
+	<string>wss://134.59.215.253:8080/game</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>BetConqueror veut vous enregistrer à votre insu</string>
+	<key>NSIncludesSubdomains</key>
+	<true/>
+	<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+	<true/>
+	<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>BetConqueror veut accéder à votre caméra</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

@@ -6,7 +6,7 @@ public enum InitGameJsonKey {
     RACES("races"),
     AVAILABLE("available"),
     NAME("name"),
-    COLOR("color")
+    COLOR("color"),
     ;
 
 
