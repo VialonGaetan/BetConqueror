@@ -30,9 +30,12 @@ import MayaIcon from '../../assets/icons/MayaIcon.png';
 import Race from '../models/race';
 
 export class ChooseRaceView extends React.Component {
+  static navigationOptions = {
+    title: 'Choix de classe',
+  };
+
   state = {
     races: [],
-    selected: [false, false, false, false],
     yourRace: undefined,
     showModal: false,
   };
@@ -40,6 +43,8 @@ export class ChooseRaceView extends React.Component {
   constructor(props) {
     super(props);
     this._client = GameWebSocket.getInstance();
+    this._defineOnMessage();
+    this._getRaceAvailable();
   }
 
   _getRaceAvailable() {
@@ -55,23 +60,31 @@ export class ChooseRaceView extends React.Component {
       if (e.data !== undefined) {
         const data = JSON.parse(e.data);
         if (data.response === 'JOIN_GAME') {
+          this._client.setID(data.playerID);
           let newRaces = [];
           data.races.forEach(race =>
             newRaces.push(new Race(race.available, race.name, race.color)),
           );
           this.setState({races: newRaces});
-          this.state.selected.map((element, index) => {
-            if (element) {
-              if (!this.state.races[index].available) {
-                this.setState({selected: [false, false, false, false]});
-              }
-            }
-          });
         } else if (data.response === 'OK') {
           this.setState({showModal: true});
         } else if (data.response === 'RACE_SELECTED') {
           let newRaces = this.state.races;
-          newRaces.find(race => data.name === race.name).changeAvailable();
+          console.log(this._client.playerID);
+          data.races.forEach((raceResponse, index) => {
+            newRaces.find(race => race.name === raceResponse.name).available =
+              raceResponse.available;
+
+            if (raceResponse.playerID === this._client.playerID) {
+              newRaces.find(
+                race => race.name === raceResponse.name,
+              ).isMine = true;
+            } else {
+              newRaces.find(
+                race => race.name === raceResponse.name,
+              ).isMine = false;
+            }
+          });
           this.setState({races: newRaces});
         } else if (data.response === 'GAME_START') {
           this.props.navigation.navigate('Game');
@@ -91,11 +104,6 @@ export class ChooseRaceView extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this._defineOnMessage();
-    this._getRaceAvailable();
-  }
-
   renderCheckBox(race, index) {
     if (race.available) {
       return (
@@ -103,13 +111,9 @@ export class ChooseRaceView extends React.Component {
           style={{marginLeft: '10%', marginTop: '10%'}}
           disabled={!race.available}
           onClick={() => {
-            var tempsSelected = this.state.selected;
-            tempsSelected[index] = !tempsSelected[index];
-            this.setState({selected: tempsSelected});
             let request = {request: 'CHOOSE_ROLE', race: race.name};
             this._client.sendMessage(request);
           }}
-          isChecked={this.state.selected[index]}
         />
       );
     }
@@ -119,6 +123,9 @@ export class ChooseRaceView extends React.Component {
     let borderColor = 'green';
     if (!race.available) {
       borderColor = 'red';
+    }
+    if (race.isMine) {
+      borderColor = 'blue';
     }
     return (
       <View

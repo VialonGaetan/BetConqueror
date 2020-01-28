@@ -5,6 +5,7 @@ export default class GameWebSocket {
 
   isConnected = false;
 
+  playerID = undefined;
   /**
    * @returns {GameWebSocket}
    */
@@ -22,6 +23,10 @@ export default class GameWebSocket {
 
   onMessage(e) {
     this._client.onmessage = e;
+  }
+
+  setID(id) {
+    this.playerID = id;
   }
 
   async start(socketUrl) {

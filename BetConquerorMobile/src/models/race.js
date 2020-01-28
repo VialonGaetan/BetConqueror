@@ -3,6 +3,7 @@ export default class Race {
     this.available = available;
     this.name = name;
     this.color = color;
+    this.isMine = false;
   }
 
   changeAvailable() {

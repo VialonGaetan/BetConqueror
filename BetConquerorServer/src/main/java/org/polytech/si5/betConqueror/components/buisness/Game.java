@@ -32,9 +32,21 @@ public class Game {
         return playerList;
     }
 
+    public List<WebSocketSession> getLobbyPlayerList() {
+        return lobbyPlayerList;
+    }
+
+    public void addLobbyPlayer(WebSocketSession session){
+        lobbyPlayerList.add(session);
+    }
+
+
+    public List<WebSocketSession> lobbyPlayerList;
+
     private void initGame(){
         table = Optional.empty();
         this.playerList = new ArrayList<>();
+        this.lobbyPlayerList = new ArrayList<>();
         playerList.add(new Player(Race.FRANCAIS));
         playerList.add(new Player(Race.ESPAGNOL));
         playerList.add(new Player(Race.MAYA));

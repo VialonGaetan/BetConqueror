@@ -20,6 +20,22 @@ public enum Race {
         this.color = color;
     }
 
+    public static Race getRaceFromName(String name){
+        switch (name){
+            case "Francais":
+                return FRANCAIS;
+            case "Espagnol":
+                return ESPAGNOL;
+            case "Maya":
+                return MAYA;
+            case "Olmeques":
+                return OLMEQUES;
+            default:
+                return FRANCAIS;
+
+        }
+    }
+
     public List<String> getTags() {
         return Arrays.asList(tags);
     }

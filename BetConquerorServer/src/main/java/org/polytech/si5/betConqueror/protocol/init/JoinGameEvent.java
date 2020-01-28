@@ -30,6 +30,7 @@ public class JoinGameEvent implements EventProtocol {
     @Override
     public void processEvent() {
         logger.info("New Player mobile has join the game");
+        game.addLobbyPlayer(session);
         Messenger messenger = new Messenger(session);
         System.out.println(game.getPlayerList().toString());
         if (game.getPlayerList().stream().allMatch(player -> player.getSession().isPresent())){
@@ -49,10 +50,14 @@ public class JoinGameEvent implements EventProtocol {
             raceJSON.addProperty(InitGameJsonKey.AVAILABLE.key, !player.getSession().isPresent());
             raceJSON.addProperty(InitGameJsonKey.NAME.key, player.getRace().getName());
             raceJSON.addProperty(InitGameJsonKey.COLOR.key, player.getRace().getColor().toString());
+            response.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");
+
 
             races.add(raceJSON);
         }
         response.add(InitGameJsonKey.RACES.key, races);
+        response.addProperty(InitGameJsonKey.PLAYER_ID.key, session.getId());
+
         return response;
     }
 }

@@ -37,8 +37,7 @@ public class ChooseRaceEvent implements EventProtocol {
         }
         Race race;
         try {
-            System.out.println(String.valueOf(request.get(InitGameJsonKey.RACE.key)));
-            race = Race.valueOf(String.valueOf(request.get(InitGameJsonKey.RACE.key)));
+            race = Race.getRaceFromName(String.valueOf(request.get(InitGameJsonKey.RACE.key)));
         }catch (Exception e){
             JsonObject error = new JsonObject();
             error.addProperty(InitGameJsonKey.RESPONSE.key, "KO");
@@ -60,13 +59,25 @@ public class ChooseRaceEvent implements EventProtocol {
             messenger.sendError(error.toString());
             return;
         }
+
+        //IF THE PLAYER WANTS TO SWITCH RACE
+        //UNCOMMENT FOR PROD
+
+//        for(Player aplayer : game.getPlayerList()){
+//            if(aplayer.getSession().isPresent() && aplayer.getSession().get().equals(session)){
+//                aplayer.removeSession();
+//            }
+//        }
+
         player.setSession(session);
+
+
         messenger.sendSpecificMessageToAUser(generateResponse().toString());
         logger.info("One player has the race : " + player.getRace().getName());
 
 
-        for(Player aPlayer: game.getPlayerList()){
-            Messenger aMessenger = new Messenger(aPlayer.getSession().get());
+        for(WebSocketSession session: game.getLobbyPlayerList()){
+            Messenger aMessenger = new Messenger(session);
             aMessenger.sendSpecificMessageToAUser(generateResponseForAll(race).toString());
         }
         System.out.println("lskjdks");
@@ -86,7 +97,18 @@ public class ChooseRaceEvent implements EventProtocol {
     private JsonObject generateResponseForAll(Race race){
         JsonObject response = new JsonObject();
         response.addProperty(InitGameJsonKey.RESPONSE.key, "RACE_SELECTED");
-        response.addProperty(InitGameJsonKey.NAME.key, race.getName());
+        JsonArray races = new JsonArray();
+        for (Player player: game.getPlayerList()) {
+            JsonObject raceJSON = new JsonObject();
+            raceJSON.addProperty(InitGameJsonKey.AVAILABLE.key, !player.getSession().isPresent());
+            raceJSON.addProperty(InitGameJsonKey.NAME.key, player.getRace().getName());
+            raceJSON.addProperty(InitGameJsonKey.COLOR.key, player.getRace().getColor().toString());
+            raceJSON.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");
+
+            races.add(raceJSON);
+        }
+        response.add(InitGameJsonKey.RACES.key, races);
+
         return response;
     }
 }

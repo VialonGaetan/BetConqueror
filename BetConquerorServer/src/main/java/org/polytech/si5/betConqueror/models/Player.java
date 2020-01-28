@@ -25,6 +25,11 @@ public class Player {
         return session;
     }
 
+    public void removeSession() {
+        this.session = Optional.empty();
+    }
+
+
     public String getName() {
         return name;
     }
