@@ -4,11 +4,6 @@
   overflow: hidden;
 }
 
-body {
-  background-color: #E8FDFF;
-   background-image: url("./../../assets/fond.jpg")
-}
-
 .field {
   display:flex;
   position:realtive;
