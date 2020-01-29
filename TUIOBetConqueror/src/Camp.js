@@ -22,7 +22,7 @@ class Camp {
 
   draw() {
     this.ctx.beginPath();
-    this.ctx.arc(this.getStartXDraw(), this.getStartYDraw(), this.radius, this.startAngle, this.endAngle, false);
+    this.ctx.arc(this.getStartXDraw(), this.getStartYDraw(), this.radius - this.ctx.lineWidth, this.startAngle, this.endAngle, false);
     this.ctx.stroke();
   }
 

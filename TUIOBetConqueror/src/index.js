@@ -35,24 +35,12 @@ const SERVER_ADRESS = "ws://10.212.109.249:8080/game";
 
 /* App Code */
 const buildApp = () => {
-  /*
-  const imageWidget = new ImageElementWidget(0, 0, 365, 289, 0, 1, 'assets/UCAlogoQhaut.png')
-  imageWidget.addTo('#app')
-  */
-  const imageWidget = new ImageWidget(
-    0,
-    0,
-    365,
-    289,
-    "assets/UCAlogoQhaut.png"
-  );
   $("#app").append('<h1 class="title" id="title"> Bet Conqueror</h1>');
   $("#app").append(
     '<h2 class="description" id="description"> Scan le QrCode avec l\'application mobile Bet Conqueror pour rejoindre la partie </h2>'
   );
   $("#app").append('<canvas id="qr-code" class="canvas" canvas/>');
   QrCode.toCanvas(document.getElementById("qr-code"), SERVER_ADRESS);
-
   //buildBoard();
 };
 
