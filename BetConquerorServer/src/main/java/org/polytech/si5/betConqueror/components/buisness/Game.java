@@ -1,6 +1,7 @@
 package org.polytech.si5.betConqueror.components.buisness;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.polytech.si5.betConqueror.models.LobbyPlayer;
 import org.polytech.si5.betConqueror.models.Player;
 import org.polytech.si5.betConqueror.models.Race;
 import org.polytech.si5.betConqueror.models.Territory;
@@ -35,12 +36,12 @@ public class Game {
         return playerList;
     }
 
-    public List<WebSocketSession> getLobbyPlayerList() {
+    public List<LobbyPlayer> getLobbyPlayerList() {
         return lobbyPlayerList;
     }
 
-    public void addLobbyPlayer(WebSocketSession session){
-        lobbyPlayerList.add(session);
+    public void addLobbyPlayer(LobbyPlayer lobbyPlayer){
+        lobbyPlayerList.add(lobbyPlayer);
     }
 
     public List<Round> getRounds() {
@@ -57,7 +58,7 @@ public class Game {
         return this.rounds.add(round);
     }
 
-    public List<WebSocketSession> lobbyPlayerList;
+    public List<LobbyPlayer> lobbyPlayerList;
 
     private void initGame(){
         this.table = Optional.empty();

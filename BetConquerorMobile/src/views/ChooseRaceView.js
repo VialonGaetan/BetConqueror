@@ -31,11 +31,12 @@ import Race from '../models/race';
 
 export class ChooseRaceView extends React.Component {
   static navigationOptions = {
-    title: 'Choix de classe',
+    title: 'Choix de le classe',
+    headerLeft: () => null,
   };
 
   state = {
-    races: [],
+    races: this.props.navigation.getParam('races'),
     yourRace: undefined,
     showModal: false,
   };
@@ -44,13 +45,6 @@ export class ChooseRaceView extends React.Component {
     super(props);
     this._client = GameWebSocket.getInstance();
     this._defineOnMessage();
-    this._getRaceAvailable();
-  }
-
-  _getRaceAvailable() {
-    console.log('getRACE');
-    let request = {request: 'JOIN_GAME'};
-    this._client.sendMessage(request);
   }
 
   _defineOnMessage() {
@@ -59,14 +53,7 @@ export class ChooseRaceView extends React.Component {
       console.log(e);
       if (e.data !== undefined) {
         const data = JSON.parse(e.data);
-        if (data.response === 'JOIN_GAME') {
-          this._client.setID(data.playerID);
-          let newRaces = [];
-          data.races.forEach(race =>
-            newRaces.push(new Race(race.available, race.name, race.color)),
-          );
-          this.setState({races: newRaces});
-        } else if (data.response === 'OK') {
+        if (data.response === 'OK') {
           this.setState({showModal: true});
         } else if (data.response === 'RACE_SELECTED') {
           let newRaces = this.state.races;
@@ -87,7 +74,9 @@ export class ChooseRaceView extends React.Component {
           });
           this.setState({races: newRaces});
         } else if (data.response === 'GAME_START') {
-          this.props.navigation.navigate('Game');
+          this.props.navigation.navigate('Game', {
+            username: this.props.navigation.getParam('username'),
+          });
         } else if (data.response === 'KO') {
           if (data.reason === 'FULL') {
             const resetAction = StackActions.reset({
@@ -111,7 +100,11 @@ export class ChooseRaceView extends React.Component {
           style={{marginLeft: '10%', marginTop: '10%'}}
           disabled={!race.available}
           onClick={() => {
-            let request = {request: 'CHOOSE_ROLE', race: race.name};
+            let request = {
+              request: 'CHOOSE_ROLE',
+              race: race.name,
+              username: this.props.navigation.getParam('username'),
+            };
             this._client.sendMessage(request);
           }}
         />
@@ -166,23 +159,16 @@ export class ChooseRaceView extends React.Component {
     }
   }
 
-  validRace() {
-    let race = this.state.races[this.state.selected.findIndex(el => el)];
-    let request = {
-      request: 'CHOOSE_ROLE',
-      race: race.name.toUpperCase(),
-    };
-    this._client.sendMessage(request);
-    this._defineOnMessage();
-  }
-
   renderModal() {}
 
   render() {
     return (
       <View>
         {this.renderModal()}
-        <Text>Veuillez choisir votre classe</Text>
+        <Text>
+          Veuillez choisir votre classe,{' '}
+          {this.props.navigation.getParam('username')}
+        </Text>
 
         <FlatList
           style={{}}
@@ -190,7 +176,6 @@ export class ChooseRaceView extends React.Component {
           renderItem={({item, index}) => this.renderRace(item, index)}
           keyExtractor={item => item.name}
         />
-        <Button title="Valider" onPress={this.validRace.bind(this)} />
       </View>
     );
   }

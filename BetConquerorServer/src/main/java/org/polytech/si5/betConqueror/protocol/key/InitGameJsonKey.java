@@ -8,6 +8,7 @@ public enum InitGameJsonKey {
     NAME("name"),
     COLOR("color"),
     PLAYER_ID("playerID"),
+    USERNAME("username"),
     ;
 
 

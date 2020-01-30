@@ -53,7 +53,7 @@ export class ScanView extends React.Component {
               let socket = GameWebSocket.getInstance();
               await socket.start(e.data);
               if (socket.isConnected) {
-                this.props.navigation.navigate('ChooseRace');
+                this.props.navigation.navigate('ChooseName');
                 this.setState({ready: true});
               } else {
                 this.setState({ready: true});
