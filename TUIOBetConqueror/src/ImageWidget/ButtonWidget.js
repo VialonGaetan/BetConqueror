@@ -36,15 +36,24 @@ class ButtonWidget extends TUIOWidget {
         this._lastTouchesValues = {};
         this._lastTagsValues = {};
         this._domElem = $('<button>');
+        this.disable();
         this._domElem.css('background-color', `blue`);
         this._domElem.css('width', `${width}px`);
         this._domElem.css('height', `${height}px`);
         this._domElem.css('position', 'absolute');
         this._domElem.css('left', `${x}px`);
         this._domElem.css('top', `${y}px`);
-
     }
 
+    disable() {
+        this._domElem.css('display', 'none');
+        this.domElem.disabled = true;
+    }
+
+    enable() {
+        this._domElem.css('display', 'contents');
+        this.domElem.disabled = false;
+    }
     /**
      * ImageWidget's domElem.
      *
@@ -54,9 +63,9 @@ class ButtonWidget extends TUIOWidget {
 
 
     onButtonClick(tuioTouch) {
-        new SocketClient().sendMessage();
-
+        new SocketClient().sendMessage(new GameInstance().getCurrentPlayer());
     }
+
     /**
      * Call after a TUIOTouch creation.
      *
@@ -66,7 +75,9 @@ class ButtonWidget extends TUIOWidget {
     onTouchCreation(tuioTouch) {
         super.onTouchCreation(tuioTouch);
         if (this.isTouched(tuioTouch.x, tuioTouch.y)) {
-            this.toto(tuioTouch)
+            this.onButtonClick(tuioTouch)
+            this._domElem.css('display', 'none');
+            this.domElem.disabled = true;
         }
     }
 
@@ -78,9 +89,6 @@ class ButtonWidget extends TUIOWidget {
      */
     onTouchUpdate(tuioTouch) {
     }
-
-
-
 }
 
 export default ButtonWidget;

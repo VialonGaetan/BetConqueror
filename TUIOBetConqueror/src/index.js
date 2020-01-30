@@ -53,16 +53,18 @@ socketClient._client.onmessage = (e) => {
         buildBoard();
         break;
       case "NEW_ROUND":
-        round = message.players;
+        let round = message.players;
+        document.write(round);
+        let gameInstance = new GameInstance();
+        gameInstance.setCurrentTour(message.players);
+        while(gameInstance.currentTour != null) {
+          let campOrPlot = gameInstance.getPlotOrCamp(gameInstance.getPositionByTag(gameInstance.getCurrentPlayer()));
+          campOrPlot.enable();
+          //TODO : dessiner les déplacements possible ainsi qu'un moyen de bloquer le code tant qu'il a pas fini sont tour
+          //campOrPlot.drawRoad();
 
-        new GameInstance().setCurrentTour(message.players);
-        let espagnolButton = new ButtonWidget(0, 0, 100, 100);
-
-
-
-        //alert(JSON.stringify(round));
-
-
+          gameInstance.removePlayerPlayed();
+        }
         break;
       default:
     }
@@ -71,14 +73,7 @@ socketClient._client.onmessage = (e) => {
 
 /* App Code */
 const buildApp = () => {
-  /*
-  const imageWidget = new ImageElementWidget(0, 0, 365, 289, 0, 1, 'assets/UCAlogoQhaut.png')
-  imageWidget.addTo('#app')
-  */
-  //const imageWidget = new ImageWidget(0, 0, 365, 289, 'assets/UCAlogoQhaut.png')
-
-
-  $.get('home.html', function (data) {
+    $.get('home.html', function (data) {
     $("#app").html(data);
     QrCode.toCanvas(document.getElementById('qr-code'), SERVER_ADRESS).then(() => {
       document.getElementById('qr-code').style.display = "flex";

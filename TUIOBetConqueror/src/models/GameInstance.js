@@ -5,7 +5,6 @@ let gameInstance = null
 
 class GameInstance {
 
-
     constructor() {
         if (gameInstance !== null) {
             return gameInstance
@@ -48,6 +47,8 @@ class GameInstance {
             },
         ]
 
+        this.plotAndCamp = [];
+
         this.currentTour = [];
 
         return gameInstance
@@ -78,8 +79,9 @@ class GameInstance {
         return this.currentTour[0];
     }
 
-
-
+    getPlotOrCamp(position) {
+        return this.plotAndCamp[position];
+    }
 }
 
 export default GameInstance

@@ -1,5 +1,6 @@
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import $ from 'jquery/dist/jquery.min';
+import ButtonWidget from './ImageWidget/ButtonWidget';
 
 class Camp {
   constructor(x, y, radius, startAngle, endAngle, id) {
@@ -19,6 +20,9 @@ class Camp {
     camp.height = this.getHeightEvent();
     this.ctx = camp.getContext('2d');
     $('#game-container').append(camp);
+    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100);
+    this.button = button;
+    $('#game-container').append(button.domElem);
   }
 
   draw() {
@@ -72,6 +76,30 @@ class Camp {
       return this.y;
     } else {
       return this.radius;
+    }
+  }
+
+  getStartXDrawButton() {
+    if (this.x === 0) {
+      return this.x;
+    } else if(this.x === WINDOW_WIDTH) {
+      return this.x - 100;
+    } else if(this.y === WINDOW_HEIGHT) {
+      return this.x + this.radius;
+    } else {
+      return this.x - this.radius - 100;
+    }
+  }
+
+  getStartYDrawButton() {
+    if (this.y === 0) {
+      return this.y;
+    } else if(this.y === WINDOW_HEIGHT) {
+      return this.y - 100;
+    } else if(this.x === WINDOW_WIDTH) {
+      return this.y - this.radius - 100;
+    } else {
+      return this.y + this.radius;
     }
   }
 
