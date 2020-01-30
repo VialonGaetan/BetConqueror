@@ -1,7 +1,7 @@
 import $ from 'jquery/dist/jquery.min'
 import ImageWidget from './ImageWidget/ImageWidget';
 import Camp from './Camp';
-import {WINDOW_HEIGHT, WINDOW_WIDTH} from 'tuiomanager/core/constants';
+import { WINDOW_HEIGHT, WINDOW_WIDTH } from 'tuiomanager/core/constants';
 import Plot from './Plot';
 
 const buildBoard = () => {
@@ -15,10 +15,10 @@ const buildBoard = () => {
     ctx.drawImage(map,0,0,1920,1080);
   };
    */
-  const downCampForm = new Camp(WINDOW_WIDTH / 2, WINDOW_HEIGHT, WINDOW_WIDTH / 8, Math.PI, 0);
-  const topCampForm = new Camp(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 8, 0, Math.PI);
-  const leftCampForm = new Camp(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI * 1.5, Math.PI / 2);
-  const rightCampForm = new Camp(WINDOW_WIDTH, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI / 2, Math.PI * 1.5);
+  const downCampForm = new Camp(WINDOW_WIDTH / 2, WINDOW_HEIGHT, WINDOW_WIDTH / 8, Math.PI, 0, -1);
+  const topCampForm = new Camp(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 8, 0, Math.PI, -1);
+  const leftCampForm = new Camp(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI * 1.5, Math.PI / 2, -1);
+  const rightCampForm = new Camp(WINDOW_WIDTH, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI / 2, Math.PI * 1.5, -1);
   const lowCamp = new ImageWidget(downCampForm.getStartXEvent(), downCampForm.getStartYEvent(), downCampForm.getWidthEvent(), downCampForm.getHeightEvent(), 'assets/UCAlogoQhaut.png', downCampForm);
   const topCamp = new ImageWidget(topCampForm.getStartXEvent(), topCampForm.getStartYEvent(), topCampForm.getWidthEvent(), topCampForm.getHeightEvent(), 'assets/UCAlogoQhaut.png', topCampForm);
   const leftCamp = new ImageWidget(leftCampForm.getStartXEvent(), leftCampForm.getStartYEvent(), leftCampForm.getWidthEvent(), leftCampForm.getHeightEvent(), 'assets/UCAlogoQhaut.png', leftCampForm);

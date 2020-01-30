@@ -8,6 +8,7 @@ import $ from 'jquery/dist/jquery.min';
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
 import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import { radToDeg } from 'tuiomanager/core/helpers';
+import GameInstance from '../models/GameInstance';
 
 /**
  * Main class to manage ImageWidget.
@@ -29,12 +30,12 @@ class ImageWidget extends TUIOWidget {
    * @param {number} width - ImageWidget's width.
    * @param {number} height - ImageWidget's height.
    */
-  constructor(x, y, width, height, imgSrc, camp) {
+  constructor(x, y, width, height, imgSrc, pos) {
     super(x, y, width, height);
-    this.camp = camp;
+    this.pos = pos;
     this._lastTouchesValues = {};
     this._lastTagsValues = {};
-    camp.draw();
+    this.pos.draw();
   }
 
   /**
@@ -138,7 +139,10 @@ class ImageWidget extends TUIOWidget {
       const diffY = tuioTag.y - lastTagValue.y;
       let newX = this.x + diffX;
       let newY = this.y + diffY;
-      this.camp.highLight();
+      this.pos.highLight();
+      let toto = new GameInstance();
+      toto.changePositionOfTag(tuioTag, this.pos.id);
+      alert(toto.getPositionByTag(tuioTag))
     }
   }
 

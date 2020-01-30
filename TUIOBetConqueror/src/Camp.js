@@ -2,7 +2,8 @@ import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
 import $ from 'jquery/dist/jquery.min';
 
 class Camp {
-  constructor(x, y, radius, startAngle, endAngle) {
+  constructor(x, y, radius, startAngle, endAngle, id) {
+    this.id = id;
     this.x = x;
     this.y = y;
     this.radius = radius;
