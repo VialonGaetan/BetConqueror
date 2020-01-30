@@ -25,6 +25,8 @@ public class ConnectTableEvent implements EventProtocol {
         JsonObject response = new JsonObject();
         response.addProperty(InitGameJsonKey.RESPONSE.key, "OK");
         new Messenger(table).sendSpecificMessageToAUser(response.toString());
+        //TODO REMOVE APRES LES TESTS
+        new StartGameEvent().processEvent();
         return;
     }
 }

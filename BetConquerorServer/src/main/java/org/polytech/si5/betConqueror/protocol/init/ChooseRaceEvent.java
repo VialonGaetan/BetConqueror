@@ -52,6 +52,7 @@ public class ChooseRaceEvent implements EventProtocol {
         }
 
         Player player = optionalPlayer.get();
+
         if(player.getSession().isPresent()){
             JsonObject error = new JsonObject();
             error.addProperty(InitGameJsonKey.RESPONSE.key, "KO");
@@ -75,12 +76,12 @@ public class ChooseRaceEvent implements EventProtocol {
         messenger.sendSpecificMessageToAUser(generateResponse().toString());
         logger.info("One player has the race : " + player.getRace().getName());
 
+        game.getTable().ifPresent(session1 -> new Messenger(session1).sendSpecificMessageToAUser(generateResponseForAll().toString()));
 
         for(WebSocketSession session: game.getLobbyPlayerList()){
             Messenger aMessenger = new Messenger(session);
-            aMessenger.sendSpecificMessageToAUser(generateResponseForAll(race).toString());
+            aMessenger.sendSpecificMessageToAUser(generateResponseForAll().toString());
         }
-        System.out.println("lskjdks");
         if (game.getPlayerList().stream().allMatch(player1 -> player1.getSession().isPresent())){
             new StartGameEvent().processEvent();
         }
@@ -94,7 +95,7 @@ public class ChooseRaceEvent implements EventProtocol {
         return response;
     }
 
-    private JsonObject generateResponseForAll(Race race){
+    private JsonObject generateResponseForAll(){
         JsonObject response = new JsonObject();
         response.addProperty(InitGameJsonKey.RESPONSE.key, "RACE_SELECTED");
         JsonArray races = new JsonArray();

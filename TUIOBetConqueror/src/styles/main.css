@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+@import url('https://fonts.googleapis.com/css?family=Sigmar+One&display=swap');
 #app {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: #E8FDFF;
 }
 
 .field {
@@ -37,21 +45,74 @@
 }
 
 .canvas {
-  margin-top: 5em;
-  margin: auto;
-  display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0;
+    margin: auto;
+    right: 0;
+  
 }
 
 .title {
     font-size: 10em;
-    color: black;
+    color: wheat;
     text-align: center;
 }
 
 .description{
   margin-bottom: 1em;
-  font-size: 5em;
-    color: black;
+  font-size: 3em;
+    color: wheat;
     text-align: center;
 
+}
+
+.home-body{
+
+   background-image: url("./../../assets/fond3.jpeg");
+   background-size: cover;
+   min-width: 100vw;
+    min-height: 100vh;
+}
+
+.firstDiv{
+  justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.secondDiv{
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2em;
+}
+
+.badge {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-badge {
+  width: 60%;
+  height: auto;
+}
+
+.img-badge-olmeque {
+  width: 70%;
+  height: auto;
+}
+.text-badge-available {
+    justify-content: center;
+    color: #31f564;
+    font-size: 2em;
+}
+
+.text-badge-taken {
+    justify-content: center;
+    color: #ff6767;
+    font-size: 2em;
 }

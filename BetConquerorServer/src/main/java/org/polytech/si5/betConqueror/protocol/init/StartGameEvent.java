@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import org.polytech.si5.betConqueror.components.buisness.Game;
 import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
+import org.polytech.si5.betConqueror.protocol.game.StartRoundEvent;
 import org.polytech.si5.betConqueror.protocol.key.InitGameJsonKey;
 
 public class StartGameEvent implements EventProtocol {
@@ -18,6 +19,7 @@ public class StartGameEvent implements EventProtocol {
         JsonObject response = generateGameStartResponse();
         game.getPlayerList().forEach(player -> player.getSession().ifPresent(socket -> new Messenger(socket).sendSpecificMessageToAUser(response.toString())));
         game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(response.toString()));
+        new StartRoundEvent().processEvent();
     }
 
     public JsonObject generateGameStartResponse(){

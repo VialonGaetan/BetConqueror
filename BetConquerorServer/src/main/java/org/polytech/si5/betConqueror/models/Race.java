@@ -5,16 +5,20 @@ import java.util.List;
 
 public enum Race {
 
-    FRANCAIS("Francais",ColorRace.BLUE, new String[]{"E0", "E1"}),
-    MAYA("Maya",ColorRace.GREEN,new String[]{"E4", "E5"}),
-    OLMEQUES("Olmeques", ColorRace.YELLOW,new String[]{"E2", "E3"}),
-    ESPAGNOL("Espagnol",ColorRace.RED,new String[]{"E6", "E7"});
+    FRANCAIS("Francais",ColorRace.BLUE, new Unity[]{new Unity("E0"),new Unity("E1")}),
+    MAYA("Maya",ColorRace.GREEN,new Unity[]{new Unity("E4"), new Unity("E5")}),
+    OLMEQUES("Olmeques", ColorRace.YELLOW,new Unity[]{new Unity("E2"), new Unity("E3")}),
+    ESPAGNOL("Espagnol",ColorRace.RED,new Unity[]{new Unity("E6"),new Unity( "E7")});
 
-    private final String[] tags;
+    private final Unity[] tags;
     private final ColorRace color;
     private final String name;
 
-    Race(String name,ColorRace color, String... tags) {
+    public static int numberOfUnity(){
+        return 2;
+    }
+
+    Race(String name,ColorRace color, Unity... tags) {
         this.name = name;
         this.tags = tags;
         this.color = color;
@@ -22,8 +26,6 @@ public enum Race {
 
     public static Race getRaceFromName(String name){
         switch (name){
-            case "Francais":
-                return FRANCAIS;
             case "Espagnol":
                 return ESPAGNOL;
             case "Maya":
@@ -36,7 +38,15 @@ public enum Race {
         }
     }
 
-    public List<String> getTags() {
+    public static Race getRaceFromName(Unity unity){
+        for (Race race: Race.values() ) {
+            if (race.getTags().contains(unity))
+                return race;
+        }
+        return null;
+    }
+
+    public List<Unity> getTags() {
         return Arrays.asList(tags);
     }
 
@@ -47,4 +57,6 @@ public enum Race {
     public String getName() {
         return name;
     }
+
+
 }

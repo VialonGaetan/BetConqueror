@@ -3,6 +3,7 @@ package org.polytech.si5.betConqueror.services.sockets.game;
 import org.polytech.si5.betConqueror.exceptions.InvalidRequestException;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.InvalidEvent;
+import org.polytech.si5.betConqueror.protocol.game.MoveUnityEvent;
 import org.polytech.si5.betConqueror.protocol.init.ChooseRaceEvent;
 import org.polytech.si5.betConqueror.protocol.init.ConnectTableEvent;
 import org.polytech.si5.betConqueror.protocol.init.JoinGameEvent;
@@ -33,6 +34,9 @@ public class GameRequestHandler implements RequestHandler {
                 break;
             case "TABLE" :
                 event = new ConnectTableEvent(session);
+                break;
+            case "MOVE":
+                event= new MoveUnityEvent(session, request);
                 break;
             default:
                 event = new InvalidEvent(session);
