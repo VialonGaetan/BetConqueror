@@ -15,7 +15,7 @@ import ChooseNameView from './src/views/ChooseNameView';
  */
 
 const LobbyNavigator = createStackNavigator({
-  Home: {screen: GameView},
+  Home: {screen: HomeView},
   Scan: {screen: ScanView},
   ChooseRace: {screen: ChooseRaceView},
   Game: {screen: GameView},
