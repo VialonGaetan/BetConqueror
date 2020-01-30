@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, Component} from 'react';
 import upIcon from '../../assets/icons/up_icon.png';
 import downIcon from '../../assets/icons/down_icon.png';
 
@@ -15,66 +15,76 @@ import {
   Image,
 } from 'react-native';
 
-const WarComponent = props => {
-  [betValue, setBetValue] = useState(0);
+class WarComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  const handleOnPress = () => {
-    console.log(betValue);
+  state = {
+    betValue: 0,
   };
 
-  const handleOnKeyPress = e => {
+  handleOnPress() {
+    console.log(betValue);
+  }
+
+  handleOnKeyPress(e) {
     const {key} = e.nativeEvent;
     if (key === 'Backspace') {
-      const newValue = betValue.toString().slice(0, -1);
-      setBetValue(newValue);
+      const newValue = this.state.betValue.toString().slice(0, -1);
+      this.setState({betValue: newValue});
       return;
     }
     if (isNaN(parseInt(key))) {
       return;
     }
-    setBetValue(parseInt(betValue + key));
-  };
+    this.setState({betValue: this.state.betValue + parseInt(key)});
+  }
 
-  const onMinusPress = () => {
-    if (betValue <= 0) {
+  onMinusPress() {
+    if (this.state.betValue <= 0) {
       return;
     }
-    setBetValue(betValue - 1);
-  };
+    this.setState({betValue: this.state.betValue - 1});
+  }
 
-  const onPlusPress = () => {
-    setBetValue(betValue + 1);
-  };
+  onPlusPress() {
+    this.setState({betValue: this.state.betValue + 1});
+  }
 
-  return (
-    <SafeAreaView>
-      <Text>Play Component</Text>
-      <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-        <TextInput
-          style={{
-            borderWidth: 3,
-            borderColor: 'grey',
-            alignSelf: 'center',
-            padding: 5,
-          }}
-          keyboardType={'numeric'}
-          value={'' + betValue}
-          onKeyPress={handleOnKeyPress}
-        />
-        <View style={{flexDirection: 'column', padding: 10}}>
-          <TouchableOpacity onPress={onPlusPress}>
-            <Image source={upIcon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onMinusPress}>
-            <Image source={downIcon} />
-          </TouchableOpacity>
+  render() {
+    return (
+      <SafeAreaView>
+        <Text>Play Component</Text>
+        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+          <TextInput
+            style={{
+              borderWidth: 3,
+              borderColor: 'grey',
+              alignSelf: 'center',
+              padding: 5,
+            }}
+            keyboardType={'numeric'}
+            value={'' + this.state.betValue}
+            onKeyPress={this.handleOnKeyPress.bind(this)}
+          />
+          <View style={{flexDirection: 'column', padding: 10}}>
+            <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
+              <Image source={upIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
+              <Image source={downIcon} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <TouchableOpacity style={{alignSelf: 'center'}} onPress={handleOnPress}>
-        <Text>Miser</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
-  );
-};
+        <TouchableOpacity
+          style={{alignSelf: 'center'}}
+          onPress={this.handleOnPress.bind(this)}>
+          <Text>Miser</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    );
+  }
+}
 
 export default WarComponent;

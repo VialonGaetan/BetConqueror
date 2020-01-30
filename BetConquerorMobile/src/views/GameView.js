@@ -24,12 +24,6 @@ const SecondRoute = props => (
 const initialLayout = {width: Dimensions.get('window').width};
 
 function GameView(props) {
-  navigationOptions = {
-    title: 'Title',
-    headerLeft: null,
-    gesturesEnabled: false,
-  };
-
   const [pieces, setPieces] = React.useState(10);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
