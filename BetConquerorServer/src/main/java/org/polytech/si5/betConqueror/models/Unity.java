@@ -15,4 +15,11 @@ public class Unity {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    @Override
+    public String toString() {
+        return "Unity{" +
+                "tag='" + tag + '\'' +
+                '}';
+    }
 }

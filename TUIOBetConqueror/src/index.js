@@ -14,6 +14,8 @@ import SocketClient from './SocketClient/SocketClient'
 import buildBoard from './Board';
 import { FRENCH_TEXT } from './constants'
 import { getRaceValue } from './Race'
+import ButtonWidget from './ImageWidget/ButtonWidget'
+import GameInstance from './models/GameInstance'
 /* TUIOManager start */
 const tuioManager = new TUIOManager()
 tuioManager.start()
@@ -30,10 +32,10 @@ socketClient.start(SERVER_ADRESS)
 
 socketClient._client.onmessage = (e) => {
   if (e.data !== undefined && JSON.parse(e.data).response !== undefined) {
-    
+
     let message = JSON.parse(e.data);
     console.log(JSON.stringify(message));
-  
+
     switch (message.response) {
       case "RACE_SELECTED":
         message.races.map((el) => {
@@ -51,6 +53,16 @@ socketClient._client.onmessage = (e) => {
         buildBoard();
         break;
       case "NEW_ROUND":
+        round = message.players;
+
+        new GameInstance().setCurrentTour(message.players);
+        let espagnolButton = new ButtonWidget(0, 0, 100, 100);
+
+
+
+        //alert(JSON.stringify(round));
+
+
         break;
       default:
     }

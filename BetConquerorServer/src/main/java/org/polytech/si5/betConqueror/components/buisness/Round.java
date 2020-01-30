@@ -9,11 +9,11 @@ public class Round {
 
     private int number;
 
-    private SortedMap<Unity, Boolean> orderPlayersAndPlayed;
+    private Map<Unity, Boolean> orderPlayersAndPlayed;
 
-    public Round(int number, SortedSet<Unity> orderPlayers) {
+    public Round(int number, Set<Unity> orderPlayers) {
         this.number = number;
-        this.orderPlayersAndPlayed = new TreeMap<>();
+        this.orderPlayersAndPlayed = new LinkedHashMap<>();
         for (Unity unity: orderPlayers) {
             this.orderPlayersAndPlayed.put(unity,false);
         }
@@ -25,11 +25,11 @@ public class Round {
         return number;
     }
 
-    public SortedMap<Unity, Boolean> getOrderPlayersAndPlayed() {
+    public Map<Unity, Boolean> getOrderPlayersAndPlayed() {
         return orderPlayersAndPlayed;
     }
 
-    public SortedSet<Unity> getOrderPlayers(){
-        return new TreeSet(orderPlayersAndPlayed.keySet());
+    public Set<Unity> getOrderPlayers(){
+        return orderPlayersAndPlayed.keySet();
     }
 }

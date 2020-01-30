@@ -59,6 +59,14 @@ class SocketClient {
         }
         setTimeout(this.handlePing, 500)
     }
+
+    sendMessage(message) {
+        if (this.ready) {
+            this._client.send(JSON.stringify(message))
+        }
+        setTimeout(() => this.sendMessage(message), 500)
+    }
 }
+
 
 export default SocketClient

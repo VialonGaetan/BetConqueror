@@ -10,10 +10,7 @@ import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class StartRoundEvent implements EventProtocol {
 
@@ -29,7 +26,7 @@ public class StartRoundEvent implements EventProtocol {
         boolean firstRoundBoolean = !game.getRounds().stream().mapToInt(Round::getNumber).max().isPresent();
         Round newRound;
         if (firstRoundBoolean){
-            SortedSet<Unity> unities = new TreeSet<>();
+            Set<Unity> unities = new LinkedHashSet<>();
             for (int i = 0; i < game.getPlayerList().size() * Race.numberOfUnity(); i++) {
                 unities.add(game.getPlayerList().get((i % game.getPlayerList().size())).getRace().getTags().get(i > 3 ? 1 : 0));
             }
@@ -37,8 +34,8 @@ public class StartRoundEvent implements EventProtocol {
 
         }else{
             Round lastRound = game.getRounds().get(game.getRounds().stream().mapToInt(Round::getNumber).max().getAsInt());
-            SortedSet<Unity> newOrderPlayer = new TreeSet<>(lastRound.getOrderPlayers());
-            Unity firstUnity = lastRound.getOrderPlayers().first();
+            Set<Unity> newOrderPlayer = new LinkedHashSet<>(lastRound.getOrderPlayers());
+            Unity firstUnity = lastRound.getOrderPlayers().iterator().next();
             newOrderPlayer.remove(firstUnity);
             newOrderPlayer.add(firstUnity);
             newRound = new Round(0,newOrderPlayer);

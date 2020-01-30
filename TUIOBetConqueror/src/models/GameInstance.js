@@ -48,6 +48,8 @@ class GameInstance {
             },
         ]
 
+        this.currentTour = [];
+
         return gameInstance
     }
 
@@ -57,11 +59,23 @@ class GameInstance {
 
 
     getPositionByTag(tag) {
-        return this.unities.find((el) =>  el.tag==String(tag)).position;
+        return this.unities.find((el) => el.tag == String(tag)).position;
     }
 
-    changePositionOfTag(tag, position) {        
-        this.unities.find((el) =>  el.tag==String(tag)).position = position;
+    changePositionOfTag(tag, position) {
+        this.unities.find((el) => el.tag == String(tag)).position = position;
+    }
+
+    setCurrentTour(tour) {
+        this.currentTour = tour;
+    }
+
+    removePlayerPlayed() {
+        this.currentTour.pop();
+    }
+
+    getCurrentPlayer() {
+        return this.currentTour[0];
     }
 
 
