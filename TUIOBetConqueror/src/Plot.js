@@ -2,7 +2,8 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH} from 'tuiomanager/core/constants';
 import $ from 'jquery/dist/jquery.min';
 
 class Plot {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, id) {
+        this.id = id;
         this.x = x;
         this.y = y;
         this.width = width;

@@ -22,12 +22,18 @@ tuioManager.start()
 //  const socketIOClient = new SocketIOClient()
 //  socketIOClient.start()
 
+
+const SERVER_ADRESS = "ws://192.168.1.3:8080/game";
+
 const socketClient = new SocketClient()
-socketClient.start()
+socketClient.start(SERVER_ADRESS)
 
 socketClient._client.onmessage = (e) => {
   if (e.data !== undefined && JSON.parse(e.data).response !== undefined) {
+    
     let message = JSON.parse(e.data);
+    console.log(JSON.stringify(message));
+  
     switch (message.response) {
       case "RACE_SELECTED":
         message.races.map((el) => {
@@ -44,11 +50,12 @@ socketClient._client.onmessage = (e) => {
       case "GAME_START":
         buildBoard();
         break;
+      case "NEW_ROUND":
+        break;
       default:
     }
   }
 };
-const SERVER_ADRESS = "ws://10.212.109.249:8080/game";
 
 /* App Code */
 const buildApp = () => {

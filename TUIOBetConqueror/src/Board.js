@@ -28,11 +28,11 @@ const buildBoard = () => {
   $('#game-container').append(leftCamp.domElem);
   $('#game-container').append(rightCamp.domElem);
 
-  const topLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10);
-  const downLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10);
-  const topRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10);
-  const downRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10);
-  const center = new Plot(WINDOW_WIDTH / 2 - WINDOW_WIDTH / 10, WINDOW_HEIGHT / 2 - WINDOW_WIDTH / 20, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10);
+  const topLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,0);
+  const downLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,1);
+  const topRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,2);
+  const downRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,3);
+  const center = new Plot(WINDOW_WIDTH / 2 - WINDOW_WIDTH / 10, WINDOW_HEIGHT / 2 - WINDOW_WIDTH / 20, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,4);
   const topLeftPlot = new ImageWidget(topLeft.x, topLeft.y, topLeft.width, topRight.height, 'assets/UCAlogoQhaut.png', topLeft);
   const downLeftPlot = new ImageWidget(downLeft.x, downLeft.y, downLeft.width, downLeft.height, 'assets/UCAlogoQhaut.png', downLeft);
   const topRightPlot = new ImageWidget(topRight.x, topRight.y, topRight.width, topRight.height, 'assets/UCAlogoQhaut.png', topRight);

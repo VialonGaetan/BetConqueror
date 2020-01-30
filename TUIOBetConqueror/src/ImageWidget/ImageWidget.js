@@ -30,13 +30,13 @@ class ImageWidget extends TUIOWidget {
    * @param {number} width - ImageWidget's width.
    * @param {number} height - ImageWidget's height.
    */
-  constructor(x, y, width, height, imgSrc, pos) {
+  constructor(x, y, width, height, imgSrc, camp) {
     super(x, y, width, height);
-    this.pos = pos;
+    this.camp = camp;
     this._lastTouchesValues = {};
     this._lastTagsValues = {};
-    this.pos.draw();
-  }
+    camp.draw();
+    }
 
   /**
    * ImageWidget's domElem.
@@ -139,10 +139,10 @@ class ImageWidget extends TUIOWidget {
       const diffY = tuioTag.y - lastTagValue.y;
       let newX = this.x + diffX;
       let newY = this.y + diffY;
-      this.pos.highLight();
-      let toto = new GameInstance();
-      toto.changePositionOfTag(tuioTag, this.pos.id);
-      alert(toto.getPositionByTag(tuioTag))
+      this.camp.highLight();
+      new GameInstance().changePositionOfTag(tuioTag.id, this.camp.id);
+
+
     }
   }
 
