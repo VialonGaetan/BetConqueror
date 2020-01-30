@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.polytech.si5.betConqueror.components.buisness.Game;
 import org.polytech.si5.betConqueror.components.buisness.Messenger;
+import org.polytech.si5.betConqueror.models.LobbyPlayer;
 import org.polytech.si5.betConqueror.models.Player;
 import org.polytech.si5.betConqueror.models.Race;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
@@ -31,8 +32,12 @@ public class ChooseRaceEvent implements EventProtocol {
     @Override
     public void processEvent() {
         Messenger messenger = new Messenger(session);
-        if(!request.containsKey(InitGameJsonKey.RACE.key)){
+        if(!request.containsKey(InitGameJsonKey.RACE.key) ){
             messenger.sendErrorCuzMissingArgument(InitGameJsonKey.RACE.key);
+            return;
+        }
+        if(!request.containsKey(InitGameJsonKey.USERNAME.key) ){
+            messenger.sendErrorCuzMissingArgument(InitGameJsonKey.USERNAME.key);
             return;
         }
         Race race;
@@ -71,15 +76,15 @@ public class ChooseRaceEvent implements EventProtocol {
 //        }
 
         player.setSession(session);
-
+        player.setName(String.valueOf(request.get(InitGameJsonKey.USERNAME.key)));
 
         messenger.sendSpecificMessageToAUser(generateResponse().toString());
         logger.info("One player has the race : " + player.getRace().getName());
 
         game.getTable().ifPresent(session1 -> new Messenger(session1).sendSpecificMessageToAUser(generateResponseForAll().toString()));
 
-        for(WebSocketSession session: game.getLobbyPlayerList()){
-            Messenger aMessenger = new Messenger(session);
+        for(LobbyPlayer lobbyPlayer: game.getLobbyPlayerList()){
+            Messenger aMessenger = new Messenger(lobbyPlayer.getSession());
             aMessenger.sendSpecificMessageToAUser(generateResponseForAll().toString());
         }
         if (game.getPlayerList().stream().allMatch(player1 -> player1.getSession().isPresent())){
@@ -105,7 +110,7 @@ public class ChooseRaceEvent implements EventProtocol {
             raceJSON.addProperty(InitGameJsonKey.NAME.key, player.getRace().getName());
             raceJSON.addProperty(InitGameJsonKey.COLOR.key, player.getRace().getColor().toString());
             raceJSON.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");
-
+            raceJSON.addProperty(InitGameJsonKey.USERNAME.key, player.getName());
             races.add(raceJSON);
         }
         response.add(InitGameJsonKey.RACES.key, races);

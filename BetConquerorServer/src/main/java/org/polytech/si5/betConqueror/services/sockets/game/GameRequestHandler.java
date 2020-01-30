@@ -4,6 +4,7 @@ import org.polytech.si5.betConqueror.exceptions.InvalidRequestException;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.InvalidEvent;
 import org.polytech.si5.betConqueror.protocol.game.MoveUnityEvent;
+import org.polytech.si5.betConqueror.protocol.init.ChooseNameEvent;
 import org.polytech.si5.betConqueror.protocol.init.ChooseRaceEvent;
 import org.polytech.si5.betConqueror.protocol.init.ConnectTableEvent;
 import org.polytech.si5.betConqueror.protocol.init.JoinGameEvent;
@@ -27,7 +28,10 @@ public class GameRequestHandler implements RequestHandler {
 
         switch(requestName){
             case "JOIN_GAME" :
-                event = new JoinGameEvent(session,request);
+                event = new JoinGameEvent(session);
+                break;
+            case "CHOOSE_NAME" :
+                event = new ChooseNameEvent(session,request);
                 break;
             case "CHOOSE_ROLE" :
                 event = new ChooseRaceEvent(session,request);

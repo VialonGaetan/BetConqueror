@@ -17,12 +17,10 @@ import java.util.logging.Logger;
 public class JoinGameEvent implements EventProtocol {
 
     private final Logger logger = Logger.getLogger(JoinGameEvent.class.getName());
-    private Map<String, ?> request;
     private WebSocketSession session;
     private Game game;
 
-    public JoinGameEvent(WebSocketSession session, Map<String, ?> request) {
-        this.request = request;
+    public JoinGameEvent(WebSocketSession session) {
         this.session = session;
         this.game = Game.getInstance();
     }
@@ -30,7 +28,6 @@ public class JoinGameEvent implements EventProtocol {
     @Override
     public void processEvent() {
         logger.info("New Player mobile has join the game");
-        game.addLobbyPlayer(session);
         Messenger messenger = new Messenger(session);
         System.out.println(game.getPlayerList().toString());
         if (game.getPlayerList().stream().allMatch(player -> player.getSession().isPresent())){
@@ -50,7 +47,8 @@ public class JoinGameEvent implements EventProtocol {
             raceJSON.addProperty(InitGameJsonKey.AVAILABLE.key, !player.getSession().isPresent());
             raceJSON.addProperty(InitGameJsonKey.NAME.key, player.getRace().getName());
             raceJSON.addProperty(InitGameJsonKey.COLOR.key, player.getRace().getColor().toString());
-            response.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");
+            raceJSON.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");
+            raceJSON.addProperty(InitGameJsonKey.USERNAME.key, player.getName());
 
 
             races.add(raceJSON);
