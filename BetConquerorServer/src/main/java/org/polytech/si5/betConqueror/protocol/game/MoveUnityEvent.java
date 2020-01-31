@@ -30,9 +30,8 @@ public class MoveUnityEvent implements EventProtocol {
     public void processEvent() {
 
         Round currentRound = game.getCurrentRound();
-        logger.info("new Move");
 
-        if(!request.containsKey(GameJsonKey.TAG.key)){
+        if(!request.containsKey(GameJsonKey.TAG.key) && currentRound.getOrderPlayers().contains(request.get(GameJsonKey.TAG.key))){
             messenger.sendErrorCuzMissingArgument(GameJsonKey.TAG.key);
             return;
         }
@@ -42,10 +41,15 @@ public class MoveUnityEvent implements EventProtocol {
             return;
         }
 
-        logger.info("MOVE VALID");
+
+        logger.info("MOVE IS VALID");
+
+
         game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateResponse().toString()));
 
 
+        if(currentRound.getOrderPlayersAndPlayed().values().stream().allMatch(aBoolean -> aBoolean))
+            new StartWarEvent().processEvent();
 
 
 

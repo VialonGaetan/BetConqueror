@@ -39,6 +39,14 @@ public class Round {
         return orderPlayersAndPlayed.keySet();
     }
 
+    public List<War> getWars() {
+        return wars;
+    }
+
+    public List<Territory> getTerritories() {
+        return territories;
+    }
+
     public void generateWar(){
         for (Territory territory: this.territories ) {
             //this.wars.add(new War(territory.getUnitiesPresent(),))
