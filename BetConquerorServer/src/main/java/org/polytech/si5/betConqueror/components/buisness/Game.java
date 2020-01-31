@@ -58,6 +58,10 @@ public class Game {
         return this.rounds.add(round);
     }
 
+    public List<Territory> getTerritories() {
+        return territories;
+    }
+
     public List<LobbyPlayer> lobbyPlayerList;
 
     private void initGame(){

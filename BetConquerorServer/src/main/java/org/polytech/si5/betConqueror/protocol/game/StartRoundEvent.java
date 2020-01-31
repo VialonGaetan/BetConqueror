@@ -30,7 +30,7 @@ public class StartRoundEvent implements EventProtocol {
             for (int i = 0; i < game.getPlayerList().size() * Race.numberOfUnity(); i++) {
                 unities.add(game.getPlayerList().get((i % game.getPlayerList().size())).getRace().getTags().get(i > 3 ? 1 : 0));
             }
-            newRound = new Round(0,unities);
+            newRound = new Round(0,unities, game.getTerritories());
 
         }else{
             Round lastRound = game.getRounds().get(game.getRounds().stream().mapToInt(Round::getNumber).max().getAsInt());
@@ -38,7 +38,7 @@ public class StartRoundEvent implements EventProtocol {
             Unity firstUnity = lastRound.getOrderPlayers().iterator().next();
             newOrderPlayer.remove(firstUnity);
             newOrderPlayer.add(firstUnity);
-            newRound = new Round(0,newOrderPlayer);
+            newRound = new Round(lastRound.getNumber() + 1,newOrderPlayer, lastRound.getTerritories());
         }
 
         game.addRounds(newRound);

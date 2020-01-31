@@ -1,6 +1,5 @@
 package org.polytech.si5.betConqueror.components.buisness;
 
-import org.polytech.si5.betConqueror.models.Player;
 import org.polytech.si5.betConqueror.models.Territory;
 import org.polytech.si5.betConqueror.models.Unity;
 
@@ -15,13 +14,16 @@ public class Round {
 
     private List<War> wars;
 
-    public Round(int number, Set<Unity> orderPlayers) {
+    public Round(int number, Set<Unity> orderPlayers, List<Territory> territories) {
         this.number = number;
         this.orderPlayersAndPlayed = new LinkedHashMap<>();
         for (Unity unity: orderPlayers) {
             this.orderPlayersAndPlayed.put(unity,false);
         }
         this.territories = new ArrayList<>();
+        for (Territory territory: territories) {
+            this.territories.add(new Territory(territory.getId(),territory.getOwner()));
+        }
         this.wars = new ArrayList<>();
 
     }
@@ -43,13 +45,18 @@ public class Round {
         return wars;
     }
 
+    public void setPlayerHasPlayed(Unity unity){
+        if(orderPlayersAndPlayed.containsKey(unity))
+            orderPlayersAndPlayed.put(unity, true);
+    }
+
     public List<Territory> getTerritories() {
         return territories;
     }
 
     public void generateWar(){
         for (Territory territory: this.territories ) {
-            //this.wars.add(new War(territory.getUnitiesPresent(),))
+            this.wars.add(new War(territory.getUnitiesPresent(),territory));
         }
     }
 }

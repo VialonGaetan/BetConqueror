@@ -57,20 +57,23 @@ socketClient._client.onmessage = (e) => {
       case "NEW_ROUND":
         let round = message.players;
         //TODO remove after debug
-          $('#game-container').append('<canvas id="debug_round"></canvas>');
-          const ctx = document.getElementById('debug_round').getContext('2d');
-          ctx.font = '30 serif';
+        $('#game-container').append('<canvas id="debug_round"></canvas>');
+        const ctx = document.getElementById('debug_round').getContext('2d');
+        ctx.font = '30 serif';
+
         let newOrderPlayers = [];
         round.forEach((el) => {
           let player = {
             tag: el.unity,
+            spawn: el.spawn,
             position: gameInstance.getPositionByTag(el.unity)
           };
           newOrderPlayers.push(player);
 
         });
         gameInstance.setCurrentTour(newOrderPlayers);
-        let campOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+        let campOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().spawn);
+        ctx.clearRect(0, 0, 100, 100);
         ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
         //alert(JSON.stringify(campOrPlot));
         campOrPlot.enableButton();
@@ -78,8 +81,10 @@ socketClient._client.onmessage = (e) => {
       case "MOVE":
         gameInstance.removePlayerPlayed();
         if (gameInstance.currentTour.length > 0) {
-          let newCampOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-          ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
+          let newCampOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().spawn);
+          const ctx2 = document.getElementById('debug_round').getContext('2d');
+          ctx2.clearRect(0, 0, 100, 100);
+          ctx2.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
           //alert(JSON.stringify(campOrPlot));
           newCampOrPlot.enableButton();
         }

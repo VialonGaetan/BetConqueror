@@ -15,35 +15,43 @@ class GameInstance {
         this.unities = [
             {
                 tag: "E0",
-                position: 5
+                position: 0,
+                spawn: 5
             },
             {
                 tag: "E1",
-                position: 5
+                position: 0,
+                spawn: 5
             },
             {
                 tag: "E2",
-                position: 6
+                position: 0,
+                spawn: 6
             },
             {
                 tag: "E3",
-                position: 6
+                position: 0,
+                spawn: 6
             },
             {
                 tag: "E4",
-                position: 7
+                position: 0,
+                spawn: 7
             },
             {
                 tag: "E5",
-                position: 7
+                position: 0,
+                spawn: 7
             },
             {
                 tag: "E6",
-                position: 8
+                position: 5,
+                spawn: 8
             },
             {
                 tag: "E7",
-                position: 8
+                position: 0,
+                spawn: 8
             },
         ]
 
@@ -63,6 +71,11 @@ class GameInstance {
         return this.unities.find((el) => el.tag == String(tag)).position;
     }
 
+    getSpawnByTag(tag) {
+        return this.unities.find((el) => el.tag == String(tag)).spwan;
+    }
+
+
     changePositionOfTag(tag, position) {
         this.unities.find((el) => el.tag == String(tag)).position = position;
     }
@@ -76,7 +89,7 @@ class GameInstance {
     }
 
     getCurrentPlayer() {
-        return this.currentTour[0];
+        return this.unities.find((el) => el.tag == this.currentTour[0].tag);
     }
 
     getPlotOrCamp(position) {

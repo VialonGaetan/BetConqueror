@@ -2,6 +2,7 @@ package org.polytech.si5.betConqueror.components.buisness;
 
 import org.polytech.si5.betConqueror.models.Player;
 import org.polytech.si5.betConqueror.models.Territory;
+import org.polytech.si5.betConqueror.models.Unity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,26 +12,26 @@ import java.util.UUID;
 public class War {
 
     private String id;
-    private Map<Player,Integer> betPlayers;
+    private Map<Unity,Integer> betPlayers;
 
     private Territory territory;
 
-    public War(List<Player> players, Territory territory) {
+    public War(List<Unity> unities, Territory territory) {
         this.id = UUID.randomUUID().toString();
         this.betPlayers = new HashMap<>();
-        for (Player player : players ) {
-            this.betPlayers.put(player, -1);
+        for (Unity unity : unities ) {
+            this.betPlayers.put(unity, -1);
         }
         this.territory = territory;
     }
 
 
-    public void setBetToAPlayer(Player player, Integer amount){
-        if (this.betPlayers.containsKey(player))
-            this.betPlayers.put(player, amount);
+    public void setBetToAPlayer(Unity unity, Integer amount){
+        if (this.betPlayers.containsKey(unity))
+            this.betPlayers.put(unity, amount);
     }
 
-    public Map<Player, Integer> getBetPlayers() {
+    public Map<Unity, Integer> getBetPlayers() {
         return betPlayers;
     }
 

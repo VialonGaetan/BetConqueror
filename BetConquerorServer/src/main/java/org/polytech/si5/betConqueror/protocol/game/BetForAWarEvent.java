@@ -6,6 +6,7 @@ import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
 import org.polytech.si5.betConqueror.components.buisness.War;
 import org.polytech.si5.betConqueror.models.Player;
+import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 import org.springframework.web.socket.WebSocketSession;
@@ -67,9 +68,16 @@ public class BetForAWarEvent implements EventProtocol {
 
         Player player = optionalPlayer.get();
 
+        Optional<Unity> optionalUnity = currentWar.getBetPlayers().keySet().stream().filter(unity -> player.getRace().getTags().contains(unity)).findAny();
+        if (!optionalUnity.isPresent()){
+            messenger.sendErrorCuzMissingArgument(GameJsonKey.USER_ID.key);
+            return;
+        }
+        Unity unity = optionalUnity.get();
 
 
-        currentWar.setBetToAPlayer(player,amount);
+
+        currentWar.setBetToAPlayer(unity,amount);
 
 
         messenger.sendSpecificMessageToAUser(generateValidBetResponse(currentWar).toString());

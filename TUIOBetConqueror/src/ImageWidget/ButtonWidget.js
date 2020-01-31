@@ -70,7 +70,7 @@ class ButtonWidget extends TUIOWidget {
             let request = {
                 request: "MOVE",
                 tag: currentPlayer.tag,
-                territoryId: currentPlayer.position
+                territoryId: Math.trunc(currentPlayer.position) + ""
             }
             new SocketClient().sendMessage(request);
             this.disable()

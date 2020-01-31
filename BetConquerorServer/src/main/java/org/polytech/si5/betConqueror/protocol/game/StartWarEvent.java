@@ -7,6 +7,7 @@ import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
 import org.polytech.si5.betConqueror.components.buisness.War;
 import org.polytech.si5.betConqueror.models.Player;
+import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 
@@ -44,9 +45,9 @@ public class StartWarEvent implements EventProtocol {
                 JsonObject warPresent = new JsonObject();
                 warPresent.addProperty(GameJsonKey.WAR_ID.key, war.getId());
                 JsonArray playerInThisWarJsonArray = new JsonArray();
-                for (Player playerInThisWar : war.getBetPlayers().keySet()) {
+                for (Unity playerInThisWar : war.getBetPlayers().keySet()) {
                     JsonObject playerInThisWarJsonObject = new JsonObject();
-                    playerInThisWarJsonObject.addProperty(GameJsonKey.USERNAME.key, playerInThisWar.getName());
+                    playerInThisWarJsonObject.addProperty(GameJsonKey.USERNAME.key, playerInThisWar.getTag());
                     playerInThisWarJsonArray.add(playerInThisWarJsonObject);
                 }
                 warPresent.add(GameJsonKey.PLAYERS.key, playerInThisWarJsonArray);

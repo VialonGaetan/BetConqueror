@@ -4,12 +4,17 @@ import com.google.gson.JsonObject;
 import org.polytech.si5.betConqueror.components.buisness.Game;
 import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
+import org.polytech.si5.betConqueror.components.buisness.War;
+import org.polytech.si5.betConqueror.models.Player;
+import org.polytech.si5.betConqueror.models.Territory;
+import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 import org.polytech.si5.betConqueror.protocol.key.InitGameJsonKey;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class MoveUnityEvent implements EventProtocol {
@@ -31,16 +36,35 @@ public class MoveUnityEvent implements EventProtocol {
 
         Round currentRound = game.getCurrentRound();
 
+        logger.info(request.toString());
+
+
         if(!request.containsKey(GameJsonKey.TAG.key) && currentRound.getOrderPlayers().contains(request.get(GameJsonKey.TAG.key))){
             messenger.sendErrorCuzMissingArgument(GameJsonKey.TAG.key);
             return;
         }
 
-        if(!request.containsKey(GameJsonKey.TERRITORY_ID.key)){
+        Optional<Unity> optionalUnity = currentRound.getOrderPlayersAndPlayed().keySet().stream().filter(unity1 -> unity1.getTag().equals(request.get(GameJsonKey.TAG.key))).findAny();
+        if (!optionalUnity.isPresent()){
+            messenger.sendErrorCuzMissingArgument(GameJsonKey.TAG.key);
+            return;
+        }
+        Unity unity = optionalUnity.get();
+
+        if(!request.containsKey(GameJsonKey.TERRITORY_ID.key) && currentRound.getTerritories().stream().anyMatch(territory -> territory.getId() == Integer.valueOf(String.valueOf(request.get(GameJsonKey.TERRITORY_ID.key))))){
             messenger.sendErrorCuzMissingArgument(GameJsonKey.TERRITORY_ID.key);
             return;
         }
 
+        Optional<Territory> optionalTerritory= currentRound.getTerritories().stream().filter(territory -> territory.getId() == Integer.valueOf(String.valueOf(request.get(GameJsonKey.TERRITORY_ID.key)))).findFirst();
+        if (!optionalTerritory.isPresent()){
+            messenger.sendErrorCuzMissingArgument(GameJsonKey.TERRITORY_ID.key);
+            return;
+        }
+        Territory territory = optionalTerritory.get();
+
+        territory.addUnity(unity);
+        currentRound.setPlayerHasPlayed(unity);
 
         logger.info("MOVE IS VALID");
 
