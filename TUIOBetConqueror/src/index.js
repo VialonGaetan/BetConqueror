@@ -56,7 +56,12 @@ socketClient._client.onmessage = (e) => {
         break;
       case "NEW_ROUND":
         let round = message.players;
-        //document.write(round);
+        //TODO remove after debug
+          $('#game-container').append('<canvas id="debug_round"></canvas>');
+          const ctx = document.getElementById('debug_round').getContext('2d');
+          ctx.font = '20 serif';
+          ctx.fillText(JSON.stringify(round), 0, 100);
+
         let newOrderPlayers = [];
         round.forEach((el) => {
           let player = {
