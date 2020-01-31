@@ -39,6 +39,18 @@ const WaitingWarView = props => {
   const pieces = props.navigation.getParam('pieces')
     ? props.navigation.getParam('pieces')
     : 0;
+
+  const warResults = props.navigation.getParam('warResults');
+
+  const renderWarResults = () => {
+    if (warResults) {
+      return (
+        <View>
+          <Text>Les resultats des guerres s'afficheront ici la mif</Text>
+        </View>
+      );
+    }
+  };
   return (
     <View>
       <Text>
@@ -50,6 +62,7 @@ const WaitingWarView = props => {
       <Text>
         Vous aurez {pieces + 10} pièces pour le prochain tour des guerres
       </Text>
+      {renderWarResults()}
     </View>
   );
 };

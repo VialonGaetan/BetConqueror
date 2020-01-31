@@ -28,6 +28,9 @@ class WarComponent extends React.Component {
   };
 
   handleOnPress() {
+    if (this.state.betValue > this.props.pieces) {
+      return alert('Mise trop haute : pas assez de pièces');
+    }
     let request = {
       request: 'BET',
       userId: this._client.playerID,

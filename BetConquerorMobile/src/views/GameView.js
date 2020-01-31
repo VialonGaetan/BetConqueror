@@ -11,7 +11,11 @@ const FirstRoute = props => (
     </Text>
 
     <View style={[styles.scene]}>
-      <WarComponent war={props.war} />
+      <WarComponent
+        style={[styles.war]}
+        war={props.war}
+        pieces={props.pieces}
+      />
     </View>
   </View>
 );
@@ -23,7 +27,11 @@ const SecondRoute = props => (
     </Text>
 
     <View style={[styles.scene]}>
-      <WarComponent style={[styles.war]} war={props.war} />
+      <WarComponent
+        style={[styles.war]}
+        war={props.war}
+        pieces={props.pieces}
+      />
     </View>
   </View>
 );
@@ -69,7 +77,10 @@ function GameView(props) {
       const data = JSON.parse(e.data);
       if (data.response === 'BET') {
         wars.find(war => war.id === data.warId).hasBet = true;
+        setPieces(pieces - data.amount);
         console.log(wars);
+      } else if (data.response === 'WARS_OVER') {
+        props.navigation.navigate('WaitingWar', {pieces, warResults: 'sjdl'});
       }
     }
   };
@@ -100,7 +111,7 @@ function GameView(props) {
           </Text>
 
           <View style={[styles.scene]}>
-            <WarComponent style={[styles.war]} war={wars[0]} />
+            <WarComponent style={[styles.war]} war={wars[0]} pieces={pieces} />
           </View>
         </View>
       );
