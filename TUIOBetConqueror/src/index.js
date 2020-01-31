@@ -59,9 +59,7 @@ socketClient._client.onmessage = (e) => {
         //TODO remove after debug
           $('#game-container').append('<canvas id="debug_round"></canvas>');
           const ctx = document.getElementById('debug_round').getContext('2d');
-          ctx.font = '20 serif';
-          ctx.fillText(JSON.stringify(round), 0, 100);
-
+          ctx.font = '30 serif';
         let newOrderPlayers = [];
         round.forEach((el) => {
           let player = {
@@ -73,6 +71,7 @@ socketClient._client.onmessage = (e) => {
         });
         gameInstance.setCurrentTour(newOrderPlayers);
         let campOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+        ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
         //alert(JSON.stringify(campOrPlot));
         campOrPlot.enableButton();
         break;
@@ -80,6 +79,7 @@ socketClient._client.onmessage = (e) => {
         gameInstance.removePlayerPlayed();
         if (gameInstance.currentTour.length > 0) {
           let newCampOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+          ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
           //alert(JSON.stringify(campOrPlot));
           newCampOrPlot.enableButton();
         }
