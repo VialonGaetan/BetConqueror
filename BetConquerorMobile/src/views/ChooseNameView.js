@@ -22,6 +22,7 @@ const ChooseNameView = props => {
 
   const handleOnPress = () => {
     let request = {request: 'CHOOSE_NAME', username: name};
+    _client.username = name;
     _client.sendMessage(request);
   };
 
@@ -36,7 +37,7 @@ const ChooseNameView = props => {
         data.races.forEach(race =>
           races.push(new Race(race.available, race.name, race.color)),
         );
-        props.navigation.navigate('ChooseRace', {races, username: name});
+        props.navigation.navigate('ChooseRace', {races});
       }
     }
   };

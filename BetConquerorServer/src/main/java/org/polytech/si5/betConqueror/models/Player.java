@@ -44,6 +44,7 @@ public class Player {
 
     public void setSession(WebSocketSession session) {
         this.session = Optional.of(session);
+        this.id = session.getId();
     }
 
     public String getId() {

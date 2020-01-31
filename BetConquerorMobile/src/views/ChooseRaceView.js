@@ -102,7 +102,7 @@ export class ChooseRaceView extends React.Component {
             let request = {
               request: 'CHOOSE_ROLE',
               race: race.name,
-              username: this.props.navigation.getParam('username'),
+              username: this._client.username,
             };
             this._client.sendMessage(request);
           }}
@@ -164,10 +164,7 @@ export class ChooseRaceView extends React.Component {
     return (
       <View>
         {this.renderModal()}
-        <Text>
-          Veuillez choisir votre classe,{' '}
-          {this.props.navigation.getParam('username')}
-        </Text>
+        <Text>Veuillez choisir votre classe, {this._client.username}</Text>
 
         <FlatList
           style={{}}

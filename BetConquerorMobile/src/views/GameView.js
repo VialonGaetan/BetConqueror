@@ -2,6 +2,7 @@ import * as React from 'react';
 import {View, StyleSheet, Dimensions, Text} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import WarComponent from '../components/war';
+import GameWebSocket from '../services/GameWebSocket';
 
 const FirstRoute = props => (
   <View style={[styles.view]}>
@@ -37,7 +38,10 @@ function GameView(props) {
     {key: 'second', title: 'Second'},
   ]);
 
-  const username = props.navigation.getParam('username');
+  _client = GameWebSocket.getInstance();
+
+  const {username} = _client;
+  console.log(username);
   const wars = props.navigation.getParam('wars');
   const renderScene = SceneMap({
     first: () => (
@@ -53,10 +57,22 @@ function GameView(props) {
         username={username}
         pieces={pieces}
         setPieces={setPieces}
-        war={wars[0]}
+        war={wars[1]}
       />
     ),
   });
+
+  this._client._client.onmessage = e => {
+    //alert(JSON.stringify(e));
+    console.log(e);
+    if (e.data !== undefined) {
+      const data = JSON.parse(e.data);
+      if (data.response === 'BET') {
+        wars.find(war => war.id === data.warId).hasBet = true;
+        console.log(wars);
+      }
+    }
+  };
 
   switch (wars.length) {
     case 0: {
@@ -66,7 +82,7 @@ function GameView(props) {
         </View>
       );
     }
-    case 1:
+    case 2:
       return (
         <TabView
           navigationState={{index, routes}}
@@ -76,11 +92,11 @@ function GameView(props) {
         />
       );
 
-    case 2:
+    case 1:
       return (
         <View style={[styles.view]}>
           <Text style={[styles.pieces]}>
-            {props.username} - {props.pieces} pièces
+            {username} - {pieces} pièces
           </Text>
 
           <View style={[styles.scene]}>

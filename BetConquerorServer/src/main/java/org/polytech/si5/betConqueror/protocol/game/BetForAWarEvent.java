@@ -21,7 +21,7 @@ public class BetForAWarEvent implements EventProtocol {
     private Messenger messenger;
     private Game game;
 
-    public BetForAWarEvent(Map<String, ?> request, WebSocketSession session) {
+    public BetForAWarEvent( WebSocketSession session, Map<String, ?> request) {
         this.request = request;
         this.messenger = new Messenger(session);
         this.game = Game.getInstance();
@@ -52,7 +52,7 @@ public class BetForAWarEvent implements EventProtocol {
             return;
         }
 
-        Integer amount = Integer.valueOf(String.valueOf(request.get(GameJsonKey.AMOUNT.key)));
+        Integer amount = (int) Double.parseDouble(String.valueOf(request.get(GameJsonKey.AMOUNT.key)));
 
         if(!request.containsKey(GameJsonKey.USER_ID.key)){
             messenger.sendErrorCuzMissingArgument(GameJsonKey.USER_ID.key);

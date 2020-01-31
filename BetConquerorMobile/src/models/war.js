@@ -6,5 +6,6 @@ export default class War {
     this.id = id;
     this.players = players;
     this.zoneName = zoneName;
+    this.hasBet = false;
   }
 }

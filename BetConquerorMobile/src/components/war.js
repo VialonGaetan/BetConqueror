@@ -14,18 +14,29 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import GameWebSocket from '../services/GameWebSocket';
 
 class WarComponent extends React.Component {
   constructor(props) {
     super(props);
+    this._client = GameWebSocket.getInstance();
   }
 
   state = {
     betValue: 0,
+    hasBet: this.props.war.hasBet,
   };
 
   handleOnPress() {
-    console.log(betValue);
+    let request = {
+      request: 'BET',
+      userId: this._client.playerID,
+      warId: this.props.war.id,
+      amount: this.state.betValue,
+    };
+    console.log(request);
+    this._client.sendMessage(request);
+    this.setState({hasBet: true});
   }
 
   handleOnKeyPress(e) {
@@ -52,6 +63,49 @@ class WarComponent extends React.Component {
     this.setState({betValue: this.state.betValue + 1});
   }
 
+  renderBetInput() {
+    if (!this.state.hasBet) {
+      return (
+        <View>
+          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+            <TextInput
+              style={{
+                borderWidth: 3,
+                borderColor: 'grey',
+                alignSelf: 'center',
+                padding: 5,
+              }}
+              keyboardType={'numeric'}
+              value={'' + this.state.betValue}
+              onKeyPress={this.handleOnKeyPress.bind(this)}
+            />
+            <View style={{flexDirection: 'column', padding: 10}}>
+              <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
+                <Image source={upIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
+                <Image source={downIcon} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <TouchableOpacity
+            style={{alignSelf: 'center'}}
+            onPress={this.handleOnPress.bind(this)}>
+            <Text>Miser</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+    return (
+      <View>
+        <Text>
+          Mise envoyée ! En attente de la fin du tour de guerres pour les
+          résultats ...
+        </Text>
+      </View>
+    );
+  }
+
   render() {
     return (
       <SafeAreaView>
@@ -64,32 +118,7 @@ class WarComponent extends React.Component {
             return player.username + ' VS ';
           })}
         </Text>
-        <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-          <TextInput
-            style={{
-              borderWidth: 3,
-              borderColor: 'grey',
-              alignSelf: 'center',
-              padding: 5,
-            }}
-            keyboardType={'numeric'}
-            value={'' + this.state.betValue}
-            onKeyPress={this.handleOnKeyPress.bind(this)}
-          />
-          <View style={{flexDirection: 'column', padding: 10}}>
-            <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
-              <Image source={upIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
-              <Image source={downIcon} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <TouchableOpacity
-          style={{alignSelf: 'center'}}
-          onPress={this.handleOnPress.bind(this)}>
-          <Text>Miser</Text>
-        </TouchableOpacity>
+        {this.renderBetInput()}
       </SafeAreaView>
     );
   }

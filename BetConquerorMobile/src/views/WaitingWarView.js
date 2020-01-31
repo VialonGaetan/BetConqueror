@@ -14,6 +14,7 @@ import {
   FlatList,
   Image,
 } from 'react-native';
+import War from '../models/war';
 
 const WaitingWarView = props => {
   const _client = GameWebSocket.getInstance();
@@ -24,11 +25,12 @@ const WaitingWarView = props => {
     if (e.data !== undefined) {
       const data = JSON.parse(e.data);
       if (data.response === 'START_WARS') {
+        console.log(data.wars);
         const wars = data.wars.map(war => {
-          return new War(war.id, war.players, war.territoryID);
+          return new War(war.warId, war.players, war.territoryId);
         });
-        this.props.navigation.navigate('Game', {
-          username: this.props.navigation.getParam('username'),
+        console.log(wars);
+        props.navigation.navigate('GameScreen', {
           wars,
         });
       }
