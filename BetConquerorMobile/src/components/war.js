@@ -55,7 +55,15 @@ class WarComponent extends React.Component {
   render() {
     return (
       <SafeAreaView>
-        <Text>Play Component</Text>
+        <Text style={{alignSelf: 'center'}}>
+          War :{' '}
+          {this.props.war.players.map((player, index) => {
+            if (index === this.props.war.players.length - 1) {
+              return player.username;
+            }
+            return player.username + ' VS ';
+          })}
+        </Text>
         <View style={{flexDirection: 'row', alignSelf: 'center'}}>
           <TextInput
             style={{

@@ -5,6 +5,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {ChooseRaceView} from './src/views/ChooseRaceView';
 import GameView from './src/views/GameView';
 import ChooseNameView from './src/views/ChooseNameView';
+import WaitingWarView from './src/views/WaitingWarView';
 
 /**
  * Sample React Native App
@@ -23,6 +24,7 @@ const LobbyNavigator = createStackNavigator({
 });
 
 const GameNavigator = createStackNavigator({
+  WaitingWar: {screen: WaitingWarView},
   GameScreen: {screen: GameView},
 });
 

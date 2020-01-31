@@ -28,6 +28,7 @@ import EspagnolIcon from '../../assets/icons/EspagnolIcon.png';
 import OlmequesIcon from '../../assets/icons/OlmequesIcon.png';
 import MayaIcon from '../../assets/icons/MayaIcon.png';
 import Race from '../models/race';
+import War from '../models/war';
 
 export class ChooseRaceView extends React.Component {
   static navigationOptions = {
@@ -74,9 +75,7 @@ export class ChooseRaceView extends React.Component {
           });
           this.setState({races: newRaces});
         } else if (data.response === 'GAME_START') {
-          this.props.navigation.navigate('Game', {
-            username: this.props.navigation.getParam('username'),
-          });
+          this.props.navigation.navigate('WaitingWar');
         } else if (data.response === 'KO') {
           if (data.reason === 'FULL') {
             const resetAction = StackActions.reset({
