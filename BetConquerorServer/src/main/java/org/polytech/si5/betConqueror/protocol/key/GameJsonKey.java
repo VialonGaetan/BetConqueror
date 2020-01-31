@@ -4,11 +4,16 @@ public enum GameJsonKey {
     RESPONSE("response"),
     ORDER("order"),
     TAG("tag"),
+    WARS("wars"),
+    WAR_ID("warId"),
     TERRITORY_ID("territoryId"),
     PLAYERS("players"),
     NAME("name"),
     UNITY("unity"),
-    PLAYER_ID("playerID");
+    USERNAME("username"),
+    USER_ID("userId"),
+
+    AMOUNT("amount");
 
 
     public final String key;

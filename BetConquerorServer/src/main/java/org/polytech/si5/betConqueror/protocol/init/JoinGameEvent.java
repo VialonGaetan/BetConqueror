@@ -47,7 +47,7 @@ public class JoinGameEvent implements EventProtocol {
             raceJSON.addProperty(InitGameJsonKey.AVAILABLE.key, !player.getSession().isPresent());
             raceJSON.addProperty(InitGameJsonKey.NAME.key, player.getRace().getName());
             raceJSON.addProperty(InitGameJsonKey.COLOR.key, player.getRace().getColor().toString());
-            raceJSON.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");
+            raceJSON.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getId());
             raceJSON.addProperty(InitGameJsonKey.USERNAME.key, player.getName());
 
 
