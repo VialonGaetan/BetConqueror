@@ -63,14 +63,14 @@ class ButtonWidget extends TUIOWidget {
     get domElem() { return this._domElem; }
 
 
-    onButtonClick(tuioTouch) {
+    onButtonClick() {
         let currentPlayer = new GameInstance().getCurrentPlayer();
         //alert(JSON.stringify(currentPlayer))
         if (this.activate) {
             let request = {
                 request: "MOVE",
                 tag: currentPlayer.tag,
-                territoryId: Math.trunc(currentPlayer.position) + ""
+                territoryId: currentPlayer.position > 4 ? 0 + "" : Math.trunc(currentPlayer.position) + ""
             }
             new SocketClient().sendMessage(request);
             this.disable()
@@ -87,7 +87,7 @@ class ButtonWidget extends TUIOWidget {
     onTouchCreation(tuioTouch) {
         super.onTouchCreation(tuioTouch);
         if (this.isTouched(tuioTouch.x, tuioTouch.y)) {
-            this.onButtonClick(tuioTouch)
+            this.onButtonClick()
         }
     }
 

@@ -16,11 +16,11 @@ const buildBoard = () => {
     ctx.drawImage(map,0,0,1920,1080);
   };
    */
-  const topLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,0);
-  const downLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,1);
-  const topRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,2);
-  const downRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,3);
-  const center = new Plot(WINDOW_WIDTH / 2 - WINDOW_WIDTH / 10, WINDOW_HEIGHT / 2 - WINDOW_WIDTH / 20, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10,4);
+  const topLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10, 0);
+  const downLeft = new Plot(WINDOW_WIDTH / 5, WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10, 1);
+  const topRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10, 2);
+  const downRight = new Plot(WINDOW_WIDTH - (WINDOW_WIDTH / 5) - (WINDOW_WIDTH / 5), WINDOW_HEIGHT - (WINDOW_HEIGHT / 5) - WINDOW_WIDTH / 10, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10, 3);
+  const center = new Plot(WINDOW_WIDTH / 2 - WINDOW_WIDTH / 10, WINDOW_HEIGHT / 2 - WINDOW_WIDTH / 20, WINDOW_WIDTH / 5, WINDOW_WIDTH / 10, 4);
   const topLeftPlot = new ImageWidget(topLeft.x, topLeft.y, topLeft.width, topRight.height, 'assets/UCAlogoQhaut.png', topLeft);
   const downLeftPlot = new ImageWidget(downLeft.x, downLeft.y, downLeft.width, downLeft.height, 'assets/UCAlogoQhaut.png', downLeft);
   const topRightPlot = new ImageWidget(topRight.x, topRight.y, topRight.width, topRight.height, 'assets/UCAlogoQhaut.png', topRight);
@@ -46,14 +46,15 @@ const buildBoard = () => {
   $('#game-container').append(rightCamp.domElem);
 
 
-  new GameInstance().plotAndCamp[0] = topLeft;
-  new GameInstance().plotAndCamp[1] = downLeft;
-  new GameInstance().plotAndCamp[2] = topRight;
-  new GameInstance().plotAndCamp[3] = downRight;
-  new GameInstance().plotAndCamp[4] = center;
-  new GameInstance().plotAndCamp[5] = downCampForm;
-  new GameInstance().plotAndCamp[6] = topCampForm;
-  new GameInstance().plotAndCamp[7] = leftCampForm;
-  new GameInstance().plotAndCamp[8] = rightCampForm;
+  let gameInstance = new GameInstance();
+  gameInstance.plotAndCamp[0] = topLeft;
+  gameInstance.plotAndCamp[1] = downLeft;
+  gameInstance.plotAndCamp[2] = topRight;
+  gameInstance.plotAndCamp[3] = downRight;
+  gameInstance.plotAndCamp[4] = center;
+  gameInstance.plotAndCamp[5] = downCampForm;
+  gameInstance.plotAndCamp[6] = topCampForm;
+  gameInstance.plotAndCamp[7] = leftCampForm;
+  gameInstance.plotAndCamp[8] = rightCampForm;
 }
 export default buildBoard;

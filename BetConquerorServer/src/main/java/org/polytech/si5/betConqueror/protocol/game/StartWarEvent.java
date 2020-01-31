@@ -11,8 +11,11 @@ import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 
+import java.util.logging.Logger;
+
 public class StartWarEvent implements EventProtocol {
 
+    private final Logger logger = Logger.getLogger(StartWarEvent.class.getName());
     private Game game;
 
     public StartWarEvent() {
@@ -41,7 +44,7 @@ public class StartWarEvent implements EventProtocol {
         JsonArray warsForThisPlayer = new JsonArray();
 
         for(War war : round.getWars()) {
-            if (war.getBetPlayers().containsKey(player)) {
+            if (player.getRace().getTags().stream().anyMatch(unity -> war.getBetPlayers().containsKey(unity))) {
                 JsonObject warPresent = new JsonObject();
                 warPresent.addProperty(GameJsonKey.WAR_ID.key, war.getId());
                 JsonArray playerInThisWarJsonArray = new JsonArray();
@@ -58,6 +61,7 @@ public class StartWarEvent implements EventProtocol {
                 continue;
         }
         response.add(GameJsonKey.WARS.key, warsForThisPlayer);
+
         return response;
 
     }

@@ -45,7 +45,7 @@ class GameInstance {
             },
             {
                 tag: "E6",
-                position: 5,
+                position: 0,
                 spawn: 8
             },
             {
@@ -77,7 +77,13 @@ class GameInstance {
 
 
     changePositionOfTag(tag, position) {
-        this.unities.find((el) => el.tag == String(tag)).position = position;
+        console.log("CHANGE POSITION : " + position + " AND TAG " + position)
+        if (tag != undefined) {
+            let unity = this.unities.find((el) => el.tag == String(tag));
+            if (position != undefined && unity != undefined)
+                unity.position = position;
+
+        }
     }
 
     setCurrentTour(tour) {
