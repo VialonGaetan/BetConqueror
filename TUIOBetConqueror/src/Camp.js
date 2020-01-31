@@ -82,9 +82,9 @@ class Camp {
   getStartXDrawButton() {
     if (this.x === 0) {
       return this.x;
-    } else if(this.x === WINDOW_WIDTH) {
+    } else if (this.x === WINDOW_WIDTH) {
       return this.x - 100;
-    } else if(this.y === WINDOW_HEIGHT) {
+    } else if (this.y === WINDOW_HEIGHT) {
       return this.x + this.radius;
     } else {
       return this.x - this.radius - 100;
@@ -94,9 +94,9 @@ class Camp {
   getStartYDrawButton() {
     if (this.y === 0) {
       return this.y;
-    } else if(this.y === WINDOW_HEIGHT) {
+    } else if (this.y === WINDOW_HEIGHT) {
       return this.y - 100;
-    } else if(this.x === WINDOW_WIDTH) {
+    } else if (this.x === WINDOW_WIDTH) {
       return this.y - this.radius - 100;
     } else {
       return this.y + this.radius;
@@ -107,6 +107,10 @@ class Camp {
     this.ctx.clearRect(0, 0, this.getWidthEvent(), this.getHeightEvent())
     this.ctx.strokeStyle = "#FF0000";
     this.draw();
+  }
+
+  enableButton() {
+    this.button.enable();
   }
 }
 export default Camp;

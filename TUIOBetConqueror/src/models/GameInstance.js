@@ -15,35 +15,35 @@ class GameInstance {
         this.unities = [
             {
                 tag: "E0",
-                position: -1
+                position: 5
             },
             {
                 tag: "E1",
-                position: -1
+                position: 5
             },
             {
                 tag: "E2",
-                position: -1
+                position: 6
             },
             {
                 tag: "E3",
-                position: -1
+                position: 6
             },
             {
                 tag: "E4",
-                position: -1
+                position: 7
             },
             {
                 tag: "E5",
-                position: -1
+                position: 7
             },
             {
                 tag: "E6",
-                position: -1
+                position: 8
             },
             {
                 tag: "E7",
-                position: -1
+                position: 8
             },
         ]
 
@@ -72,7 +72,7 @@ class GameInstance {
     }
 
     removePlayerPlayed() {
-        this.currentTour.pop();
+        this.currentTour.splice(0, 1);
     }
 
     getCurrentPlayer() {

@@ -36,6 +36,7 @@ class ButtonWidget extends TUIOWidget {
         this._lastTouchesValues = {};
         this._lastTagsValues = {};
         this._domElem = $('<button>');
+        this.activate = false;
         this.disable();
         this._domElem.css('background-color', `blue`);
         this._domElem.css('width', `${width}px`);
@@ -46,13 +47,13 @@ class ButtonWidget extends TUIOWidget {
     }
 
     disable() {
-        this._domElem.css('display', 'none');
-        this.domElem.disabled = true;
+        this._domElem.css('visibility', 'hidden');
+        this.activate = false;
     }
 
     enable() {
-        this._domElem.css('display', 'contents');
-        this.domElem.disabled = false;
+        this._domElem.css('visibility', 'visible');
+        this.activate = true;
     }
     /**
      * ImageWidget's domElem.
@@ -63,7 +64,18 @@ class ButtonWidget extends TUIOWidget {
 
 
     onButtonClick(tuioTouch) {
-        new SocketClient().sendMessage(new GameInstance().getCurrentPlayer());
+        let currentPlayer = new GameInstance().getCurrentPlayer();
+        //alert(JSON.stringify(currentPlayer))
+        if (this.activate) {
+            let request = {
+                request: "MOVE",
+                tag: currentPlayer.tag,
+                territoryId: currentPlayer.position
+            }
+            new SocketClient().sendMessage(request);
+            this.disable()
+
+        }
     }
 
     /**
@@ -76,8 +88,6 @@ class ButtonWidget extends TUIOWidget {
         super.onTouchCreation(tuioTouch);
         if (this.isTouched(tuioTouch.x, tuioTouch.y)) {
             this.onButtonClick(tuioTouch)
-            this._domElem.css('display', 'none');
-            this.domElem.disabled = true;
         }
     }
 

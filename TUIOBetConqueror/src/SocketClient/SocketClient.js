@@ -61,10 +61,9 @@ class SocketClient {
     }
 
     sendMessage(message) {
-        if (this.ready) {
-            this._client.send(JSON.stringify(message))
-        }
-        setTimeout(() => this.sendMessage(message), 500)
+        this._client.send(JSON.stringify(message))
+        console.log("MESSAGE SEND : " + JSON.stringify(message))
+
     }
 }
 

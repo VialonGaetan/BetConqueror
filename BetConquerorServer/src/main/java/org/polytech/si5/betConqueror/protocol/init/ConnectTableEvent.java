@@ -20,13 +20,18 @@ public class ConnectTableEvent implements EventProtocol {
 
     @Override
     public void processEvent() {
-        Game.getInstance().setTable(table);
+        Game game = Game.getInstance();
+        game.setTable(this.table);
         log.info("The table is now connected");
         JsonObject response = new JsonObject();
         response.addProperty(InitGameJsonKey.RESPONSE.key, "OK");
         new Messenger(table).sendSpecificMessageToAUser(response.toString());
         //TODO REMOVE APRES LES TESTS
-        new StartGameEvent().processEvent();
+        //new StartGameEvent().processEvent();
+
+        if (game.getPlayerList().stream().allMatch(player1 -> player1.getSession().isPresent())){
+            new StartGameEvent().processEvent();
+        }
         return;
     }
 }

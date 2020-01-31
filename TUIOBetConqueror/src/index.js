@@ -25,7 +25,8 @@ tuioManager.start()
 //  socketIOClient.start()
 
 
-const SERVER_ADRESS = "ws://192.168.1.3:8080/game";
+//const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
+const SERVER_ADRESS = "ws://192.168.1.16:8080/game";
 
 const socketClient = new SocketClient()
 socketClient.start(SERVER_ADRESS)
@@ -35,17 +36,18 @@ socketClient._client.onmessage = (e) => {
 
     let message = JSON.parse(e.data);
     console.log(JSON.stringify(message));
+    let gameInstance = new GameInstance();
 
     switch (message.response) {
       case "RACE_SELECTED":
-        message.races.map((el) => {
-          if (el.available)
+        message.races.forEach((el) => {
+          if (el.available) {
             return;
+          }
           else {
             let race = getRaceValue(el.name);
-            document.getElementById(race + "Text").innerText = "TOTO";
+            document.getElementById(race + "Text").innerText = "Pris par " + el.username;
             document.getElementById(race + "Text").className = 'text-badge-taken';
-            return;
           }
         });
         break;
@@ -54,17 +56,29 @@ socketClient._client.onmessage = (e) => {
         break;
       case "NEW_ROUND":
         let round = message.players;
-        document.write(round);
-        let gameInstance = new GameInstance();
-        gameInstance.setCurrentTour(message.players);
-        while(gameInstance.currentTour != null) {
-          let campOrPlot = gameInstance.getPlotOrCamp(gameInstance.getPositionByTag(gameInstance.getCurrentPlayer()));
-          campOrPlot.enable();
-          //TODO : dessiner les déplacements possible ainsi qu'un moyen de bloquer le code tant qu'il a pas fini sont tour
-          //campOrPlot.drawRoad();
+        //document.write(round);
+        let newOrderPlayers = [];
+        round.forEach((el) => {
+          let player = {
+            tag: el.unity,
+            position: gameInstance.getPositionByTag(el.unity)
+          };
+          newOrderPlayers.push(player);
 
-          gameInstance.removePlayerPlayed();
+        });
+        gameInstance.setCurrentTour(newOrderPlayers);
+        let campOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+        //alert(JSON.stringify(campOrPlot));
+        campOrPlot.enableButton();
+        break;
+      case "MOVE":
+        gameInstance.removePlayerPlayed();
+        if (gameInstance.currentTour.length > 0) {
+          let newCampOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+          //alert(JSON.stringify(campOrPlot));
+          newCampOrPlot.enableButton();
         }
+
         break;
       default:
     }
@@ -73,7 +87,7 @@ socketClient._client.onmessage = (e) => {
 
 /* App Code */
 const buildApp = () => {
-    $.get('home.html', function (data) {
+  $.get('home.html', function (data) {
     $("#app").html(data);
     QrCode.toCanvas(document.getElementById('qr-code'), SERVER_ADRESS).then(() => {
       document.getElementById('qr-code').style.display = "flex";

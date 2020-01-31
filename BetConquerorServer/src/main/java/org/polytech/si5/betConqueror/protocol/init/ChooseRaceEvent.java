@@ -107,6 +107,7 @@ public class ChooseRaceEvent implements EventProtocol {
         for (Player player: game.getPlayerList()) {
             JsonObject raceJSON = new JsonObject();
             raceJSON.addProperty(InitGameJsonKey.AVAILABLE.key, !player.getSession().isPresent());
+            raceJSON.addProperty(InitGameJsonKey.USERNAME.key, player.getName());
             raceJSON.addProperty(InitGameJsonKey.NAME.key, player.getRace().getName());
             raceJSON.addProperty(InitGameJsonKey.COLOR.key, player.getRace().getColor().toString());
             raceJSON.addProperty(InitGameJsonKey.PLAYER_ID.key, player.getSession().isPresent() ? player.getSession().get().getId() : "");

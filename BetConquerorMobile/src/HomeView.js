@@ -38,7 +38,7 @@ export class HomeView extends React.Component {
   }
 
   _changeText(text) {
-    this.setState({input: text});
+    this.setState({ input: text });
   }
 
   render() {
@@ -78,7 +78,7 @@ export class HomeView extends React.Component {
           title="Skip scan"
           onPress={async () => {
             let socket = GameWebSocket.getInstance();
-            await socket.start('ws://localhost:8080/game');
+            await socket.start('ws://192.168.1.3:8080/game');
             if (socket.isConnected) {
               this.props.navigation.navigate('ChooseName');
             } else {

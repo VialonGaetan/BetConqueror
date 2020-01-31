@@ -1,5 +1,6 @@
 package org.polytech.si5.betConqueror.protocol.game;
 
+import com.google.gson.JsonObject;
 import org.polytech.si5.betConqueror.components.buisness.Game;
 import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
@@ -29,6 +30,7 @@ public class MoveUnityEvent implements EventProtocol {
     public void processEvent() {
 
         Round currentRound = game.getCurrentRound();
+        logger.info("new Move");
 
         if(!request.containsKey(GameJsonKey.TAG.key)){
             messenger.sendErrorCuzMissingArgument(GameJsonKey.TAG.key);
@@ -40,9 +42,20 @@ public class MoveUnityEvent implements EventProtocol {
             return;
         }
 
+        logger.info("MOVE VALID");
+        game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateResponse().toString()));
 
 
 
 
+
+    }
+
+
+    private JsonObject generateResponse(){
+        JsonObject response = new JsonObject();
+        response.addProperty(GameJsonKey.RESPONSE.key, "MOVE");
+
+        return response;
     }
 }

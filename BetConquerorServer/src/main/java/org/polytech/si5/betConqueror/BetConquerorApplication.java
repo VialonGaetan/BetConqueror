@@ -10,7 +10,6 @@ import static org.springframework.boot.SpringApplication.*;
 public class BetConquerorApplication {
 
 	public static void main(String[] args) {
-		System.out.println(Race.valueOf("ESPAGNOL").getTags().toString());
 		run(BetConquerorApplication.class, args);
 	}
 

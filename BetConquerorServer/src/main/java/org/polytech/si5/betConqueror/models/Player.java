@@ -41,4 +41,12 @@ public class Player {
     public void setSession(WebSocketSession session) {
         this.session = Optional.of(session);
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "race=" + race +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
