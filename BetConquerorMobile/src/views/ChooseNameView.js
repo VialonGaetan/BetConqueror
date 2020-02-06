@@ -21,6 +21,9 @@ const ChooseNameView = props => {
   const _client = GameWebSocket.getInstance();
 
   const handleOnPress = () => {
+    if (name === '') {
+      return alert("Vous n'avez pas rentré de pseudo");
+    }
     let request = {request: 'CHOOSE_NAME', username: name};
     _client.username = name;
     _client.sendMessage(request);
