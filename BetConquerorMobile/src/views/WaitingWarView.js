@@ -51,8 +51,14 @@ const WaitingWarView = props => {
       );
     }
   };
+
+  const handleOnPressRecap = () => {
+    props.navigation.navigate('Recap');
+  };
   return (
     <View>
+      <Text>Tour x</Text>
+      <Button title="Recap" onPress={handleOnPressRecap} />
       <Text>
         Ça se passe sur la table ! C'est l'étape des déplacements des pions.
         Lorsque c'est votre tour, déplacez le pion concerné puis appuyez sur le

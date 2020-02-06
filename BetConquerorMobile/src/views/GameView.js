@@ -6,6 +6,8 @@ import GameWebSocket from '../services/GameWebSocket';
 
 const FirstRoute = props => (
   <View style={[styles.view]}>
+    <Button title="Recap" onPress={handleOnPressRecap} />
+
     <Text style={[styles.pieces]}>
       {props.username} - {props.pieces} pièces
     </Text>
@@ -22,6 +24,8 @@ const FirstRoute = props => (
 
 const SecondRoute = props => (
   <View style={[styles.view]}>
+    <Button title="Recap" onPress={handleOnPressRecap} />
+
     <Text style={[styles.pieces]}>
       {props.username} - {props.pieces} pièces
     </Text>
@@ -89,6 +93,7 @@ function GameView(props) {
     case 0: {
       return (
         <View style={[styles.view]}>
+          <Button title="Recap" onPress={handleOnPressRecap} />
           <Text>Pas de guerre pour vous ce tour. Bien joué !</Text>
         </View>
       );
@@ -106,6 +111,8 @@ function GameView(props) {
     case 1:
       return (
         <View style={[styles.view]}>
+          <Button title="Recap" onPress={handleOnPressRecap} />
+
           <Text style={[styles.pieces]}>
             {username} - {pieces} pièces
           </Text>

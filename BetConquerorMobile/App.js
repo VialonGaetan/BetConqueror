@@ -6,6 +6,9 @@ import {ChooseRaceView} from './src/views/ChooseRaceView';
 import GameView from './src/views/GameView';
 import ChooseNameView from './src/views/ChooseNameView';
 import WaitingWarView from './src/views/WaitingWarView';
+import MapView from './src/views/MapView';
+import ZoneHistoryView from './src/views/ZoneHistoryView';
+import RecapView from './src/views/RecapView';
 
 /**
  * Sample React Native App
@@ -26,6 +29,9 @@ const LobbyNavigator = createStackNavigator({
 const GameNavigator = createStackNavigator({
   WaitingWar: {screen: WaitingWarView},
   GameScreen: {screen: GameView},
+  Recap: {screen: RecapView},
+  MapView: {screen: MapView},
+  ZoneHistory: {screen: ZoneHistoryView},
 });
 
 const App = createAppContainer(

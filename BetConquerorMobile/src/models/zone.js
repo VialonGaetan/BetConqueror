@@ -1,23 +1,52 @@
 export default class Zone {
-  constructor(name, player, coordinates) {
-    this.name = name;
-    this.player = player;
-    this.coordinates = coordinates;
+  wars;
+  id;
+  name;
+  constructor(obj) {
+    obj && Object.assign(this, obj);
   }
 
-  isInTheZone(x, y) {
-    if (x > this.coordinates.xRight) {
-      return false;
+  getOwner() {
+    return this.wars[this.wars.length - 1].winner;
+  }
+
+  getWonTwice() {
+    let players = [];
+
+    let winners = [];
+    this.wars.forEach(war => {
+      winners.push(war.winner);
+    });
+
+    for (i = 0; i < winners.length; i++) {
+      for (j = 0; j < winners.length; j++) {
+        if (j != i && winners[i].username === winners[j].username) {
+          if (
+            !players.find(player => player.username === winners[i].username)
+          ) {
+            players.push(winners[i]);
+          }
+        }
+      }
     }
-    if (x < this.coordinates.xLeft) {
-      return false;
+    return players;
+  }
+
+  getWonOnce() {
+    let winners = [];
+    this.wars.forEach(war => {
+      winners.push(war.winner);
+    });
+    let players = Object.assign([], winners);
+
+    for (i = 0; i < winners.length; i++) {
+      for (j = 0; j < winners.length; j++) {
+        if (j != i && winners[i].username === winners[j].username) {
+          players.splice(i, 1);
+          players.splice(j, 1);
+        }
+      }
     }
-    if (y > this.coordinates.yDown) {
-      return false;
-    }
-    if (y < this.coordinates.yUp) {
-      return false;
-    }
-    return true;
+    return players;
   }
 }
