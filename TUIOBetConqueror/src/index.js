@@ -77,7 +77,12 @@ socketClient._client.onmessage = (e) => {
         ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
         //alert(JSON.stringify(campOrPlot));
         campOrPlot.enableButton();
-        break;
+
+          //draw arrows
+          let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+          newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x,gameInstance.getCurrentPlayer().y,gameInstance.getEndArrowsPointsPlot(newCampOrPlot.possibleDisplacement));
+
+          break;
       case "MOVE":
         gameInstance.removePlayerPlayed();
         if (gameInstance.currentTour.length > 0) {
@@ -87,6 +92,10 @@ socketClient._client.onmessage = (e) => {
           ctx2.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
           //alert(JSON.stringify(campOrPlot));
           newCampOrPlot.enableButton();
+
+          //draw arrows
+          let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+          newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x,gameInstance.getCurrentPlayer().y,gameInstance.getEndArrowsPointsPlot(newCampOrPlot.possibleDisplacement));
         }
 
         break;

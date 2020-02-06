@@ -16,42 +16,106 @@ class GameInstance {
             {
                 tag: "E0",
                 position: 0,
-                spawn: 5
+                spawn: 5,
+                x: 0,
+                y:0
             },
             {
                 tag: "E1",
                 position: 0,
-                spawn: 5
+                spawn: 5,
+                x: 0,
+                y:0
             },
             {
                 tag: "E2",
                 position: 0,
-                spawn: 6
+                spawn: 6,
+                x: 0,
+                y:0
             },
             {
                 tag: "E3",
                 position: 0,
-                spawn: 6
+                spawn: 6,
+                x: 0,
+                y:0
             },
             {
                 tag: "E4",
                 position: 0,
-                spawn: 7
+                spawn: 7,
+                x: 0,
+                y:0
             },
             {
                 tag: "E5",
                 position: 0,
-                spawn: 7
+                spawn: 7,
+                x: 0,
+                y:0
             },
             {
                 tag: "E6",
                 position: 0,
-                spawn: 8
+                spawn: 8,
+                x: 0,
+                y:0
             },
             {
                 tag: "E7",
                 position: 0,
-                spawn: 8
+                spawn: 8,
+                x: 0,
+                y:0
+            },
+        ]
+
+        this.endArrowsPointsPlots = [
+            {
+                position:0,
+                endX : 600,
+                endY: 300
+            },
+            {
+                position:1,
+                endX : 600,
+                endY: 750
+            },
+            {
+                position:2,
+                endX : 1350,
+                endY: 300
+            },
+            {
+                position:3,
+                endX : 1350,
+                endY: 750
+            },
+            {
+                position:4,
+                endX : 960,
+                endY: 540
+            },
+            {
+                position:5,
+                endX : 600,
+                endY: 300
+            },
+            {
+                position:6,
+                endX : 600,
+                endY: 750
+            },
+            {
+                position:7,
+                endX : 1350,
+                endY: 300
+            },
+            {
+                position:8,
+                endX : 1350,
+                endY: 750
             },
         ]
 
@@ -76,13 +140,13 @@ class GameInstance {
     }
 
 
-    changePositionOfTag(tag, position) {
+    changePositionOfTag(tag, position,x,y) {
         console.log("CHANGE POSITION : " + position + " AND TAG " + position)
         if (tag != undefined) {
             let unity = this.unities.find((el) => el.tag == String(tag));
             if (position != undefined && unity != undefined)
                 unity.position = position;
-
+                unity.x=x;unity.y=y;
         }
     }
 
@@ -100,6 +164,29 @@ class GameInstance {
 
     getPlotOrCamp(position) {
         return this.plotAndCamp[position];
+    }
+
+    getEndArrowsPointsPlot(endArrowsPointsPlotsPositions){
+        this.unities.forEach(item =>{
+            if(item.spawn==this.getCurrentPlayer().spawn){
+                endArrowsPointsPlotsPositions = this.removeA(endArrowsPointsPlotsPositions,item.position);
+            }
+        });
+
+        let endArrowsPoints = [];
+        endArrowsPointsPlotsPositions.forEach(item => endArrowsPoints.push(this.endArrowsPointsPlots[item]));
+        return endArrowsPoints;
+    }
+
+    removeA(arr) {
+        let what, a = arguments, L = a.length, ax;
+        while (L > 1 && arr.length) {
+            what = a[--L];
+            while ((ax= arr.indexOf(what)) !== -1) {
+                arr.splice(ax, 1);
+            }
+        }
+        return arr;
     }
 }
 

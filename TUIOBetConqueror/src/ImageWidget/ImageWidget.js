@@ -103,7 +103,7 @@ class ImageWidget extends TUIOWidget {
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
       this.camp.highLight();
-      new GameInstance().changePositionOfTag(tuioTag.id, this.camp.id);
+      new GameInstance().changePositionOfTag(tuioTag.id, this.camp.id,tuioTag.x,tuioTag.y);
     }
   }
 

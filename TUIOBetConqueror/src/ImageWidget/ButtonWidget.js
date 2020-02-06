@@ -31,8 +31,9 @@ class ButtonWidget extends TUIOWidget {
      * @param {number} width - ImageWidget's width.
      * @param {number} height - ImageWidget's height.
      */
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, canvasArrow) {
         super(x, y, width, height);
+        this.canvasArrow=canvasArrow;
         this._lastTouchesValues = {};
         this._lastTagsValues = {};
         this._domElem = $('<button>');
@@ -47,6 +48,7 @@ class ButtonWidget extends TUIOWidget {
     }
 
     disable() {
+        this.canvasArrow.clearCanvas();
         this._domElem.css('visibility', 'hidden');
         this.activate = false;
     }
@@ -73,8 +75,7 @@ class ButtonWidget extends TUIOWidget {
                 territoryId: currentPlayer.position > 4 ? 0 + "" : Math.trunc(currentPlayer.position) + ""
             }
             new SocketClient().sendMessage(request);
-            this.disable()
-
+            this.disable();
         }
     }
 

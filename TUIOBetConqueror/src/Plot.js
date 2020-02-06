@@ -2,12 +2,14 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH} from 'tuiomanager/core/constants';
 import $ from 'jquery/dist/jquery.min';
 
 class Plot {
-    constructor(x, y, width, height, id) {
+    constructor(x, y, width, height, id,canvasArrow, possibleDisplacement) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.canvasArrow=canvasArrow;
+        this.possibleDisplacement= possibleDisplacement
         const plot = document.createElement('CANVAS');
         plot.style.left = `${this.x}px`;
         plot.style.top = `${this.y}px`;

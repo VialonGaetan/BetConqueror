@@ -3,13 +3,14 @@ import $ from 'jquery/dist/jquery.min';
 import ButtonWidget from './ImageWidget/ButtonWidget';
 
 class Camp {
-  constructor(x, y, radius, startAngle, endAngle, id) {
+  constructor(x, y, radius, startAngle, endAngle, id, canvasArrow, possibleDisplacement) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.radius = radius;
     this.startAngle = startAngle;
     this.endAngle = endAngle;
+    this.canvasArrow=canvasArrow;
     const camp = document.createElement('CANVAS');
     camp.style.left = `${this.getStartXEvent()}px`;
     camp.style.top = `${this.getStartYEvent()}px`;
@@ -20,9 +21,10 @@ class Camp {
     camp.height = this.getHeightEvent();
     this.ctx = camp.getContext('2d');
     $('#game-container').append(camp);
-    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100);
+    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100,this.canvasArrow);
     this.button = button;
     $('#game-container').append(button.domElem);
+    this.possibleDisplacement = possibleDisplacement;
   }
 
   draw() {
@@ -112,5 +114,7 @@ class Camp {
   enableButton() {
     this.button.enable();
   }
+
+
 }
 export default Camp;
