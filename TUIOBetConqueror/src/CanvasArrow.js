@@ -17,9 +17,11 @@ class CanvasArrow {
         canvas.height = this.endY-this.startY;
         this.ctx = canvas.getContext('2d');
         $('#game-container').append(canvas);
+        this.movingInProgress = false;
     }
 
     drawArrow(startXArrow, startYArrow, endArrowsPoints) {
+        this.movingInProgress = true;
         //we keep the values
         this.currentStartXArrow=startXArrow; this.currentStartYArrow=startYArrow;this.currentEndArrowsPoints=endArrowsPoints;
 
@@ -32,7 +34,7 @@ class CanvasArrow {
             intermediateY[i]=0;
         }
         let t=0;
-        let canvaArrow = this; //let endArrowsPoints=this.endArrowsPoints;
+        let canvaArrow = this;
         let timer = setInterval(function() {
             for(let i=0;i<endArrowsPoints.length;i++){
                 intermediateX[i]+=xIncrement[i];
@@ -62,21 +64,23 @@ class CanvasArrow {
     }
 
     drawDisplacement(displacementEndArrowPoints) {
-        this.clearCanvas();
-        this.ctx.save();
-        // draw the animation
-        this.currentEndArrowsPoints.forEach(element =>{
-            this.ctx.beginPath();
-            if(displacementEndArrowPoints.endX == element.endX && displacementEndArrowPoints.endY == element.endY) {
-                this.ctx.fillStyle = "#008000";
-            }else {
-                this.ctx.fillStyle = "#FF0000";
-            }
-            this.arrow(this.currentStartXArrow, this.currentStartYArrow, element.endX, element.endY, [0, 0, -20, 5, -10, 5]);
-            this.ctx.fill();
-            this.ctx.closePath();
-        });
-        this.ctx.restore();
+        if(this.movingInProgress) {
+            this.clearCanvas();
+            this.ctx.save();
+            // draw the animation
+            this.currentEndArrowsPoints.forEach(element => {
+                this.ctx.beginPath();
+                if (displacementEndArrowPoints.endX == element.endX && displacementEndArrowPoints.endY == element.endY) {
+                    this.ctx.fillStyle = "#008000";
+                } else {
+                    this.ctx.fillStyle = "#FF0000";
+                }
+                this.arrow(this.currentStartXArrow, this.currentStartYArrow, element.endX, element.endY, [0, 0, -20, 5, -10, 5]);
+                this.ctx.fill();
+                this.ctx.closePath();
+            });
+            this.ctx.restore();
+        }
     }
 
     arrow(startX, startY, endX, endY, controlPoints) {
