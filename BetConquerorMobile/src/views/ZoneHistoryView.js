@@ -30,49 +30,58 @@ const ZoneHistoryView = props => {
 
   console.log(zone.getOwner());
   return (
-    <View>
-      <View style={{flexDirection: 'column'}}>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <ZoneComponent style={{}} zoneID={zone.id} />
-        </View>
-        <Text>Occupant actuel : {zone.getOwner().username}</Text>
-        <Text>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+      }}>
+      <View style={{flex: 0.2, alignSelf: 'center'}}>
+        <ZoneComponent style={{}} zoneID={zone.id} />
+      </View>
+      <View style={{flex: 0.3, alignSelf: 'center'}}>
+        <Text style={styles.textOwn}>
+          Occupant actuel : {zone.getOwner().username}
+        </Text>
+        <Text style={styles.textOwn}>
           En possède 2 :
           {zone.getWonTwice().map(player => {
-            return player.username;
+            return ' ' + player.username + ',';
           })}
         </Text>
-        <Text>
+        <Text style={styles.textOwn}>
           En possède 1 :
           {zone.getWonOnce().map(player => {
             return ' ' + player.username + ', ';
           })}
         </Text>
-
-        <View style={styles.container}>
-          <Table borderStyle={{borderWidth: 1}}>
-            <Row
-              data={tableHead}
-              flexArr={[0.495, 2, 1, 1]}
-              style={styles.head}
+      </View>
+      <View style={{flex: 0.1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={styles.textOwn}>Historique des guerres</Text>
+      </View>
+      <View style={{flex: 0.4}}>
+        <Table borderStyle={{borderWidth: 1}}>
+          <Row
+            data={tableHead}
+            flexArr={[0.495, 2, 1, 1]}
+            style={styles.head}
+            textStyle={styles.text}
+          />
+          <TableWrapper style={styles.wrapper}>
+            <Col
+              data={tableTitles}
+              style={styles.title}
+              heightArr={[28, 28]}
               textStyle={styles.text}
             />
-            <TableWrapper style={styles.wrapper}>
-              <Col
-                data={tableTitles}
-                style={styles.title}
-                heightArr={[28, 28]}
-                textStyle={styles.text}
-              />
-              <Rows
-                data={tableData}
-                flexArr={[2, 1, 1]}
-                style={styles.row}
-                textStyle={styles.text}
-              />
-            </TableWrapper>
-          </Table>
-        </View>
+            <Rows
+              data={tableData}
+              flexArr={[2, 1, 1]}
+              style={styles.row}
+              textStyle={styles.text}
+            />
+          </TableWrapper>
+        </Table>
       </View>
     </View>
   );
@@ -84,6 +93,7 @@ const styles = StyleSheet.create({
   title: {flex: 0.5},
   row: {height: 28},
   text: {textAlign: 'center'},
+  textOwn: {fontSize: 20, fontWeight: 'bold', margin: 20},
 });
 
 export default ZoneHistoryView;

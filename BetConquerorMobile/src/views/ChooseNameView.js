@@ -46,20 +46,28 @@ const ChooseNameView = props => {
   };
 
   return (
-    <View>
-      <Text>Choisi un pseudo</Text>
-      <TextInput
-        style={{
-          width: 100,
-          borderWidth: 3,
-          borderColor: 'grey',
-          alignSelf: 'center',
-          padding: 5,
-        }}
-        value={name}
-        onChangeText={value => setName(value)}
-      />
-      <Button title="Valider" onPress={handleOnPress} />
+    <View style={{flex: 1, flexDirection: 'column'}}>
+      <View style={{flex: 0.4, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={{fontWeight: 'bold', fontSize: 30}}>
+          Choisis un pseudo
+        </Text>
+      </View>
+      <View style={{flex: 0.6, flexDirection: 'column'}}>
+        <TextInput
+          style={{
+            flex: 0,
+            width: 200,
+            borderWidth: 3,
+            borderColor: 'grey',
+            alignSelf: 'center',
+            padding: 5,
+          }}
+          value={name}
+          onChangeText={value => setName(value)}
+        />
+        <View style={{flex: 0.3}}></View>
+        <Button style={{flex: 0.7}} title="Valider" onPress={handleOnPress} />
+      </View>
     </View>
   );
 };

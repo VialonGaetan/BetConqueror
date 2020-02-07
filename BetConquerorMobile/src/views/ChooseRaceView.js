@@ -32,7 +32,7 @@ import War from '../models/war';
 
 export class ChooseRaceView extends React.Component {
   static navigationOptions = {
-    title: 'Choix de le classe',
+    title: 'Choix de la classe',
     headerLeft: () => null,
   };
 
@@ -158,20 +158,40 @@ export class ChooseRaceView extends React.Component {
     }
   }
 
-  renderModal() {}
+  renderNumberOfReady() {
+    return this.state.races.filter(race => race.available == false).length;
+  }
 
   render() {
     return (
-      <View>
-        {this.renderModal()}
-        <Text>Veuillez choisir votre classe, {this._client.username}</Text>
+      <View style={{flex: 1, flexDirection: 'column'}}>
+        <View
+          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontWeight: 'bold', fontSize: 30}}>
+            Veuillez choisir votre classe
+          </Text>
+          <Text style={{fontWeight: 'bold', fontSize: 30}}>
+            {this._client.username}
+          </Text>
+        </View>
 
-        <FlatList
-          style={{}}
-          data={this.state.races}
-          renderItem={({item, index}) => this.renderRace(item, index)}
-          keyExtractor={item => item.name}
-        />
+        <View style={{flex: 0.8}}>
+          <FlatList
+            style={{flex: 0.7}}
+            data={this.state.races}
+            renderItem={({item, index}) => this.renderRace(item, index)}
+            keyExtractor={item => item.name}
+          />
+          <Text
+            style={{
+              flex: 0.3,
+              fontWeight: 'bold',
+              alignSelf: 'center',
+              fontSize: 30,
+            }}>
+            {this.renderNumberOfReady()}/4
+          </Text>
+        </View>
       </View>
     );
   }
