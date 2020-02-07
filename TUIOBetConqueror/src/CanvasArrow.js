@@ -12,6 +12,7 @@ class CanvasArrow {
         canvas.style.width = `${this.endX-this.startX}px`;
         canvas.style.height = `${this.endY-this.startY}px`;
         canvas.style.position = 'absolute';
+        canvas.style.zIndex = '1';
         canvas.width = this.endX-this.startX;
         canvas.height = this.endY-this.startY;
         this.ctx = canvas.getContext('2d');
