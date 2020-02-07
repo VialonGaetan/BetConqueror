@@ -24,9 +24,8 @@ class Plot {
 
 
         this.ctx = plot.getContext('2d');
-
+        this.ctx.beginPath();
         this.ctx.fillStyle = "transparent";
-        this.drawImage();
 
 
         $('#game-container').append(plot);
@@ -47,9 +46,9 @@ class Plot {
     }
 
     draw() {
-        this.ctx.beginPath();
         this.ctx.fillRect(this.ctx.lineWidth, this.ctx.lineWidth, this.width - (2 * this.ctx.lineWidth), this.height - (2 * this.ctx.lineWidth));
-        this.ctx.stroke();
+        this.drawImage();
+        this.ctx.fill();
     }
 
     getWidthEvent() {
@@ -61,15 +60,17 @@ class Plot {
     }
 
     highLight(color) {
-        //this.ctx.clearRect(0, 0, this.getWidthEvent(), this.getHeightEvent())
-        this.ctx.fillStyle = color;
-        this.drawImage();
+        var radgrad = this.ctx.createRadialGradient(this.height / 2, this.width / 2, 150, this.height / 2, this.width / 2, 200);
+        radgrad.addColorStop(0, color);
+        radgrad.addColorStop(1, 'transparent');
+
+        this.ctx.fillStyle = radgrad;
         this.draw();
     }
 
     removeHighlight() {
+        this.ctx.clearRect(0, 0, this.getWidthEvent(), this.getHeightEvent())
         this.ctx.fillStyle = "transparent";
-        this.drawImage();
         this.draw();
     }
 }

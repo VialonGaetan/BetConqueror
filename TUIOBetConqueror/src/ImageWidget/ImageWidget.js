@@ -30,7 +30,7 @@ class ImageWidget extends TUIOWidget {
    * @param {number} width - ImageWidget's width.
    * @param {number} height - ImageWidget's height.
    */
-  constructor(x, y, width, height, imgSrc, camp) {
+  constructor(x, y, width, height, camp) {
     super(x, y, width, height);
     this.camp = camp;
     this._lastTouchesValues = {};
@@ -101,29 +101,22 @@ class ImageWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
-    let gameInstance=new GameInstance();
+    let gameInstance = new GameInstance();
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
       let currentPlayer = GameInstance.getInstance().getCurrentPlayer();
       if (currentPlayer != undefined) {
-        if (currentPlayer.tag === tuioTag.id){
-          this.camp.highLight(currentPlayer.color);
-          this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(this.camp.id));
+        if (currentPlayer.tag === tuioTag.id) {
+          if (currentPlayer.position !== this.camp.id) {
+            new GameInstance().getPlotOrCamp(currentPlayer.position).removeHighlight();
+            this.camp.highLight(currentPlayer.color);
+            //this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(this.camp.id));
+          }
         }
       }
-      gameInstance.changePositionOfTag(tuioTag.id, this.camp.id,tuioTag.x,tuioTag.y);
+      gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
     }
   }
 
-  /**
-   * Move ImageWidget.
-   *
-   * @method moveTo
-   * @param {string/number} x - New ImageWidget's abscissa.
-   * @param {string/number} y - New ImageWidget's ordinate.
-   * @param {number} angle - New ImageWidget's angle.
-   */
-  moveTo(x, y, angle = null) {
-  }
 }
 
 export default ImageWidget;

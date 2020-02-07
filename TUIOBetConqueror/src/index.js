@@ -20,21 +20,84 @@ import GameInstance from "./models/GameInstance";
 const tuioManager = new TUIOManager();
 tuioManager.start();
 
-/* Start SocketIO Client */
-//  const socketIOClient = new SocketIOClient()
-//  socketIOClient.start()
 
 //const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
-const SERVER_ADRESS = "ws://localhost:8080/game";
+const SERVER_ADRESS = "ws://192.168.1.16:8080/game";
 
 const socketClient = new SocketClient();
 socketClient.start(SERVER_ADRESS);
+
+const gameInstance = new GameInstance();
+
+
+const newRoundEvent = (message) => {
+  let round = message.players;
+  //TODO remove after debug
+  $("#game-container").append('<canvas id="debug_round"></canvas>');
+  const ctx = document.getElementById("debug_round").getContext("2d");
+  ctx.font = "30 serif";
+
+  let newOrderPlayers = [];
+  round.forEach(el => {
+    let player = {
+      tag: el.unity,
+      spawn: el.spawn,
+      position: gameInstance.getPositionByTag(el.unity)
+    };
+    newOrderPlayers.push(player);
+  });
+  gameInstance.setCurrentTour(newOrderPlayers);
+  let campOrPlot = gameInstance.getPlotOrCamp(
+    gameInstance.getCurrentPlayer().spawn
+  );
+  ctx.clearRect(0, 0, 100, 100);
+  ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
+  //alert(JSON.stringify(campOrPlot));
+  campOrPlot.enableButton();
+
+  //draw arrows
+  let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+  let currentPlayer = gameInstance.getCurrentPlayer();
+  if (currentPlayer.x === 0 && currentPlayer.y === 0)
+    newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+  else
+    newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+
+}
+
+const onMoveEvent = (message) => {
+  gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position).removeHighlight();
+  gameInstance.removePlayerPlayed();
+  if (gameInstance.currentTour.length > 0) {
+    let newCampOrPlot;
+    if (gameInstance.getCurrentTourNumber() === 1)
+      newCampOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().spawn);
+    else
+      newCampOrPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+    newCampOrPlot.highLight(gameInstance.getCurrentPlayer().color);
+    const ctx2 = document.getElementById("debug_round").getContext("2d");
+    ctx2.clearRect(0, 0, 100, 100);
+    ctx2.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
+    //alert(JSON.stringify(campOrPlot));
+    newCampOrPlot.enableButton();
+
+    //draw arrows
+    let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+    let currentPlayer = gameInstance.getCurrentPlayer();
+    if (currentPlayer.x === 0 && currentPlayer.y === 0)
+      newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+    else
+      newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+  }
+}
+
+
+
 
 socketClient._client.onmessage = e => {
   if (e.data !== undefined && JSON.parse(e.data).response !== undefined) {
     let message = JSON.parse(e.data);
     console.log(JSON.stringify(message));
-    let gameInstance = new GameInstance();
 
     switch (message.response) {
       case "RACE_SELECTED":
@@ -54,53 +117,10 @@ socketClient._client.onmessage = e => {
         buildBoard();
         break;
       case "NEW_ROUND":
-        let round = message.players;
-        //TODO remove after debug
-        $("#game-container").append('<canvas id="debug_round"></canvas>');
-        const ctx = document.getElementById("debug_round").getContext("2d");
-        ctx.font = "30 serif";
-
-        let newOrderPlayers = [];
-        round.forEach(el => {
-          let player = {
-            tag: el.unity,
-            spawn: el.spawn,
-            position: gameInstance.getPositionByTag(el.unity)
-          };
-          newOrderPlayers.push(player);
-        });
-        gameInstance.setCurrentTour(newOrderPlayers);
-        let campOrPlot = gameInstance.getPlotOrCamp(
-          gameInstance.getCurrentPlayer().spawn
-        );
-        ctx.clearRect(0, 0, 100, 100);
-        ctx.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
-        //alert(JSON.stringify(campOrPlot));
-        campOrPlot.enableButton();
-
-        //draw arrows
-        let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x, gameInstance.getCurrentPlayer().y,
-            gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+        newRoundEvent(message);
         break;
       case "MOVE":
-        gameInstance.removePlayerPlayed();
-        if (gameInstance.currentTour.length > 0) {
-          let newCampOrPlot = gameInstance.getPlotOrCamp(
-            gameInstance.getCurrentPlayer().spawn
-          );
-          const ctx2 = document.getElementById("debug_round").getContext("2d");
-          ctx2.clearRect(0, 0, 100, 100);
-          ctx2.fillText(gameInstance.getCurrentPlayer().tag, 20, 100);
-          //alert(JSON.stringify(campOrPlot));
-          newCampOrPlot.enableButton();
-
-          //draw arrows
-          let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-          newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x, gameInstance.getCurrentPlayer().y,
-              gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
-        }
-
+        onMoveEvent(message);
         break;
       default:
     }
@@ -109,7 +129,7 @@ socketClient._client.onmessage = e => {
 
 /* App Code */
 const buildApp = () => {
-  $.get("home.html", function(data) {
+  $.get("home.html", function (data) {
     $("#app").html(data);
     QrCode.toCanvas(document.getElementById("qr-code"), SERVER_ADRESS).then(
       () => {
