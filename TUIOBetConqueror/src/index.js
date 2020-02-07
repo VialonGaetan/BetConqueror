@@ -80,7 +80,7 @@ socketClient._client.onmessage = e => {
 
         //draw arrows
         let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x, gameInstance.getCurrentPlayer().y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot.possibleDisplacement)
+        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x, gameInstance.getCurrentPlayer().y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement)
         );
 
         break;
@@ -98,7 +98,7 @@ socketClient._client.onmessage = e => {
 
           //draw arrows
           let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-          newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x, gameInstance.getCurrentPlayer().y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot.possibleDisplacement)
+          newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getCurrentPlayer().x, gameInstance.getCurrentPlayer().y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement)
           );
         }
 
