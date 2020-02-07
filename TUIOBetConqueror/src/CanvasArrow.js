@@ -67,12 +67,12 @@ class CanvasArrow {
         // draw the animation
         this.currentEndArrowsPoints.forEach(element =>{
             this.ctx.beginPath();
-            if(displacementEndArrowPoints.x==element.x && displacementEndArrowPoints.y==element.y) {
+            if(displacementEndArrowPoints.endX == element.endX && displacementEndArrowPoints.endY == element.endY) {
                 this.ctx.fillStyle = "#008000";
             }else {
                 this.ctx.fillStyle = "#FF0000";
             }
-            this.arrow(this.currentStartXArrow, this.currentStartYArrow, element.x, element.y, [0, 0, -20, 5, -10, 5]);
+            this.arrow(this.currentStartXArrow, this.currentStartYArrow, element.endX, element.endY, [0, 0, -20, 5, -10, 5]);
             this.ctx.fill();
             this.ctx.closePath();
         });
