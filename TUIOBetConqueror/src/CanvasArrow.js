@@ -17,10 +17,12 @@ class CanvasArrow {
         canvas.height = this.endY-this.startY;
         this.ctx = canvas.getContext('2d');
         $('#game-container').append(canvas);
-
     }
 
     drawArrow(startXArrow, startYArrow, endArrowsPoints) {
+        //we keep the values
+        this.currentStartXArrow=startXArrow; this.currentStartYArrow=startYArrow;this.currentEndArrowsPoints=endArrowsPoints;
+
         let xIncrement = []; let yIncrement = [];
         let intermediateX = []; let intermediateY = [];
         for(let i=0;i<endArrowsPoints.length;i++){
@@ -57,6 +59,24 @@ class CanvasArrow {
             canvaArrow.ctx.restore();
         }, 30);
         this.clearCanvas();
+    }
+
+    drawDisplacement(displacementEndArrowPoints) {
+        this.clearCanvas();
+        this.ctx.save();
+        // draw the animation
+        this.currentEndArrowsPoints.forEach(element =>{
+            this.ctx.beginPath();
+            if(displacementEndArrowPoints.x==element.x && displacementEndArrowPoints.y==element.y) {
+                this.ctx.fillStyle = "#008000";
+            }else {
+                this.ctx.fillStyle = "#FF0000";
+            }
+            this.arrow(this.currentStartXArrow, this.currentStartYArrow, element.x, element.y, [0, 0, -20, 5, -10, 5]);
+            this.ctx.fill();
+            this.ctx.closePath();
+        });
+        this.ctx.restore();
     }
 
     arrow(startX, startY, endX, endY, controlPoints) {

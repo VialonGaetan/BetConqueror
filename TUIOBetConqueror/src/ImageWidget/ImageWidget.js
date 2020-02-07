@@ -101,13 +101,16 @@ class ImageWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
+    let gameInstance=new GameInstance();
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
       let currentPlayer = GameInstance.getInstance().getCurrentPlayer();
       if (currentPlayer != undefined) {
-        if (currentPlayer.tag === tuioTag.id)
+        if (currentPlayer.tag === tuioTag.id){
           this.camp.highLight(currentPlayer.color);
+          this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(this.camp.id));
+        }
       }
-      new GameInstance().changePositionOfTag(tuioTag.id, this.camp.id,tuioTag.x,tuioTag.y);
+      gameInstance.changePositionOfTag(tuioTag.id, this.camp.id,tuioTag.x,tuioTag.y);
     }
   }
 
