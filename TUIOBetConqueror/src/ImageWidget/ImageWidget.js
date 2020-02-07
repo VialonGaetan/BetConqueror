@@ -102,7 +102,11 @@ class ImageWidget extends TUIOWidget {
    */
   onTagUpdate(tuioTag) {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
-      this.camp.highLight();
+      let currentPlayer = GameInstance.getInstance().getCurrentPlayer();
+      if (currentPlayer != undefined) {
+        if (currentPlayer.tag === tuioTag.id)
+          this.camp.highLight(currentPlayer.color);
+      }
       new GameInstance().changePositionOfTag(tuioTag.id, this.camp.id,tuioTag.x,tuioTag.y);
     }
   }

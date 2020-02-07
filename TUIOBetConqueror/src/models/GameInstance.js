@@ -18,12 +18,14 @@ class GameInstance {
                 position: 0,
                 spawn: 5,
                 x: 0,
-                y:0
+                y:0,
+                color: ""
             },
             {
                 tag: "E1",
                 position: 0,
                 spawn: 5,
+                color: "",
                 x: 0,
                 y:0
             },
@@ -32,12 +34,14 @@ class GameInstance {
                 position: 0,
                 spawn: 6,
                 x: 0,
-                y:0
+                y:0,
+                color: ""
             },
             {
                 tag: "E3",
                 position: 0,
                 spawn: 6,
+                color: "",
                 x: 0,
                 y:0
             },
@@ -45,6 +49,7 @@ class GameInstance {
                 tag: "E4",
                 position: 0,
                 spawn: 7,
+                color: "",
                 x: 0,
                 y:0
             },
@@ -52,6 +57,7 @@ class GameInstance {
                 tag: "E5",
                 position: 0,
                 spawn: 7,
+                color: "",
                 x: 0,
                 y:0
             },
@@ -59,6 +65,7 @@ class GameInstance {
                 tag: "E6",
                 position: 0,
                 spawn: 8,
+                color: "",
                 x: 0,
                 y:0
             },
@@ -66,6 +73,7 @@ class GameInstance {
                 tag: "E7",
                 position: 0,
                 spawn: 8,
+                color: "",
                 x: 0,
                 y:0
             },

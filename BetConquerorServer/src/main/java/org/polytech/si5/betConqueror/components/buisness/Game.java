@@ -1,10 +1,7 @@
 package org.polytech.si5.betConqueror.components.buisness;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.polytech.si5.betConqueror.models.LobbyPlayer;
-import org.polytech.si5.betConqueror.models.Player;
-import org.polytech.si5.betConqueror.models.Race;
-import org.polytech.si5.betConqueror.models.Territory;
+import org.polytech.si5.betConqueror.models.*;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.*;
@@ -42,6 +39,10 @@ public class Game {
 
     public void addLobbyPlayer(LobbyPlayer lobbyPlayer){
         lobbyPlayerList.add(lobbyPlayer);
+    }
+
+    public Player getPlayerByUnity(Unity unity){
+        return this.playerList.stream().filter(player -> player.getRace().getTags().stream().anyMatch(unity1 -> unity1.getTag().equals(unity))).findFirst().get();
     }
 
     public List<Round> getRounds() {

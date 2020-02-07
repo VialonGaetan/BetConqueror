@@ -45,4 +45,5 @@ public class GameSocketHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status){
         logger.info("PingSocketHandler : Close session on socket with ip : " + session.getRemoteAddress().toString());
     }
+
 }

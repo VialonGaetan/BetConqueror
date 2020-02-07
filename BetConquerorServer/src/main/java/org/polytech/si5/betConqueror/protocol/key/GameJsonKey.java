@@ -6,6 +6,7 @@ public enum GameJsonKey {
     TAG("tag"),
     WARS("wars"),
     WAR_ID("warId"),
+    WINNER("winner"),
     TERRITORY_ID("territoryId"),
     PLAYERS("players"),
     NAME("name"),

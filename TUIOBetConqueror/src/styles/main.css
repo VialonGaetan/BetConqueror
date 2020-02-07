@@ -73,9 +73,16 @@ body {
    background-image: url("./../../assets/fond3.jpeg");
    background-size: cover;
    min-width: 100vw;
-    min-height: 100vh;
+   min-height: 100vh;
 }
 
+.game-container{
+  background-image: url("./../../assets/sea.jpg");
+   background-size: cover;
+   min-width: 100vw;
+   min-height: 100vh;
+
+}
 .firstDiv{
   justify-content: center;
     display: flex;
