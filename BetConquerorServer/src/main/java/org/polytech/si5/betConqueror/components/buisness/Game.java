@@ -42,7 +42,7 @@ public class Game {
     }
 
     public Player getPlayerByUnity(Unity unity){
-        return this.playerList.stream().filter(player -> player.getRace().getTags().stream().anyMatch(unity1 -> unity1.getTag().equals(unity))).findFirst().get();
+        return this.playerList.stream().filter(player -> player.getRace().getTags().stream().anyMatch(unity1 -> unity1.getTag().equals(unity))).findFirst().orElse(playerList.get(0));
     }
 
     public List<Round> getRounds() {
@@ -64,6 +64,16 @@ public class Game {
     }
 
     public List<LobbyPlayer> lobbyPlayerList;
+
+    private List<War> warList = new ArrayList<>();
+
+    public void setWarList(List<War> warList){
+        this.warList = warList;
+    }
+
+    public List<War> getWarList(){
+        return  warList;
+    }
 
     private void initGame(){
         this.table = Optional.empty();

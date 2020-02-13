@@ -3,10 +3,10 @@ export default class War {
   winningBet;
   losers;
   tour;
-  constructor(id, players, zoneName) {
+  constructor(id, players, zoneId) {
     this.id = id;
     this.players = players;
-    this.zoneName = zoneName;
+    this.zoneId = zoneId;
     this.hasBet = false;
   }
 }

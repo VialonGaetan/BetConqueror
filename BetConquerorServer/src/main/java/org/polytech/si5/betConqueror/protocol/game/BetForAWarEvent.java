@@ -76,20 +76,22 @@ public class BetForAWarEvent implements EventProtocol {
         Unity unity = optionalUnity.get();
 
 
-
+        
         currentWar.setBetToAPlayer(unity,amount);
 
 
-        messenger.sendSpecificMessageToAUser(generateValidBetResponse(currentWar).toString());
+
+        messenger.sendSpecificMessageToAUser(generateValidBetResponse(currentWar, amount).toString());
 
         if (round.getWars().stream().allMatch(war -> war.getBetPlayers().values().stream().allMatch(bet -> bet > -1)))
             new ResultWarEvent().processEvent();
 
     }
 
-    private JsonObject generateValidBetResponse(War war){
+    private JsonObject generateValidBetResponse(War war,int amount){
         JsonObject response = new JsonObject();
         response.addProperty(GameJsonKey.RESPONSE.key, "BET");
+        response.addProperty(GameJsonKey.AMOUNT.key, amount);
         response.addProperty(GameJsonKey.WAR_ID.key, war.getId());
         return response;
     }

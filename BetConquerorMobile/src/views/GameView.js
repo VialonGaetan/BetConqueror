@@ -1,13 +1,12 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions, Text} from 'react-native';
-import {TabView, SceneMap} from 'react-native-tab-view';
+import {View, StyleSheet, Dimensions, Text, Button} from 'react-native';
+import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
 import WarComponent from '../components/war';
 import GameWebSocket from '../services/GameWebSocket';
+import CountDown from 'react-native-countdown-component';
 
 const FirstRoute = props => (
   <View style={[styles.view]}>
-    <Button title="Recap" onPress={handleOnPressRecap} />
-
     <Text style={[styles.pieces]}>
       {props.username} - {props.pieces} pièces
     </Text>
@@ -24,8 +23,6 @@ const FirstRoute = props => (
 
 const SecondRoute = props => (
   <View style={[styles.view]}>
-    <Button title="Recap" onPress={handleOnPressRecap} />
-
     <Text style={[styles.pieces]}>
       {props.username} - {props.pieces} pièces
     </Text>
@@ -46,15 +43,15 @@ function GameView(props) {
   const [pieces, setPieces] = React.useState(10);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'first', title: 'First'},
-    {key: 'second', title: 'Second'},
+    {key: 'first', title: '1'},
+    {key: 'second', title: '2'},
   ]);
 
   _client = GameWebSocket.getInstance();
 
   const {username} = _client;
-  console.log(username);
   const wars = props.navigation.getParam('wars');
+
   const renderScene = SceneMap({
     first: () => (
       <FirstRoute
@@ -62,6 +59,7 @@ function GameView(props) {
         pieces={pieces}
         setPieces={setPieces}
         war={wars[0]}
+        handleOnPressRecap
       />
     ),
     second: () => (
@@ -70,9 +68,21 @@ function GameView(props) {
         pieces={pieces}
         setPieces={setPieces}
         war={wars[1]}
+        handleOnPressRecap
       />
     ),
   });
+
+  const bet = (warId, value) => {
+    let request = {
+      request: 'BET',
+      userId: this._client.playerID,
+      warId: warId,
+      amount: value,
+    };
+    console.log(request);
+    this._client.sendMessage(request);
+  };
 
   this._client._client.onmessage = e => {
     //alert(JSON.stringify(e));
@@ -82,18 +92,35 @@ function GameView(props) {
       if (data.response === 'BET') {
         wars.find(war => war.id === data.warId).hasBet = true;
         setPieces(pieces - data.amount);
-        console.log(wars);
-      } else if (data.response === 'WARS_OVER') {
-        props.navigation.navigate('WaitingWar', {pieces, warResults: 'sjdl'});
+      } else if (data.response === 'WAR_RESULT') {
+        const warResults = JSON.parse(data.result);
+        props.navigation.navigate('WaitingWar', {pieces, warResults});
       }
     }
   };
+
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      renderLabel={({route, focused, color}) => (
+        <Text
+          style={{
+            color: 'black',
+            fontWeight: focused ? 'bold' : 'normal',
+            margin: 8,
+          }}>
+          {route.title}
+        </Text>
+      )}
+      indicatorStyle={{backgroundColor: 'black'}}
+      style={{backgroundColor: 'lightgreen'}}
+    />
+  );
 
   switch (wars.length) {
     case 0: {
       return (
         <View style={[styles.view]}>
-          <Button title="Recap" onPress={handleOnPressRecap} />
           <Text>Pas de guerre pour vous ce tour. Bien joué !</Text>
         </View>
       );
@@ -101,24 +128,24 @@ function GameView(props) {
     case 2:
       return (
         <TabView
+          renderTabBar={renderTabBar}
           navigationState={{index, routes}}
           renderScene={renderScene}
           onIndexChange={setIndex}
-          initialLayout={initialLayout}
-        />
+          initialLayout={initialLayout}></TabView>
       );
 
     case 1:
       return (
         <View style={[styles.view]}>
-          <Button title="Recap" onPress={handleOnPressRecap} />
-
           <Text style={[styles.pieces]}>
             {username} - {pieces} pièces
           </Text>
 
           <View style={[styles.scene]}>
-            <WarComponent style={[styles.war]} war={wars[0]} pieces={pieces} />
+            <View style={[styles.war]}>
+              <WarComponent war={wars[0]} pieces={pieces} />
+            </View>
           </View>
         </View>
       );
@@ -138,13 +165,14 @@ const styles = StyleSheet.create({
   },
   scene: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   pieces: {
     alignSelf: 'flex-end',
+    fontSize: 15,
+    fontWeight: 'bold',
   },
-  war: {alignItems: 'stretch'},
+  war: {},
 });
 
 GameView.navigationOptions = {

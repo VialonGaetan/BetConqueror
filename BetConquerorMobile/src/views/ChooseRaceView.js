@@ -92,25 +92,6 @@ export class ChooseRaceView extends React.Component {
     };
   }
 
-  renderCheckBox(race, index) {
-    if (race.available) {
-      return (
-        <CheckBox
-          style={{marginLeft: '10%', marginTop: '10%'}}
-          disabled={!race.available}
-          onClick={() => {
-            let request = {
-              request: 'CHOOSE_ROLE',
-              race: race.name,
-              username: this._client.username,
-            };
-            this._client.sendMessage(request);
-          }}
-        />
-      );
-    }
-  }
-
   renderRace(race, index) {
     let borderColor = 'green';
     if (!race.available) {
@@ -127,17 +108,27 @@ export class ChooseRaceView extends React.Component {
           marginTop: '2%',
           alignSelf: 'center',
         }}>
-        <Image
-          source={this.getIconFromRaceName(race.name)}
-          style={{
-            width: 100,
-            height: 100,
-            borderWidth: 2,
-            borderColor: borderColor,
-            borderRadius: 50,
-          }}
-        />
-        {this.renderCheckBox(race, index)}
+        <TouchableOpacity
+          onPress={() => {
+            const request = {
+              request: 'CHOOSE_ROLE',
+              race: race.name,
+              username: this._client.username,
+            };
+            race.available = !race.available;
+            this._client.sendMessage(request);
+          }}>
+          <Image
+            source={this.getIconFromRaceName(race.name)}
+            style={{
+              width: 100,
+              height: 100,
+              borderWidth: 2,
+              borderColor: borderColor,
+              borderRadius: 50,
+            }}
+          />
+        </TouchableOpacity>
       </View>
     );
   }

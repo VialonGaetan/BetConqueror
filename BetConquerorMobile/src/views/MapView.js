@@ -5,6 +5,12 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import War from '../models/war';
 import Zone from '../models/zone';
 
+import Zone1 from '../../assets/Island1.png';
+import Zone2 from '../../assets/Island2.png';
+import Zone3 from '../../assets/Island3.png';
+import Zone4 from '../../assets/Island4.png';
+import Zone5 from '../../assets/Island5.png';
+
 const MapView = props => {
   const war = new War(
     '1',
@@ -30,37 +36,39 @@ const MapView = props => {
     });
   };
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        top: 100,
-      }}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-        <TouchableOpacity onPress={() => onZonePressed(1)}>
-          <ZoneComponent zoneID={1} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onZonePressed(2)}>
-          <ZoneComponent zoneID={2} />
-        </TouchableOpacity>
+    <View style={{flex: 1, backgroundColor: 'lightblue'}}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          top: 50,
+        }}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity onPress={() => onZonePressed(1)}>
+            <ZoneComponent imageSource={Zone4} zoneID={0} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => onZonePressed(2)}>
+            <ZoneComponent imageSource={Zone3} zoneID={2} />
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity onPress={() => onZonePressed(3)}>
+            <ZoneComponent imageSource={Zone1} zoneID={4} />
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity onPress={() => onZonePressed(4)}>
+            <ZoneComponent imageSource={Zone2} zoneID={1} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => onZonePressed(5)}>
+            <ZoneComponent imageSource={Zone5} zoneID={3} />
+          </TouchableOpacity>
+        </View>
+        <View></View>
+        <View></View>
+        <View></View>
       </View>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => onZonePressed(3)}>
-          <ZoneComponent zoneID={3} />
-        </TouchableOpacity>
-      </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-        <TouchableOpacity onPress={() => onZonePressed(4)}>
-          <ZoneComponent zoneID={4} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => onZonePressed(5)}>
-          <ZoneComponent zoneID={5} />
-        </TouchableOpacity>
-      </View>
-      <View></View>
-      <View></View>
-      <View></View>
     </View>
   );
 };

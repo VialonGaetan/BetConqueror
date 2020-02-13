@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Dimensions, Text} from 'react-native';
+import {View, Dimensions, Text, Image} from 'react-native';
 
 class ZoneComponent extends React.Component {
   constructor(props) {
@@ -8,8 +8,11 @@ class ZoneComponent extends React.Component {
   render() {
     const {width, height} = Dimensions.get('window');
     return (
-      <View style={{width: width / 3, height: height / 15, borderWidth: 2}}>
-        <Text>{this.props.zoneID}</Text>
+      <View>
+        <Image
+          style={{width: 200, height: 200}}
+          source={this.props.imageSource}
+        />
       </View>
     );
   }

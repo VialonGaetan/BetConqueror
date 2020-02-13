@@ -29,15 +29,17 @@ public class ResultWarEvent implements EventProtocol {
     public void processEvent() {
 
         for (War war : round.getWars()) {
-            war.getTerritory().setOwner(Collections.max(war.getBetPlayers().entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
+            if (!war.getBetPlayers().isEmpty())
+                war.getTerritory().setOwner(Collections.max(war.getBetPlayers().entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
         }
 
-        game.getPlayerList().stream().forEach(player -> player.getSession().ifPresent(
-                session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessage(player).getAsString())));
+       game.getPlayerList().stream().forEach(player -> player.getSession().ifPresent(
+               session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessage(player).getAsString())));
 
-        game.getTable().ifPresent(session ->
-                new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().getAsString()));
-        new StartRoundEvent().processEvent();
+
+       game.getTable().ifPresent(session ->
+               new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().getAsString()));
+       new StartRoundEvent().processEvent();
     }
 
     private JsonObject generateWarResultMessageForTable() {
@@ -64,6 +66,7 @@ public class ResultWarEvent implements EventProtocol {
             } else
                 continue;
         }
+        response.addProperty(GameJsonKey.RESULT.key, warsResultForThisPlayer.toString());
         return response;
     }
 
@@ -71,7 +74,11 @@ public class ResultWarEvent implements EventProtocol {
         JsonObject warPresent = new JsonObject();
         warPresent.addProperty(GameJsonKey.WAR_ID.key, war.getId());
         if (war.getTerritory().getOwner().isPresent()){
-            warPresent.addProperty(GameJsonKey.WINNER.key, game.getPlayerByUnity(war.getTerritory().getOwner().get()).getName());
+            JsonObject winnerObject = new JsonObject();
+            winnerObject.addProperty(GameJsonKey.UNITY.key, game.getPlayerByUnity(war.getTerritory().getOwner().get()).getRace().getTags().get(0).getTag());
+            winnerObject.addProperty(GameJsonKey.USERNAME.key, game.getPlayerByUnity(war.getTerritory().getOwner().get()).getName());
+
+            warPresent.addProperty(GameJsonKey.WINNER.key, winnerObject.toString());
         }else{
             warPresent.addProperty(GameJsonKey.WINNER.key, "NONE");
         }
@@ -82,7 +89,7 @@ public class ResultWarEvent implements EventProtocol {
             playerInThisWarJsonObject.addProperty(GameJsonKey.AMOUNT.key, war.getBetPlayers().get(playerInThisWar));
             playerInThisWarJsonArray.add(playerInThisWarJsonObject);
         }
-        warPresent.add(GameJsonKey.PLAYERS.key, generatePlayerInThisWarArray(war));
+        warPresent.add(GameJsonKey.PLAYERS.key,playerInThisWarJsonArray );
         warPresent.addProperty(GameJsonKey.TERRITORY_ID.key, war.getTerritory().getId());
         return warPresent;
     }
