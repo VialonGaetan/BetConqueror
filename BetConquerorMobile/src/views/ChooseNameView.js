@@ -65,8 +65,19 @@ const ChooseNameView = props => {
           value={name}
           onChangeText={value => setName(value)}
         />
-        <View style={{flex: 0.3}}></View>
-        <Button style={{flex: 0.7}} title="Valider" onPress={handleOnPress} />
+        <View style={{flex: 0.1}}></View>
+        <TouchableOpacity
+          style={{
+            alignSelf: 'center',
+            justifyContent: 'center',
+            height: 30,
+            width: 70,
+            borderWidth: 2,
+            backgroundColor: 'lightgreen',
+          }}
+          onPress={handleOnPress}>
+          <Text style={{alignSelf: 'center'}}>Valider</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

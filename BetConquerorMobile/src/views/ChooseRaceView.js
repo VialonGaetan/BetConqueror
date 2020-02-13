@@ -159,7 +159,7 @@ export class ChooseRaceView extends React.Component {
         <View
           style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{fontWeight: 'bold', fontSize: 30}}>
-            Veuillez choisir votre classe
+            Veuillez choisir votre classe {'\n'}
           </Text>
           <Text style={{fontWeight: 'bold', fontSize: 30}}>
             {this._client.username}
