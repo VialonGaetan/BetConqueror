@@ -33,13 +33,14 @@ public class ResultWarEvent implements EventProtocol {
                 war.getTerritory().setOwner(Collections.max(war.getBetPlayers().entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
         }
 
-       game.getPlayerList().stream().forEach(player -> player.getSession().ifPresent(
-               session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessage(player).getAsString())));
+//        game.getPlayerList().stream().forEach(player -> player.getSession().ifPresent(
+//                session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessage(player).getAsString())));
 
 
-       game.getTable().ifPresent(session ->
-               new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().getAsString()));
-       new StartRoundEvent().processEvent();
+        new Messenger(game.getPlayerList().get(0).getSession().get()).sendSpecificMessageToAUser(generateWarResultMessage(game.getPlayerList().get(0)).toString());
+//        game.getTable().ifPresent(session ->
+//                new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().getAsString()));
+       // new StartRoundEvent().processEvent();
     }
 
     private JsonObject generateWarResultMessageForTable() {

@@ -76,8 +76,10 @@ public class BetForAWarEvent implements EventProtocol {
         Unity unity = optionalUnity.get();
 
 
-        
+        Optional<Unity> optionalUnity2 = currentWar.getBetPlayers().keySet().stream().filter(unity2 -> !unity.equals(unity2)).findAny();
+        Unity unity2 = optionalUnity2.get();
         currentWar.setBetToAPlayer(unity,amount);
+        currentWar.setBetToAPlayer(unity2,amount+1);
 
 
 

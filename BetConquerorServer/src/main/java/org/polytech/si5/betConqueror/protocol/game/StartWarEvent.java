@@ -7,10 +7,13 @@ import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
 import org.polytech.si5.betConqueror.components.buisness.War;
 import org.polytech.si5.betConqueror.models.Player;
+import org.polytech.si5.betConqueror.models.Territory;
 import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class StartWarEvent implements EventProtocol {
@@ -25,7 +28,6 @@ public class StartWarEvent implements EventProtocol {
     @Override
     public void processEvent() {
         Round round = game.getCurrentRound();
-
         round.generateWar();
 
         game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(informWarsStart().toString()));
@@ -33,7 +35,12 @@ public class StartWarEvent implements EventProtocol {
                 .forEach(player -> player.getSession()
                         .ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResponse(player, round).toString())));
 
+    System.out.println(round.getWars().get(0).getBetPlayers().keySet().size());
+//        game.getPlayerList().stream()
+//                .forEach(player -> player.getSession()
+//                        .ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResponse(player, round).toString())));
 
+    new Messenger(game.getPlayerList().get(0).getSession().get()).sendSpecificMessageToAUser(generateWarResponse(game.getPlayerList().get(0),round).toString());
 
     }
 

@@ -24,6 +24,19 @@ public class Round {
         for (Territory territory: territories) {
             this.territories.add(new Territory(territory.getId(),territory.getOwner()));
         }
+        Territory territory = this.territories.get(0);
+        Game game = Game.getInstance();
+        Territory territory2 = this.territories.get(1);
+
+        territory.addUnity(game.getPlayerList().get(0).getRace().getTags().get(0));
+        territory.addUnity(game.getPlayerList().get(0).getRace().getTags().get(1));
+//        territory.addUnity(game.getPlayerList().get(1).getRace().getTags().get(1));
+//        territory.addUnity(game.getPlayerList().get(2).getRace().getTags().get(1));
+//
+//
+//        territory2.addUnity(game.getPlayerList().get(0).getRace().getTags().get(0));
+//        territory2.addUnity(game.getPlayerList().get(0).getRace().getTags().get(1));
+
         this.wars = new ArrayList<>();
 
     }

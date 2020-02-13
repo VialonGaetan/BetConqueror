@@ -6,6 +6,7 @@ import org.polytech.si5.betConqueror.components.buisness.Game;
 import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
 import org.polytech.si5.betConqueror.models.Race;
+import org.polytech.si5.betConqueror.models.Territory;
 import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
@@ -42,6 +43,9 @@ public class StartRoundEvent implements EventProtocol {
         }
 
         game.addRounds(newRound);
+
+
+        new StartWarEvent().processEvent();
 
         game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateMessageToTable(newRound).toString()));
 
