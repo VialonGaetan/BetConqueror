@@ -2,14 +2,15 @@
 
 @import url('https://fonts.googleapis.com/css?family=Sigmar+One&display=swap');
 #app {
+  margin:0;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
   font-family: 'Roboto', sans-serif;
 }
 
 body {
   background-color: #E8FDFF;
+  overflow: hidden;
 }
 
 .field {
@@ -77,7 +78,7 @@ body {
 }
 
 .game-container{
-  background-image: url("./../../assets/sea.jpg");
+  /* background-image: url("./../../assets/sea.jpg"); */
    background-size: cover;
    min-width: 100vw;
    min-height: 100vh;

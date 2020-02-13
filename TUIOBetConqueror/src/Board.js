@@ -39,6 +39,10 @@ const buildBoard = () => {
   $("#game-container").append(lowCamp.domElem);
   $("#game-container").append(leftCamp.domElem);
   $("#game-container").append(rightCamp.domElem);
+  $("#game-container").append('<canvas id="debug_round"></canvas>');
+
+  $("#game-container").append('<lottie-player src = "assets/sword.json"  background = "transparent"  speed = "1"  style = "width: 400px; height: 400px; position:absolute; top:0; left:0; transform:rotate(315deg); margin-left: -55px; margin-top:-75px;" />');
+  $("#game-container").append('<lottie-player src = "assets/sword.json"  background = "transparent"  speed = "1"  style = "width: 400px; height: 400px; position:absolute; bottom:0; right:0;transform:rotate(135deg); margin-bottom: -70px; margin-right: -65px;" />');
 
   gameInstance.plotAndCamp[0] = topLeft;
   gameInstance.plotAndCamp[1] = downLeft;

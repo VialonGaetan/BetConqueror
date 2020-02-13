@@ -28,12 +28,20 @@ public class StartWarEvent implements EventProtocol {
 
         round.generateWar();
 
+        game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(informWarsStart().toString()));
         game.getPlayerList().stream()
                 .forEach(player -> player.getSession()
                         .ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResponse(player, round).toString())));
 
 
 
+    }
+
+
+    private JsonObject informWarsStart(){
+        JsonObject response = new JsonObject();
+        response.addProperty(GameJsonKey.RESPONSE.key, "START_WARS");
+        return response;
     }
 
     private JsonObject generateWarResponse(Player player, Round round) {

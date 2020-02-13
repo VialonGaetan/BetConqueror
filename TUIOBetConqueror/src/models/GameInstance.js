@@ -15,7 +15,8 @@ class GameInstance {
         this.unities = [
             {
                 tag: "E0",
-                position: 0,
+                faction: "Francais",
+                position: 5,
                 spawn: 5,
                 x: 0,
                 y: 0,
@@ -23,7 +24,8 @@ class GameInstance {
             },
             {
                 tag: "E1",
-                position: 0,
+                faction: "Francais",
+                position: 5,
                 spawn: 5,
                 color: "blue",
                 x: 0,
@@ -31,7 +33,8 @@ class GameInstance {
             },
             {
                 tag: "E2",
-                position: 0,
+                faction: "Olmeques",
+                position: 6,
                 spawn: 6,
                 x: 0,
                 y: 0,
@@ -39,7 +42,8 @@ class GameInstance {
             },
             {
                 tag: "E3",
-                position: 0,
+                faction: "Olmeques",
+                position: 6,
                 spawn: 6,
                 color: "green",
                 x: 0,
@@ -47,7 +51,8 @@ class GameInstance {
             },
             {
                 tag: "E4",
-                position: 0,
+                faction: "Maya",
+                position: 7,
                 spawn: 7,
                 color: "red",
                 x: 0,
@@ -55,7 +60,8 @@ class GameInstance {
             },
             {
                 tag: "E5",
-                position: 0,
+                faction: "Maya",
+                position: 7,
                 spawn: 7,
                 color: "red",
                 x: 0,
@@ -63,7 +69,8 @@ class GameInstance {
             },
             {
                 tag: "E6",
-                position: 0,
+                faction: "Espagnol",
+                position: 8,
                 spawn: 8,
                 color: "yellow",
                 x: 0,
@@ -71,7 +78,8 @@ class GameInstance {
             },
             {
                 tag: "E7",
-                position: 0,
+                faction: "Espagnol",
+                position: 8,
                 spawn: 8,
                 color: "yellow",
                 x: 0,

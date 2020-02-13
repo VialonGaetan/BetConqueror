@@ -33,7 +33,7 @@ class ButtonWidget extends TUIOWidget {
      */
     constructor(x, y, width, height, canvasArrow) {
         super(x, y, width, height);
-        this.canvasArrow=canvasArrow;
+        this.canvasArrow = canvasArrow;
         this._lastTouchesValues = {};
         this._lastTagsValues = {};
         this._domElem = $('<button>');
@@ -45,11 +45,12 @@ class ButtonWidget extends TUIOWidget {
         this._domElem.css('position', 'absolute');
         this._domElem.css('left', `${x}px`);
         this._domElem.css('top', `${y}px`);
+
     }
 
     disable() {
         this.canvasArrow.clearCanvas();
-        this.canvasArrow.movingInProgress=false;
+        this.canvasArrow.movingInProgress = false;
         this._domElem.css('visibility', 'hidden');
         this.activate = false;
     }

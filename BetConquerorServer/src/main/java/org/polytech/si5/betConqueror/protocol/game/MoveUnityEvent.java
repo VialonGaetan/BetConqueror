@@ -74,6 +74,7 @@ public class MoveUnityEvent implements EventProtocol {
 
         if(currentRound.getOrderPlayersAndPlayed().values().stream().allMatch(aBoolean -> aBoolean))
             new StartWarEvent().processEvent();
+            //new StartRoundEvent().processEvent();
 
 
 
