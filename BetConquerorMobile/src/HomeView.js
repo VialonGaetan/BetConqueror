@@ -78,7 +78,7 @@ export class HomeView extends React.Component {
           title="Skip scan"
           onPress={async () => {
             let socket = GameWebSocket.getInstance();
-            await socket.start('ws://localhost:8080/game');
+            await socket.start('ws://172.20.10.3:8080/game');
             if (socket.isConnected) {
               this.props.navigation.navigate('ChooseName');
             } else {

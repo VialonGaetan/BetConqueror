@@ -35,6 +35,8 @@ import EspagnolIcon from '../../assets/icons/EspagnolIcon.png';
 import OlmequesIcon from '../../assets/icons/OlmequesIcon.png';
 import MayaIcon from '../../assets/icons/MayaIcon.png';
 
+const {width, height} = Dimensions.get('window');
+
 const WaitingWarView = props => {
   const _client = GameWebSocket.getInstance();
 
@@ -60,10 +62,31 @@ const WaitingWarView = props => {
     : 0;
   const warResults = props.navigation.getParam('warResults');
 
-  const {width, height} = Dimensions.get('window');
-
   const getWarVsRow = unities => {
     return getIconsVS(unities);
+  };
+
+  const getTerritoryFromId = territoryId => {
+    let imageSource;
+
+    switch (territoryId) {
+      case 0:
+        imageSource = Zone1;
+        break;
+      case 1:
+        imageSource = Zone2;
+        break;
+      case 2:
+        imageSource = Zone3;
+        break;
+      case 3:
+        imageSource = Zone4;
+        break;
+      case 4:
+        imageSource = Zone5;
+        break;
+    }
+    return imageSource;
   };
 
   const getIconsVS = unities => {
@@ -142,27 +165,33 @@ const WaitingWarView = props => {
   const getIconFromUnity = (unity, number) => {
     let icon;
     let backgroundColor;
+    console.log(unity);
+
     switch (unity) {
-      case 'E0' || 'E1':
+      case 'E0':
+      case 'E1':
         icon = FrenchIcon;
-        backgroundColor = 'green';
-        break;
-      case 'E2' || 'E3':
-        icon = EspagnolIcon;
         backgroundColor = 'blue';
         break;
-      case 'E4' || 'E5':
-        icon = OlmequesIcon;
+      case 'E6':
+      case 'E7':
+        icon = EspagnolIcon;
         backgroundColor = 'red';
         break;
-      case 'E6' || 'E7':
-        icon = MayaIcon;
+      case 'E2':
+      case 'E3':
+        icon = OlmequesIcon;
         backgroundColor = 'yellow';
+        break;
+      case 'E4':
+      case 'E5':
+        icon = MayaIcon;
+        backgroundColor = 'green';
 
         break;
       default:
         icon = MayaIcon;
-        backgroundColor = 'red';
+        backgroundColor = 'green';
     }
 
     let widthDivisor = 9;
@@ -171,20 +200,21 @@ const WaitingWarView = props => {
     switch (number) {
       case 1:
         widthDivisor = 5;
-        heightDivisor = 10;
+        heightDivisor = 9;
         break;
       case 2:
         widthDivisor = 10;
-        heightDivisor = 22;
+        heightDivisor = 18;
         break;
       default:
         widthDivisor = 9;
-        heightDivisor = 20;
+        heightDivisor = 18;
     }
 
     return (
       <Image
         style={{
+          margin: 2,
           width: width / widthDivisor,
           height: height / heightDivisor,
           borderWidth: 2,
@@ -216,7 +246,10 @@ const WaitingWarView = props => {
 
         return [
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Image style={{width: 100, height: 100}} source={Zone1} />
+            <Image
+              style={{width: width / 5, height: height / 9}}
+              source={getTerritoryFromId(war.territoryId)}
+            />
           </View>,
           getWarVsRow(war.players),
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -246,7 +279,12 @@ const WaitingWarView = props => {
             />
             {tableData.map((rowData, index) => {
               let backgroundColor = '#ff726f';
-              if (warResults[index].winner.username === _client.username) {
+              console.log(JSON.parse(warResults[index].winner).username);
+              console.log(_client.username);
+              if (
+                JSON.parse(warResults[index].winner).username ==
+                _client.username
+              ) {
                 backgroundColor = 'lightgreen';
               }
               return (
@@ -267,12 +305,15 @@ const WaitingWarView = props => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 0.5}}>
+      <View style={{flex: 0}}>
         <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 'bold'}}>
           Tour x
         </Text>
         <View style={{flexDirection: 'row', marginTop: 40}}>
-          <Image source={hourglassIcon} style={{width: 200, height: 200}} />
+          <Image
+            source={hourglassIcon}
+            style={{width: width / 3, height: height / 6}}
+          />
           <Text
             style={{
               fontSize: 14,
@@ -305,7 +346,7 @@ const WaitingWarView = props => {
 };
 
 const styles = StyleSheet.create({
-  head: {height: 40, backgroundColor: '#f1f8ff'},
+  head: {height: width / 8, backgroundColor: '#f1f8ff'},
   wrapper: {flexDirection: 'row'},
   title: {flex: 2},
   row: {height: 50},
