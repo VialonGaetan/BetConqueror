@@ -25,6 +25,14 @@ public class War {
         this.territory = territory;
     }
 
+    public War(Unity unity, Territory territory) {
+        this.id = UUID.randomUUID().toString();
+        this.betPlayers = new HashMap<>();
+
+        this.betPlayers.put(unity, 0);
+        this.territory = territory;
+    }
+
 
     public void setBetToAPlayer(Unity unity, Integer amount){
         if (this.betPlayers.containsKey(unity))

@@ -56,7 +56,13 @@ public class Round {
 
     public void generateWar(){
         for (Territory territory: this.territories ) {
-            this.wars.add(new War(territory.getUnitiesPresent(),territory));
+            if (territory.getUnitiesPresent().size() == 1){
+                this.wars.add(new War(territory.getUnitiesPresent().get(0),territory));
+            }
+            else{
+
+                this.wars.add(new War(territory.getUnitiesPresent(),territory));
+            }
         }
     }
 }
