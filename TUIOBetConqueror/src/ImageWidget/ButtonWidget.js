@@ -49,8 +49,7 @@ class ButtonWidget extends TUIOWidget {
     }
 
     disable() {
-        this.canvasArrow.clearCanvas();
-        this.canvasArrow.movingInProgress = false;
+        this.canvasArrow.reset();
         this._domElem.css('visibility', 'hidden');
         this.activate = false;
     }

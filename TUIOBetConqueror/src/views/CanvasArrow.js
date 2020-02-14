@@ -38,18 +38,17 @@ class CanvasArrow {
     }
     let t = 0;
     const canvaArrow = this;
-    const timer = setInterval(function () {
+    this.timer = setInterval(function () {
       for (let i = 0; i < endArrowsPoints.length; i++) {
         intermediateX[i] += xIncrement[i];
         intermediateY[i] += yIncrement[i];
       }
       t = t + 1;
       if (t > 100) {
-        clearInterval(timer);
+        clearInterval(this.timer);
         return;
       }
       canvaArrow.clearCanvas();
-      canvaArrow.ctx.save();
       // draw the animation
       for (let i = 0; i < endArrowsPoints.length; i++) {
         const newX = startXArrow + intermediateX[i];
@@ -60,16 +59,13 @@ class CanvasArrow {
         canvaArrow.ctx.fill();
         canvaArrow.ctx.closePath();
       }
-      ;
-      canvaArrow.ctx.restore();
     }, 30);
   }
 
   drawDisplacement(displacementEndArrowPoints) {
-    console.log(displacementEndArrowPoints)
     if (this.movingInProgress) {
+      this.clearInterval();
       this.clearCanvas();
-      this.ctx.save();
       // draw the animation
       this.currentEndArrowsPoints.forEach(element => {
         this.ctx.beginPath();
@@ -82,7 +78,6 @@ class CanvasArrow {
         this.ctx.fill();
         this.ctx.closePath();
       });
-      this.ctx.restore();
     }
   }
 
@@ -119,6 +114,16 @@ class CanvasArrow {
 
   clearCanvas() {
     this.ctx.clearRect(this.startX, this.startY, this.endX, this.endY);
+  }
+
+  clearInterval() {
+    clearInterval(this.timer);
+  }
+
+  reset(){
+    this.clearInterval();
+    this.clearCanvas();
+    this.movingInProgress = false;
   }
 }
 
