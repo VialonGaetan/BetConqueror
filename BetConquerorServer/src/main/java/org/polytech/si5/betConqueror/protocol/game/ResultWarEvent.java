@@ -34,11 +34,11 @@ public class ResultWarEvent implements EventProtocol {
         }
 
        game.getPlayerList().stream().forEach(player -> player.getSession().ifPresent(
-               session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessage(player).getAsString())));
+               session -> new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessage(player).toString())));
 
 
        game.getTable().ifPresent(session ->
-               new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().getAsString()));
+               new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().toString()));
        new StartRoundEvent().processEvent();
     }
 

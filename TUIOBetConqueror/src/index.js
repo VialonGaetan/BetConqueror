@@ -9,20 +9,21 @@ import QrCode from "qrcode";
 import SocketClient from "./SocketClient/SocketClient";
 import mySocketHandler from "./SocketClient/SocketHandler";
 import speak from './Speaker'
+import buildBoard from "./views/Board";
 
 /* TUIOManager start */
 const tuioManager = new TUIOManager();
 tuioManager.start();
 
 
-const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
-//const SERVER_ADRESS = "ws://192.168.1.3:8080/game";
+//const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
+const SERVER_ADRESS = "ws://192.168.1.29:8080/game";
 
 const socketClient = new SocketClient();
 socketClient.start(SERVER_ADRESS);
 
 export const audio = new Audio();
-audio.volume = 0.4;
+audio.volume = 0;
 audio.loop = true;
 
 
@@ -53,5 +54,6 @@ const buildApp = () => {
 };
 
 $(window).ready(() => {
+
   buildApp();
 });

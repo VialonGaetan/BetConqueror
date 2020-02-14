@@ -159,7 +159,7 @@ class GameInstance {
 
 
     changePositionOfTag(tag, position, x, y) {
-        console.log("CHANGE POSITION : " + position + " AND TAG " + position)
+        //console.log("CHANGE POSITION : " + position + " AND TAG " + position)
         if (tag != undefined) {
             let unity = this.unities.find((el) => el.tag == String(tag));
             if (position != undefined && unity != undefined)
@@ -188,6 +188,7 @@ class GameInstance {
     }
 
     getPlotOrCamp(position) {
+        console.log("GET CAMP POSITION : " + position)
         return this.plotAndCamp[position];
     }
 

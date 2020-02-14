@@ -75,7 +75,8 @@ const onMoveEvent = (message) => {
 
         updateCurrentPlayerText();
         //alert(JSON.stringify(campOrPlot));
-        newCampOrPlot.enableButton();
+        let spawn = gameInstance.getPlotOrCamp(currentPlayer.spawn);
+        spawn.enableButton();
         speak(currentPlayer.faction + ", c'est à votre tour. Jouez le pion " + currentPlayer.tag);
 
         drawArrows(currentPlayer)
@@ -101,9 +102,9 @@ const newRoundEvent = (message) => {
     newCampOrPlot.highLight(currentPlayer.color);
 
     updateCurrentPlayerText();
-
     //alert(JSON.stringify(campOrPlot));
-    newCampOrPlot.enableButton();
+    let spawn = gameInstance.getPlotOrCamp(currentPlayer.spawn);
+    spawn.enableButton();
     speak(currentPlayer.faction + ", c'est à votre tour. Jouez le pion " + currentPlayer.tag);
 
     drawArrows(currentPlayer);

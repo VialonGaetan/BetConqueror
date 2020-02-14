@@ -1,5 +1,3 @@
-
-
 const synth = window.speechSynthesis;
 
 
@@ -9,8 +7,8 @@ const speak = (message) => {
     utterThis.volume = 10;
     utterThis.lang = "fr-FR";
     console.log(synth.getVoices())
-    utterThis.voice = synth.getVoices()[9];
-    synth.speak(utterThis);
+    utterThis.voice = synth.getVoices()[7];
+    //synth.speak(utterThis);
 }
 
 
