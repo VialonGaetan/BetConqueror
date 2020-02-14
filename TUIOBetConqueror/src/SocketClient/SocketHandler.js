@@ -4,6 +4,7 @@ import speak from './../Speaker';
 import { audio } from './../index';
 import buildBoard from "../views/Board";
 import { getRaceValue } from "./../Race";
+import buildEndGame from '../views/EndGame';
 
 
 const gameInstance = new GameInstance();
@@ -28,6 +29,9 @@ const mySocketHandler = (e) => {
                 break;
             case "START_WARS":
                 onWarsStart();
+                break;
+            case "GAME_END":
+                buildEndGame();
                 break;
             default:
         }
