@@ -38,10 +38,15 @@ const HistoryNavigator = createStackNavigator({
   ZoneHistory: {screen: ZoneHistoryView},
 });
 
-const WarNavigator = createStackNavigator({
-  WaitingWar: {screen: WaitingWarView},
-  GameScreen: {screen: GameView},
-});
+const WarNavigator = createSwitchNavigator(
+  {
+    WaitingWar: {screen: WaitingWarView},
+    GameScreen: {screen: GameView},
+  },
+  {
+    initialRouteName: 'WaitingWar',
+  },
+);
 
 const GameNavigator = createBottomTabNavigator(
   {
