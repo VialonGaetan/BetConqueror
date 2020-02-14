@@ -253,7 +253,7 @@ const WaitingWarView = props => {
           </View>,
           getWarVsRow(war.players),
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            {getIconFromUnity(war.winner.unity, 1)}
+            {getIconFromUnity(JSON.parse(warResults[index].winner).unity, 1)}
           </View>,
           stringMises,
         ];
@@ -279,8 +279,7 @@ const WaitingWarView = props => {
             />
             {tableData.map((rowData, index) => {
               let backgroundColor = '#ff726f';
-              console.log(JSON.parse(warResults[index].winner).username);
-              console.log(_client.username);
+
               if (
                 JSON.parse(warResults[index].winner).username ==
                 _client.username
