@@ -51,15 +51,6 @@ class SocketClient {
         };
     }
 
-    handlePing() {
-        console.log("Handle PING")
-        if (this.ready) {
-            console.log(`Received PING from WEB!`)
-            this._client.send("PONG")
-        }
-        setTimeout(this.handlePing, 500)
-    }
-
     sendMessage(message) {
         this._client.send(JSON.stringify(message))
         console.log("MESSAGE SEND : " + JSON.stringify(message))
