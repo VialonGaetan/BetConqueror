@@ -11,9 +11,6 @@ import buildBoard from "./Board";
 import { getRaceValue } from "./Race";
 import GameInstance from "./models/GameInstance";
 
-
-
-
 /* TUIOManager start */
 const tuioManager = new TUIOManager();
 tuioManager.start();
@@ -42,9 +39,7 @@ const speak = (message) => {
   console.log(synth.getVoices())
   utterThis.voice = synth.getVoices()[9];
   synth.speak(utterThis);
-
 }
-
 
 const updateGame = (newCurrentRound) => {
   let newOrderPlayers = [];
@@ -74,7 +69,6 @@ const drawArrows = (currentPlayer) => {
     newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
   else
     newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
-
 }
 
 const newRoundEvent = (message) => {
@@ -199,9 +193,8 @@ const buildApp = () => {
     speak(welcomeMessage1);
     speak(welcomeMessage2);
   });
-
 };
 
 $(window).ready(() => {
-  buildBoard();
+  buildApp();
 });

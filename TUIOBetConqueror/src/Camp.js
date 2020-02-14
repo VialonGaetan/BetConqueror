@@ -20,14 +20,10 @@ class Camp {
     camp.style.position = 'absolute';
     camp.width = this.getWidthEvent();
     camp.height = this.getHeightEvent();
-
-
     this.ctx = camp.getContext('2d');
-    this.ctx.fillStyle = "transparent";
+    this.ctx.fillStyle = 'transparent';
     //this.ctx.strokeStyle = "transparent";
     this.drawImage();
-
-
     $('#game-container').append(camp);
     const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100, this.canvasArrow);
     this.button = button;
@@ -137,7 +133,7 @@ class Camp {
 
   removeHighlight() {
     this.ctx.clearRect(0, 0, this.getWidthEvent(), this.getHeightEvent())
-    this.ctx.fillStyle = "transparent";
+    this.ctx.fillStyle = 'transparent';
     this.drawImage();
     this.draw();
   }
@@ -145,7 +141,6 @@ class Camp {
   enableButton() {
     this.button.enable();
   }
-
-
 }
+
 export default Camp;

@@ -4,9 +4,11 @@ import Camp from "./Camp";
 import { WINDOW_HEIGHT, WINDOW_WIDTH } from "tuiomanager/core/constants";
 import Plot from "./Plot";
 import GameInstance from "./models/GameInstance";
+import CanvasArrow from "./CanvasArrow";
+
 const buildBoard = () => {
-  $("#app").empty();
-  $("#app").append('<div id="game-container" class="game-container"> </div>');
+  $('#app').empty();
+  $('#app').append('<div id="game-container" class="game-container"> </div>');
 
 
   let gameInstance = new GameInstance();
@@ -55,5 +57,4 @@ const buildBoard = () => {
   gameInstance.plotAndCamp[8] = rightCampForm;
 };
 
-import CanvasArrow from "./CanvasArrow";
 export default buildBoard;

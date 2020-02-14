@@ -2,12 +2,7 @@
  * @author Christian Brel <ch.brel@gmail.com>
  */
 
-// Import JQuery
-import $ from 'jquery/dist/jquery.min';
-
 import TUIOWidget from 'tuiomanager/core/TUIOWidget';
-import { WINDOW_WIDTH, WINDOW_HEIGHT } from 'tuiomanager/core/constants';
-import { radToDeg } from 'tuiomanager/core/helpers';
 import GameInstance from '../models/GameInstance';
 
 /**
@@ -109,14 +104,15 @@ class ImageWidget extends TUIOWidget {
           if (currentPlayer.position !== this.camp.id) {
             new GameInstance().getPlotOrCamp(currentPlayer.position).removeHighlight();
             this.camp.highLight(currentPlayer.color);
-            //this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(this.camp.id));
+            const tempID = []
+            tempID.push(this.camp.id);
+            this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(tempID));
           }
         }
       }
       gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
     }
   }
-
 }
 
 export default ImageWidget;
