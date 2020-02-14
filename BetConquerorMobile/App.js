@@ -38,10 +38,15 @@ const HistoryNavigator = createStackNavigator({
   ZoneHistory: {screen: ZoneHistoryView},
 });
 
-const WarNavigator = createStackNavigator({
-  WaitingWar: {screen: WaitingWarView},
-  GameScreen: {screen: GameView},
-});
+const WarNavigator = createSwitchNavigator(
+  {
+    WaitingWar: {screen: WaitingWarView},
+    GameScreen: {screen: GameView},
+  },
+  {
+    initialRouteName: 'WaitingWar',
+  },
+);
 
 const GameNavigator = createBottomTabNavigator(
   {
@@ -85,15 +90,10 @@ const GameNavigator = createBottomTabNavigator(
 console.disableYellowBox = true;
 
 const App = createAppContainer(
-  createSwitchNavigator(
-    {
-      Lobby: LobbyNavigator,
-      Game: GameNavigator,
-    },
-    {
-      initialRouteName: 'Lobby',
-    },
-  ),
+  createSwitchNavigator({
+    Lobby: LobbyNavigator,
+    Game: GameNavigator,
+  }),
 );
 
 export default App;
