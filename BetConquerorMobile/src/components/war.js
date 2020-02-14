@@ -96,9 +96,10 @@ class WarComponent extends React.Component {
                 borderColor: 'grey',
                 alignSelf: 'center',
                 padding: 5,
-                minWidth: 50,
-                height: 40,
+                minWidth: width / 9,
+                height: height / 18,
                 textAlign: 'center',
+                color: 'black',
               }}
               keyboardType={'numeric'}
               value={'' + this.state.betValue}
@@ -118,8 +119,8 @@ class WarComponent extends React.Component {
             style={{
               alignSelf: 'center',
               justifyContent: 'center',
-              height: 30,
-              width: 70,
+              height: height / 20,
+              width: width / 7,
               borderWidth: 2,
               backgroundColor: 'lightgreen',
             }}
@@ -168,8 +169,8 @@ class WarComponent extends React.Component {
       <Image
         style={{
           alignSelf: 'center',
-          width: 190,
-          height: 190,
+          width: width / 2.5,
+          height: height / 4.75,
           resizeMode: 'cover',
         }}
         source={imageSource}
@@ -179,34 +180,41 @@ class WarComponent extends React.Component {
   getIconFromUnity(unity) {
     let icon;
     let backgroundColor;
+    console.log(unity);
+
     switch (unity) {
-      case 'E0' || 'E1':
+      case 'E0':
+      case 'E1':
         icon = FrenchIcon;
-        backgroundColor = 'green';
-        break;
-      case 'E2' || 'E3':
-        icon = EspagnolIcon;
         backgroundColor = 'blue';
         break;
-      case 'E4' || 'E5':
-        icon = OlmequesIcon;
+      case 'E6':
+      case 'E7':
+        icon = EspagnolIcon;
         backgroundColor = 'red';
         break;
-      case 'E6' || 'E7':
-        icon = MayaIcon;
+      case 'E2':
+      case 'E3':
+        icon = OlmequesIcon;
         backgroundColor = 'yellow';
+        break;
+      case 'E4':
+      case 'E5':
+        icon = MayaIcon;
+        backgroundColor = 'green';
 
         break;
       default:
         icon = MayaIcon;
-        backgroundColor = 'red';
+        backgroundColor = 'green';
     }
-
-    let widthDivisor = 4.5;
-    let heightDivisor = 10;
+    console.log(backgroundColor);
+    let widthDivisor = 5;
+    let heightDivisor = 9;
 
     if (this.props.war.players.length === 4) {
       widthDivisor += 0.5;
+      heightDivisor += 0.5;
     }
 
     return (
@@ -268,10 +276,13 @@ class WarComponent extends React.Component {
             })}
           </View>
           {this.renderBetInput()}
-          <Image style={{width: 80, height: 80}} source={SwordsIcon} />
+          <Image
+            style={{width: width / 5, height: height / 9}}
+            source={SwordsIcon}
+          />
         </View>
         <CountDown
-          until={20}
+          until={9999}
           // onFinish={() => {
           //   alert('Fin des guerres !');
           //   bet(wars[0].id, 0);

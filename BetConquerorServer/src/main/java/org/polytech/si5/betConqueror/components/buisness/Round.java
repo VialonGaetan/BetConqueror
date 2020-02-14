@@ -30,12 +30,12 @@ public class Round {
 
         territory.addUnity(game.getPlayerList().get(0).getRace().getTags().get(0));
         territory.addUnity(game.getPlayerList().get(0).getRace().getTags().get(1));
-//        territory.addUnity(game.getPlayerList().get(1).getRace().getTags().get(1));
-//        territory.addUnity(game.getPlayerList().get(2).getRace().getTags().get(1));
+        territory.addUnity(game.getPlayerList().get(1).getRace().getTags().get(1));
+        territory.addUnity(game.getPlayerList().get(2).getRace().getTags().get(1));
 //
 //
-//        territory2.addUnity(game.getPlayerList().get(0).getRace().getTags().get(0));
-//        territory2.addUnity(game.getPlayerList().get(0).getRace().getTags().get(1));
+        territory2.addUnity(game.getPlayerList().get(0).getRace().getTags().get(0));
+        territory2.addUnity(game.getPlayerList().get(0).getRace().getTags().get(1));
 
         this.wars = new ArrayList<>();
 

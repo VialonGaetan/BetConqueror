@@ -10,7 +10,7 @@ class ZoneComponent extends React.Component {
     return (
       <View>
         <Image
-          style={{width: 200, height: 200}}
+          style={{width: width / 2.25, height: height / 4.5}}
           source={this.props.imageSource}
         />
       </View>

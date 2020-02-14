@@ -19,6 +19,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  Dimensions,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import GameWebSocket from '../services/GameWebSocket';
@@ -29,6 +30,8 @@ import OlmequesIcon from '../../assets/icons/OlmequesIcon.png';
 import MayaIcon from '../../assets/icons/MayaIcon.png';
 import Race from '../models/race';
 import War from '../models/war';
+
+const {width, height} = Dimensions.get('window');
 
 export class ChooseRaceView extends React.Component {
   static navigationOptions = {
@@ -93,12 +96,14 @@ export class ChooseRaceView extends React.Component {
   }
 
   renderRace(race, index) {
-    let borderColor = 'green';
+    let opacity = 1;
+    let borderColor = 'transparent';
     if (!race.available) {
-      borderColor = 'red';
+      opacity = 0.5;
     }
     if (race.isMine) {
-      borderColor = 'blue';
+      opacity = 1;
+      borderColor = 'black';
     }
     return (
       <View
@@ -121,11 +126,13 @@ export class ChooseRaceView extends React.Component {
           <Image
             source={this.getIconFromRaceName(race.name)}
             style={{
-              width: 100,
-              height: 100,
-              borderWidth: 2,
+              opacity: opacity,
+              width: width / 5,
+              height: height / 9,
+              borderWidth: 5,
               borderColor: borderColor,
-              borderRadius: 50,
+              borderRadius: width / 10,
+              backgroundColor: this.getColorFromRaceName(race.name),
             }}
           />
         </TouchableOpacity>
@@ -149,6 +156,21 @@ export class ChooseRaceView extends React.Component {
     }
   }
 
+  getColorFromRaceName(raceName) {
+    switch (raceName) {
+      case 'Francais':
+        return 'blue';
+      case 'Espagnol':
+        return 'red';
+      case 'Olmeques':
+        return 'yellow';
+      case 'Maya':
+        return 'green';
+      default:
+        return 'blue';
+    }
+  }
+
   renderNumberOfReady() {
     return this.state.races.filter(race => race.available == false).length;
   }
@@ -158,7 +180,7 @@ export class ChooseRaceView extends React.Component {
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View
           style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{fontWeight: 'bold', fontSize: 30}}>
+          <Text style={{fontWeight: 'bold', fontSize: 25}}>
             Veuillez choisir votre classe
           </Text>
           <Text style={{fontWeight: 'bold', fontSize: 30}}>
@@ -166,16 +188,16 @@ export class ChooseRaceView extends React.Component {
           </Text>
         </View>
 
-        <View style={{flex: 0.8}}>
+        <View style={{flex: 0.7}}>
           <FlatList
-            style={{flex: 0.7}}
+            style={{}}
             data={this.state.races}
             renderItem={({item, index}) => this.renderRace(item, index)}
             keyExtractor={item => item.name}
           />
           <Text
             style={{
-              flex: 0.3,
+              flex: 0,
               fontWeight: 'bold',
               alignSelf: 'center',
               fontSize: 30,

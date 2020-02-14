@@ -85,7 +85,7 @@ public class BetForAWarEvent implements EventProtocol {
 
         messenger.sendSpecificMessageToAUser(generateValidBetResponse(currentWar, amount).toString());
 
-        if (round.getWars().stream().allMatch(war -> war.getBetPlayers().values().stream().allMatch(bet -> bet > -1)))
+//        if (round.getWars().stream().allMatch(war -> war.getBetPlayers().values().stream().allMatch(bet -> bet > -1)))
             new ResultWarEvent().processEvent();
 
     }

@@ -1,3 +1,5 @@
+import React from 'react';
+import {Image} from 'react-native';
 import {HomeView} from './src/HomeView';
 import {ScanView} from './src/views/ScanView';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
@@ -10,8 +12,10 @@ import ChooseNameView from './src/views/ChooseNameView';
 import WaitingWarView from './src/views/WaitingWarView';
 import MapView from './src/views/MapView';
 import ZoneHistoryView from './src/views/ZoneHistoryView';
-import RecapView from './src/views/RecapView';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
+
+import SwordsIcon from './assets/icons/swords3.png';
+import HistoryIcon from './assets/icons/history.png';
 
 /**
  * Sample React Native App
@@ -41,33 +45,44 @@ const WarNavigator = createStackNavigator({
 
 const GameNavigator = createBottomTabNavigator(
   {
-    War: {screen: WarNavigator},
-    History: {screen: HistoryNavigator},
+    War: {
+      screen: WarNavigator,
+      navigationOptions: {
+        tabBarLabel: 'Guerre',
+        tabBarIcon: ({focused, horizontal, tintColor}) => {
+          return (
+            <Image
+              source={SwordsIcon}
+              style={{tintColor, width: 30, height: 30}}
+            />
+          );
+        },
+      },
+    },
+    History: {
+      screen: HistoryNavigator,
+      navigationOptions: {
+        tabBarLabel: 'Stats',
+        tabBarIcon: ({focused, horizontal, tintColor}) => {
+          return (
+            <Image
+              source={HistoryIcon}
+              style={{tintColor, width: 30, height: 30}}
+            />
+          );
+        },
+      },
+    },
   },
   {
-    defaultNavigationOptions: ({navigation}) => ({
-      // tabBarIcon: ({focused, horizontal, tintColor}) => {
-      //   const {routeName} = navigation.state;
-      //   let IconComponent = Ionicons;
-      //   let iconName;
-      //   if (routeName === 'Lobby') {
-      //     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-      //   } else if (routeName === 'Game') {
-      //     iconName = `ios-checkmark-circle${focused ? '' : '-outline'}`;
-      //   }
-      //   return (
-      //     <View>
-      //       <Text>ojidj</Text>
-      //     </View>
-      //   );
-      // },
-    }),
     tabBarOptions: {
       activeTintColor: '#42f44b',
       inactiveTintColor: 'gray',
     },
   },
 );
+
+console.disableYellowBox = true;
 
 const App = createAppContainer(
   createSwitchNavigator(
