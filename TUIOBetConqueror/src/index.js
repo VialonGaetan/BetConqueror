@@ -80,6 +80,8 @@ const newRoundEvent = (message) => {
     lottie.style.visibility = "hidden";
   });
   console.log(animator);
+  audio.src = 'assets/naval.mp3'
+  audio.play();
 
   let round = message.players;
   updateGame(round);
@@ -134,6 +136,8 @@ const onFactionSelected = (message) => {
 const onWarsStart = () => {
   let background = document.getElementById("game-container");
   background.style.backgroundImage = "url('assets/RedSea.jpg')";
+  audio.src = 'assets/sword-music.mp3';
+  audio.play();
   let animator = document.querySelectorAll("lottie-player");
   animator.forEach((lottie) => {
     lottie.style.visibility = "visible";
