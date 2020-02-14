@@ -172,7 +172,6 @@ class WarComponent extends React.Component {
           alignSelf: 'center',
           width: width / 2.5,
           height: height / 4.75,
-          resizeMode: 'cover',
         }}
         source={imageSource}
       />
@@ -237,7 +236,7 @@ class WarComponent extends React.Component {
       <View style={{flex: 1}}>
         <View
           style={{
-            flex: 0.9,
+            flex: 1,
             flexDirection: 'column',
             alignItems: 'center',
           }}>
@@ -248,7 +247,6 @@ class WarComponent extends React.Component {
               borderWitdth: 2,
               borderColor: 'black',
               backgroundColor: 'lightblue',
-              alignSelf: 'stretch',
             }}>
             {this.getTerritoryFromId()}
           </View>

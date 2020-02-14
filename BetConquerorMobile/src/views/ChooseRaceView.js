@@ -23,7 +23,7 @@ import {
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import GameWebSocket from '../services/GameWebSocket';
-import { StackActions, NavigationActions } from 'react-navigation';
+import {StackActions, NavigationActions} from 'react-navigation';
 import FrenchIcon from '../../assets/icons/FrenchIcon.png';
 import EspagnolIcon from '../../assets/icons/EspagnolIcon.png';
 import OlmequesIcon from '../../assets/icons/OlmequesIcon.png';
@@ -58,7 +58,7 @@ export class ChooseRaceView extends React.Component {
       if (e.data !== undefined) {
         const data = JSON.parse(e.data);
         if (data.response === 'OK') {
-          this.setState({ showModal: true });
+          this.setState({showModal: true});
         } else if (data.response === 'RACE_SELECTED') {
           let newRaces = this.state.races;
           console.log(this._client.playerID);
@@ -76,14 +76,14 @@ export class ChooseRaceView extends React.Component {
               ).isMine = false;
             }
           });
-          this.setState({ races: newRaces });
+          this.setState({races: newRaces});
         } else if (data.response === 'GAME_START') {
           this.props.navigation.navigate('WaitingWar');
         } else if (data.response === 'KO') {
           if (data.reason === 'FULL') {
             const resetAction = StackActions.reset({
               index: 0,
-              actions: [NavigationActions.navigate({ routeName: 'Home' })],
+              actions: [NavigationActions.navigate({routeName: 'Home'})],
             });
             this.props.navigation.dispatch(resetAction);
             //this.props.navigation.navigate("Home")
@@ -129,7 +129,7 @@ export class ChooseRaceView extends React.Component {
               opacity: opacity,
               width: width / 5,
               height: height / 9,
-              borderWidth: 5,
+              borderWidth: 7,
               borderColor: borderColor,
               borderRadius: width / 10,
               backgroundColor: this.getColorFromRaceName(race.name),
@@ -172,7 +172,8 @@ export class ChooseRaceView extends React.Component {
   }
 
   renderNumberOfReady() {
-    return this.state.races.filter(race => race.available == false).length; }
+    return this.state.races.filter(race => race.available == false).length;
+  }
 
   render() {
     return (
@@ -191,7 +192,7 @@ export class ChooseRaceView extends React.Component {
           <FlatList
             style={{}}
             data={this.state.races}
-            renderItem={({ item, index }) => this.renderRace(item, index)}
+            renderItem={({item, index}) => this.renderRace(item, index)}
             keyExtractor={item => item.name}
           />
           <Text
