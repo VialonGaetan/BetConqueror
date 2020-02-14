@@ -90,15 +90,10 @@ const GameNavigator = createBottomTabNavigator(
 console.disableYellowBox = true;
 
 const App = createAppContainer(
-  createSwitchNavigator(
-    {
-      Lobby: LobbyNavigator,
-      Game: GameNavigator,
-    },
-    {
-      initialRouteName: 'Lobby',
-    },
-  ),
+  createSwitchNavigator({
+    Lobby: LobbyNavigator,
+    Game: GameNavigator,
+  }),
 );
 
 export default App;
