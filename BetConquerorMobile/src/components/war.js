@@ -91,6 +91,7 @@ class WarComponent extends React.Component {
         <View style={{flex: 0.2, flexDirection: 'row'}}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
             <TextInput
+              editable={false}
               style={{
                 borderWidth: 3,
                 borderColor: 'grey',

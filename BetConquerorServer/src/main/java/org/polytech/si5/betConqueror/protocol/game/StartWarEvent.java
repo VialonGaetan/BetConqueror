@@ -52,7 +52,7 @@ public class StartWarEvent implements EventProtocol {
         JsonArray warsForThisPlayer = new JsonArray();
 
         for(War war : round.getWars()) {
-            if (player.getRace().getTags().stream().anyMatch(unity -> war.getBetPlayers().containsKey(unity)) || war.getBetPlayers().size() > 1) {
+            if (player.getRace().getTags().stream().anyMatch(unity -> war.getBetPlayers().containsKey(unity)) && war.getBetPlayers().size() > 1) {
                 JsonObject warPresent = new JsonObject();
                 warPresent.addProperty(GameJsonKey.WAR_ID.key, war.getId());
                 JsonArray playerInThisWarJsonArray = new JsonArray();

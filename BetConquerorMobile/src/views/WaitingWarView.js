@@ -238,9 +238,10 @@ const WaitingWarView = props => {
         war.players.forEach((player, index) => {
           if (index === war.players.length - 1) {
             stringVS += player.username;
-            return (stringMises += player.amount);
+            return (stringMises += player.amount > 0 ? player.amount : 0);
           }
-          stringMises += player.amount + ' VS ';
+          stringMises +=
+            player.amount > 0 ? player.amount + ' VS ' : 0 + ' VS ';
           stringVS += player.username + ' VS ';
         });
 
@@ -253,7 +254,11 @@ const WaitingWarView = props => {
           </View>,
           getWarVsRow(war.players),
           <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            {getIconFromUnity(JSON.parse(warResults[index].winner).unity, 1)}
+            {JSON.parse(war.winner).unity ? (
+              getIconFromUnity(JSON.parse(war.winner).unity, 1)
+            ) : (
+              <View></View>
+            )}
           </View>,
           stringMises,
         ];
@@ -279,7 +284,9 @@ const WaitingWarView = props => {
             />
             {tableData.map((rowData, index) => {
               let backgroundColor = '#ff726f';
-
+              if (!JSON.parse(warResults[index].winner).username) {
+                backgroundColor = 'transparent';
+              }
               if (
                 JSON.parse(warResults[index].winner).username ==
                 _client.username
