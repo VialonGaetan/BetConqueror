@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  Dimensions,
 } from 'react-native';
 import GameWebSocket from '../services/GameWebSocket';
 import Race from '../models/race';
@@ -44,34 +45,36 @@ const ChooseNameView = props => {
       }
     }
   };
+  const {width, height} = Dimensions.get('window');
 
   return (
     <View style={{flex: 1, flexDirection: 'column'}}>
-      <View style={{flex: 0.4, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 0.3, justifyContent: 'center', alignItems: 'center'}}>
         <Text style={{fontWeight: 'bold', fontSize: 30}}>
           Choisis un pseudo
         </Text>
       </View>
-      <View style={{flex: 0.6, flexDirection: 'column'}}>
+      <View style={{flex: 0.4, flexDirection: 'column'}}>
         <TextInput
           style={{
             flex: 0,
-            width: 200,
+            width: width / 2.25,
             borderWidth: 3,
             borderColor: 'grey',
             alignSelf: 'center',
             padding: 5,
+            color: 'black',
           }}
           value={name}
           onChangeText={value => setName(value)}
         />
-        <View style={{flex: 0.1}}></View>
+        <View style={{flex: 0.3}}></View>
         <TouchableOpacity
           style={{
             alignSelf: 'center',
             justifyContent: 'center',
-            height: 30,
-            width: 70,
+            height: height / 20,
+            width: width / 5,
             borderWidth: 2,
             backgroundColor: 'lightgreen',
           }}
