@@ -100,14 +100,14 @@ class ImageWidget extends TUIOWidget {
     if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
       let currentPlayer = GameInstance.getInstance().getCurrentPlayer();
       if (currentPlayer != undefined) {
-        if (currentPlayer.tag === tuioTag.id) {
+        if (currentPlayer.tag === (tuioTag.id)) {
           if (currentPlayer.position !== this.camp.id) {
 
             new GameInstance().getPlotOrCamp(currentPlayer.position).removeHighlight();
-            this.camp.highLight(currentPlayer.color);
+            this.camp.highLight(currentPlayer);
             const tempID = []
             tempID.push(this.camp.id);
-            this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(tempID));
+            this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(tempID),gameInstance.getCurrentPlayer());
             gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
           }
         }

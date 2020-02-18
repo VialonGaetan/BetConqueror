@@ -58,9 +58,9 @@ class Plot {
         return this.height;
     }
 
-    highLight(color) {
+    highLight(currentPlayer) {
         var radgrad = this.ctx.createRadialGradient(this.height / 2, this.width / 2, 150, this.height / 2, this.width / 2, 200);
-        radgrad.addColorStop(0, color);
+        radgrad.addColorStop(0, currentPlayer.color);
         radgrad.addColorStop(1, 'transparent');
 
         this.ctx.fillStyle = radgrad;

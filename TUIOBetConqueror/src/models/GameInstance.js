@@ -11,16 +11,18 @@ class GameInstance {
         }
 
         gameInstance = this;
-
         this.unities = [
             {
                 tag: "E0",
                 faction: "Francais",
                 position: 5,
                 spawn: 5,
+                color: "blue",
                 x: 0,
                 y: 0,
-                color: "blue"
+                r:0,
+                g:0,
+                b:250
             },
             {
                 tag: "E1",
@@ -29,7 +31,10 @@ class GameInstance {
                 spawn: 5,
                 color: "blue",
                 x: 0,
-                y: 0
+                y: 0,
+                r:0,
+                g:0,
+                b:250
             },
             {
                 tag: "E2",
@@ -38,7 +43,10 @@ class GameInstance {
                 spawn: 6,
                 x: 0,
                 y: 0,
-                color: "green"
+                color: "green",
+                r:0,
+                g:250,
+                b:0
             },
             {
                 tag: "E3",
@@ -47,7 +55,10 @@ class GameInstance {
                 spawn: 6,
                 color: "green",
                 x: 0,
-                y: 0
+                y: 0,
+                r:0,
+                g:250,
+                b:0
             },
             {
                 tag: "E4",
@@ -56,7 +67,10 @@ class GameInstance {
                 spawn: 7,
                 color: "red",
                 x: 0,
-                y: 0
+                y: 0,
+                r:250,
+                g:0,
+                b:0
             },
             {
                 tag: "E5",
@@ -65,7 +79,10 @@ class GameInstance {
                 spawn: 7,
                 color: "red",
                 x: 0,
-                y: 0
+                y: 0,
+                r:250,
+                g:0,
+                b:0
             },
             {
                 tag: "E6",
@@ -74,7 +91,10 @@ class GameInstance {
                 spawn: 8,
                 color: "yellow",
                 x: 0,
-                y: 0
+                y: 0,
+                r:250,
+                g:250,
+                b:0
             },
             {
                 tag: "E7",
@@ -83,7 +103,10 @@ class GameInstance {
                 spawn: 8,
                 color: "yellow",
                 x: 0,
-                y: 0
+                y: 0,
+                r:250,
+                g:250,
+                b:0
             },
         ]
 
@@ -197,14 +220,16 @@ class GameInstance {
     }
 
     getEndArrowsPointsPlot(endArrowsPointsPlotsPositions) {
+        let endArrowsPointsCopy = [];
+        endArrowsPointsPlotsPositions.forEach(item => endArrowsPointsCopy.push(item));
         this.unities.forEach(item => {
             if (item.spawn == this.getCurrentPlayer().spawn) {
-                endArrowsPointsPlotsPositions = this.removeA(endArrowsPointsPlotsPositions, item.position);
+                endArrowsPointsCopy = this.removeA(endArrowsPointsCopy, item.position);
             }
         });
 
         let endArrowsPoints = [];
-        endArrowsPointsPlotsPositions.forEach(item => endArrowsPoints.push(this.endArrowsPointsPlots[item]));
+        endArrowsPointsCopy.forEach(item => endArrowsPoints.push(this.endArrowsPointsPlots[item]));
         return endArrowsPoints;
     }
 

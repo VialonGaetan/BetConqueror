@@ -75,7 +75,7 @@ const onMoveEvent = (message) => {
     if (gameInstance.currentTour.length > 0) {
         let currentPlayer = gameInstance.getCurrentPlayer();
         let newCampOrPlot = gameInstance.getPlotOrCamp(currentPlayer.position);
-        newCampOrPlot.highLight(currentPlayer.color);
+        newCampOrPlot.highLight(currentPlayer);
 
         updateCurrentPlayerText();
         //alert(JSON.stringify(campOrPlot));
@@ -103,7 +103,7 @@ const newRoundEvent = (message) => {
 
     let currentPlayer = gameInstance.getCurrentPlayer();
     let newCampOrPlot = gameInstance.getPlotOrCamp(currentPlayer.position);
-    newCampOrPlot.highLight(currentPlayer.color);
+    newCampOrPlot.highLight(currentPlayer);
 
     updateCurrentPlayerText();
     //alert(JSON.stringify(campOrPlot));
@@ -140,11 +140,10 @@ const updateCurrentPlayerText = () => {
 const drawArrows = (currentPlayer) => {
     //draw arrows
     let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-
     if (currentPlayer.x === 0 && currentPlayer.y === 0)
-        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement),currentPlayer);
     else
-        newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement));
+        newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement),currentPlayer);
 }
 
 export default mySocketHandler;

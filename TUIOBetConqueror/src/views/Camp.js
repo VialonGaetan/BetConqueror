@@ -125,8 +125,8 @@ class Camp {
     }
   }
 
-  highLight(color) {
-    this.ctx.fillStyle = color;
+  highLight(currentPlayer) {
+    this.ctx.fillStyle = `rgba(${currentPlayer.r},${currentPlayer.g},${currentPlayer.b},0.3)`;
     this.drawImage();
     this.draw();
   }
