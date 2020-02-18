@@ -42,7 +42,7 @@ public class Game {
     }
 
     public Player getPlayerByUnity(Unity unity){
-        return this.playerList.stream().filter(player -> player.getRace().getTags().stream().anyMatch(unity1 -> unity1.getTag().equals(unity))).findFirst().orElse(playerList.get(0));
+        return this.playerList.stream().filter(player -> player.getRace().getTags().stream().anyMatch(unity1 -> unity1.getTag().equals(unity.getTag()))).findFirst().orElse(playerList.get(0));
     }
 
     public List<Round> getRounds() {
