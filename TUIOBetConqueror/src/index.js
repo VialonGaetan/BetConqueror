@@ -10,6 +10,7 @@ import SocketClient from "./SocketClient/SocketClient";
 import mySocketHandler from "./SocketClient/SocketHandler";
 import speak from './Speaker'
 import buildBoard from "./views/Board";
+import buildEndGame from "./views/EndGame";
 
 /* TUIOManager start */
 const tuioManager = new TUIOManager();
