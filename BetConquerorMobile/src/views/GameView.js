@@ -1,21 +1,32 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, Text, Button } from 'react-native';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import {View, StyleSheet, Dimensions, Text, Button, Image} from 'react-native';
+import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
 import WarComponent from '../components/war';
 import GameWebSocket from '../services/GameWebSocket';
 import CountDown from 'react-native-countdown-component';
+import CoinIcon from '../../assets/icons/coin.png';
 
 const FirstRoute = props => (
   <View style={[styles.view]}>
-    <Text style={[styles.pieces]}>
-      {props.username} - {props.pieces} pièces
-    </Text>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+      }}>
+      <Text style={[styles.pieces]}>
+        {props.username} - {props.pieces}{' '}
+      </Text>
+      <Image source={CoinIcon} />
+    </View>
 
     <View style={[styles.scene]}>
       <WarComponent
         style={[styles.war]}
         war={props.war}
         pieces={props.pieces}
+        jumpTo={props.jumpTo}
+        route={props.route}
       />
     </View>
   </View>
@@ -23,52 +34,68 @@ const FirstRoute = props => (
 
 const SecondRoute = props => (
   <View style={[styles.view]}>
-    <Text style={[styles.pieces]}>
-      {props.username} - {props.pieces} pièces
-    </Text>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+      }}>
+      <Text style={[styles.pieces]}>
+        {props.username} - {props.pieces}{' '}
+      </Text>
+      <Image source={CoinIcon} />
+    </View>
+
+    {console.log(props)}
 
     <View style={[styles.scene]}>
       <WarComponent
         style={[styles.war]}
         war={props.war}
         pieces={props.pieces}
+        jumpTo={props.jumpTo}
+        route={props.route}
       />
     </View>
   </View>
 );
 
-const initialLayout = { width: Dimensions.get('window').width };
+const initialLayout = {width: Dimensions.get('window').width};
 
 function GameView(props) {
   const [pieces, setPieces] = React.useState(10);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: '1' },
-    { key: 'second', title: '2' },
+    {key: 'first', title: 'Guerre 1'},
+    {key: 'second', title: 'Guerre 2'},
   ]);
 
   _client = GameWebSocket.getInstance();
 
-  const { username } = _client;
+  const {username} = _client;
   const wars = props.navigation.getParam('wars');
 
   const renderScene = SceneMap({
-    first: () => (
+    first: ({jumpTo, route}) => (
       <FirstRoute
         username={username}
         pieces={pieces}
         setPieces={setPieces}
         war={wars[0]}
         handleOnPressRecap
+        route={route}
+        jumpTo={jumpTo}
       />
     ),
-    second: () => (
+    second: ({jumpTo, route}) => (
       <SecondRoute
         username={username}
         pieces={pieces}
         setPieces={setPieces}
         war={wars[1]}
         handleOnPressRecap
+        route={route}
+        jumpTo={jumpTo}
       />
     ),
   });
@@ -93,8 +120,11 @@ function GameView(props) {
         wars.find(war => war.id === data.warId).hasBet = true;
         setPieces(pieces - data.amount);
       } else if (data.response === 'WAR_RESULT') {
-        const warResults = data.result;
-        props.navigation.navigate('WaitingWar', { pieces, warResults });
+        const warResults = JSON.parse(data.result);
+        props.navigation.navigate('WaitingWar', {
+          pieces: warResults.money,
+          warResults,
+        });
       }
     }
   };
@@ -102,7 +132,7 @@ function GameView(props) {
   const renderTabBar = props => (
     <TabBar
       {...props}
-      renderLabel={({ route, focused, color }) => (
+      renderLabel={({route, focused, color}) => (
         <Text
           style={{
             color: 'black',
@@ -112,8 +142,8 @@ function GameView(props) {
           {route.title}
         </Text>
       )}
-      indicatorStyle={{ backgroundColor: 'black' }}
-      style={{ backgroundColor: 'lightgreen' }}
+      indicatorStyle={{backgroundColor: 'black'}}
+      style={{backgroundColor: 'lightgreen'}}
     />
   );
 
@@ -129,8 +159,8 @@ function GameView(props) {
       return (
         <TabView
           renderTabBar={renderTabBar}
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
+          navigationState={{index, routes}}
+          renderScene={props => renderScene(props)}
           onIndexChange={setIndex}
           initialLayout={initialLayout}></TabView>
       );
@@ -138,13 +168,19 @@ function GameView(props) {
     case 1:
       return (
         <View style={[styles.view]}>
-          <Text style={[styles.pieces]}>
-            {username} - {pieces} pièces
-          </Text>
+          <View style={{flex: 0.05}}></View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={[styles.pieces]}>{username}</Text>
+          </View>
 
           <View style={[styles.scene]}>
             <View style={[styles.war]}>
-              <WarComponent war={wars[0]} pieces={pieces} />
+              <WarComponent setPieces war={wars[0]} pieces={pieces} />
             </View>
           </View>
         </View>
@@ -168,8 +204,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pieces: {
-    alignSelf: 'flex-end',
-    fontSize: 15,
+    fontSize: 30,
     fontWeight: 'bold',
   },
   war: {},
