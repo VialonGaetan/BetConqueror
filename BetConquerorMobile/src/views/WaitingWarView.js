@@ -75,16 +75,16 @@ const WaitingWarView = props => {
 
     switch (territoryId) {
       case 0:
-        imageSource = Zone1;
+        imageSource = Zone4;
         break;
       case 1:
-        imageSource = Zone2;
-        break;
-      case 2:
         imageSource = Zone3;
         break;
+      case 2:
+        imageSource = Zone1;
+        break;
       case 3:
-        imageSource = Zone4;
+        imageSource = Zone2;
         break;
       case 4:
         imageSource = Zone5;
@@ -175,22 +175,22 @@ const WaitingWarView = props => {
       case 'E0':
       case 'E1':
         icon = FrenchIcon;
-        backgroundColor = 'blue';
+        backgroundColor = 'red';
         break;
       case 'E6':
       case 'E7':
         icon = EspagnolIcon;
-        backgroundColor = 'red';
+        backgroundColor = 'blue';
         break;
       case 'E2':
       case 'E3':
         icon = OlmequesIcon;
-        backgroundColor = 'yellow';
+        backgroundColor = 'green';
         break;
       case 'E4':
       case 'E5':
         icon = MayaIcon;
-        backgroundColor = 'green';
+        backgroundColor = 'yellow';
 
         break;
       default:

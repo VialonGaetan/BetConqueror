@@ -159,13 +159,13 @@ export class ChooseRaceView extends React.Component {
   getColorFromRaceName(raceName) {
     switch (raceName) {
       case 'Francais':
-        return 'blue';
-      case 'Espagnol':
         return 'red';
+      case 'Espagnol':
+        return 'blue';
       case 'Olmeques':
-        return 'yellow';
-      case 'Maya':
         return 'green';
+      case 'Maya':
+        return 'yellow';
       default:
         return 'blue';
     }

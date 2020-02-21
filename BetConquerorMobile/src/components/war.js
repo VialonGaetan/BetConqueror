@@ -11,6 +11,10 @@ import Zone2 from '../../assets/Island2.png';
 import Zone3 from '../../assets/Island3.png';
 import Zone4 from '../../assets/Island4.png';
 import Zone5 from '../../assets/Island5.png';
+import FlatCoinIcon from '../../assets/icons/piece.png';
+import CoinIcon from '../../assets/icons/coin.png';
+
+import * as Animatable from 'react-native-animatable';
 
 import {
   SafeAreaView,
@@ -24,6 +28,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  ImageBackground,
 } from 'react-native';
 import GameWebSocket from '../services/GameWebSocket';
 import ZoneComponent from './zone';
@@ -35,6 +40,7 @@ class WarComponent extends React.Component {
   constructor(props) {
     super(props);
     this._client = GameWebSocket.getInstance();
+    this.animationRefs = [];
   }
 
   state = {
@@ -55,6 +61,13 @@ class WarComponent extends React.Component {
     console.log(request);
     this._client.sendMessage(request);
     this.setState({hasBet: true});
+
+    if (this.props.jumpTo) {
+      if (this.props.route.key === 'first') {
+        return this.props.jumpTo('second');
+      }
+      this.props.jumpTo('first');
+    }
   }
 
   handleOnKeyPress(e) {
@@ -75,13 +88,48 @@ class WarComponent extends React.Component {
     if (this.state.betValue <= 0) {
       return;
     }
+
+    // this.AnimationRef.animate({
+    //   from: {translateY: height / 2, translateX: width / 2},
+    //   to: {translateY: 0, translateX: width - width / 10},
+
+    //   duration: 3000,
+    //   delay: 1,
+    //   iterationCount: 1,
+    // });
+
+    this.AnimationRef2.animate({
+      from: {translateY: 0, translateX: width - width / 10},
+      to: {translateY: height / 1.5 - 5, translateX: width / 2},
+
+      duration: 3000,
+      delay: 1,
+      iterationCount: 1,
+    });
     this.setState({betValue: parseInt(this.state.betValue) - 1});
   }
 
   onPlusPress() {
-    if (this.state.betValue >= 999) {
+    if (parseInt(this.state.betValue) >= this.props.pieces) {
       return;
     }
+    console.log(this.animationRefs[this.animationRefs.length]);
+    this.animationRefs[this.animationRefs.length - 1].animate({
+      to: {translateY: height / 1.5, translateX: width / 2},
+
+      duration: 3000,
+      delay: 1,
+      iterationCount: 1,
+    });
+
+    // this.AnimationRef2.animate({
+    //   from: {translateY: 0, translateX: width - width / 10},
+    //   to: {translateY: height / 2 - 5, translateX: width / 2},
+
+    //   duration: 3000,
+    //   delay: 1,
+    //   iterationCount: 1,
+    // });
     this.setState({betValue: parseInt(this.state.betValue) + 1});
   }
 
@@ -97,7 +145,7 @@ class WarComponent extends React.Component {
                 borderColor: 'grey',
                 alignSelf: 'center',
                 padding: 5,
-                minWidth: width / 9,
+                minWidth: width / 7,
                 height: height / 18,
                 textAlign: 'center',
                 color: 'black',
@@ -107,12 +155,16 @@ class WarComponent extends React.Component {
               onKeyPress={this.handleOnKeyPress.bind(this)}
             />
             <View style={{flexDirection: 'column', padding: 10}}>
-              <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
-                <Image source={upIcon} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
-                <Image source={downIcon} />
-              </TouchableOpacity>
+              <ImageBackground
+                style={{width: width / 20, height: height / 20}}
+                source={CoinIcon}>
+                <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
+                  <Image source={upIcon} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
+                  <Image source={downIcon} />
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
           </View>
           <View style={{flex: 0.05}}></View>
@@ -147,16 +199,16 @@ class WarComponent extends React.Component {
     console.log(this.props.war);
     switch (this.props.war.zoneId) {
       case 0:
-        imageSource = Zone1;
+        imageSource = Zone4;
         break;
       case 1:
-        imageSource = Zone2;
-        break;
-      case 2:
         imageSource = Zone3;
         break;
+      case 2:
+        imageSource = Zone1;
+        break;
       case 3:
-        imageSource = Zone4;
+        imageSource = Zone2;
         break;
       case 4:
         imageSource = Zone5;
@@ -186,22 +238,22 @@ class WarComponent extends React.Component {
       case 'E0':
       case 'E1':
         icon = FrenchIcon;
-        backgroundColor = 'blue';
+        backgroundColor = 'red';
         break;
       case 'E6':
       case 'E7':
         icon = EspagnolIcon;
-        backgroundColor = 'red';
+        backgroundColor = 'blue';
         break;
       case 'E2':
       case 'E3':
         icon = OlmequesIcon;
-        backgroundColor = 'yellow';
+        backgroundColor = 'green';
         break;
       case 'E4':
       case 'E5':
         icon = MayaIcon;
-        backgroundColor = 'green';
+        backgroundColor = 'yellow';
 
         break;
       default:
@@ -231,9 +283,87 @@ class WarComponent extends React.Component {
     );
   }
 
+  renderCoinStackTens(number) {
+    let stack = [];
+    for (var i = 0; i < number; i++) {
+      stack.push(
+        <Image
+          style={{
+            width: 70,
+            height: 70,
+            position: 'absolute',
+            top: i > 0 ? 10 * i - 25 : -25,
+            left: width / 4,
+          }}
+          source={FlatCoinIcon}
+        />,
+      );
+    }
+    return (
+      <View>
+        {stack.map(coin => {
+          return coin;
+        })}
+      </View>
+    );
+  }
+
+  renderCoinStackFives(number) {
+    let stack = [];
+    for (var i = 0; i < number; i++) {
+      stack.push(
+        <Image
+          style={{
+            width: 45,
+            height: 45,
+            position: 'absolute',
+            top: i > 0 ? 8 * i - 8 : -8,
+            left: width / 8,
+          }}
+          source={FlatCoinIcon}
+        />,
+      );
+    }
+    return (
+      <View>
+        {stack.map(coin => {
+          return coin;
+        })}
+      </View>
+    );
+  }
+
+  renderCoinStackOnes(number) {
+    let stack = [];
+    for (var i = 0; i < number; i++) {
+      stack.push(
+        <Animatable.View ref={ref => this.animationRefs.push(ref)}>
+          <Image
+            style={{
+              position: 'absolute',
+              top: i > 0 ? 5 * i : 0,
+              left: width / 30,
+            }}
+            source={FlatCoinIcon}
+          />
+        </Animatable.View>,
+      );
+    }
+    return (
+      <View>
+        {stack.map(coin => {
+          return coin;
+        })}
+      </View>
+    );
+  }
   render() {
     return (
       <View style={{flex: 1}}>
+        <Animatable.View ref={ref => (this.AnimationRef2 = ref)}>
+          <Image style={[styles.green]} source={FlatCoinIcon} />
+        </Animatable.View>
+
         <View
           style={{
             flex: 1,
@@ -243,7 +373,7 @@ class WarComponent extends React.Component {
           <View
             style={{
               width,
-              flex: 0.4,
+              flex: 0.3,
               borderWitdth: 2,
               borderColor: 'black',
               backgroundColor: 'lightblue',
@@ -274,13 +404,21 @@ class WarComponent extends React.Component {
               );
             })}
           </View>
+          <View style={{flexDirection: 'row'}}>
+            <Text>{this.props.pieces}</Text>
+            {this.renderCoinStackOnes(4)}
+            <View></View>
+            {this.renderCoinStackFives(4)}
+            {this.renderCoinStackTens(4)}
+          </View>
+
           {this.renderBetInput()}
-          <Image
+          {/* <Image
             style={{width: width / 5, height: height / 9}}
             source={SwordsIcon}
-          />
+          /> */}
         </View>
-        <CountDown
+        {/* <CountDown
           until={9999}
           // onFinish={() => {
           //   alert('Fin des guerres !');
@@ -291,10 +429,33 @@ class WarComponent extends React.Component {
           size={20}
           timeToShow={['M', 'S']}
           timeLabels={{m: 'Minutes', s: 'Secondes'}}
-        />
+        /> */}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  background: {
+    width,
+    height,
+  },
+  blue: {
+    position: 'absolute',
+  },
+  green: {
+    position: 'absolute',
+  },
+  red: {
+    position: 'absolute',
+    top: 400,
+    left: 150,
+    width: 200,
+    height: 200,
+  },
+});
 
 export default WarComponent;

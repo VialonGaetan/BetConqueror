@@ -1,18 +1,18 @@
 import React from 'react';
-import { Image } from 'react-native';
-import { HomeView } from './src/HomeView';
-import { ScanView } from './src/views/ScanView';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { NavigationContainer } from '@react-navigation/native';
+import {Image} from 'react-native';
+import {HomeView} from './src/HomeView';
+import {ScanView} from './src/views/ScanView';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {NavigationContainer} from '@react-navigation/native';
 
-import { createStackNavigator } from 'react-navigation-stack';
-import { ChooseRaceView } from './src/views/ChooseRaceView';
+import {createStackNavigator} from 'react-navigation-stack';
+import {ChooseRaceView} from './src/views/ChooseRaceView';
 import GameView from './src/views/GameView';
 import ChooseNameView from './src/views/ChooseNameView';
 import WaitingWarView from './src/views/WaitingWarView';
 import MapView from './src/views/MapView';
 import ZoneHistoryView from './src/views/ZoneHistoryView';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 import SwordsIcon from './assets/icons/swords3.png';
 import HistoryIcon from './assets/icons/history.png';
@@ -26,22 +26,22 @@ import HistoryIcon from './assets/icons/history.png';
  */
 
 const LobbyNavigator = createStackNavigator({
-  Home: { screen: HomeView },
-  Scan: { screen: ScanView },
-  ChooseRace: { screen: ChooseRaceView },
-  Game: { screen: GameView },
-  ChooseName: { screen: ChooseNameView },
+  Home: {screen: HomeView},
+  Scan: {screen: ScanView},
+  ChooseRace: {screen: ChooseRaceView},
+  Game: {screen: GameView},
+  ChooseName: {screen: ChooseNameView},
 });
 
 const HistoryNavigator = createStackNavigator({
-  MapView: { screen: MapView },
-  ZoneHistory: { screen: ZoneHistoryView },
+  MapView: {screen: MapView},
+  ZoneHistory: {screen: ZoneHistoryView},
 });
 
 const WarNavigator = createSwitchNavigator(
   {
-    WaitingWar: { screen: WaitingWarView },
-    GameScreen: { screen: GameView },
+    WaitingWar: {screen: WaitingWarView},
+    GameScreen: {screen: GameView},
   },
   {
     initialRouteName: 'WaitingWar',
@@ -54,11 +54,11 @@ const GameNavigator = createBottomTabNavigator(
       screen: WarNavigator,
       navigationOptions: {
         tabBarLabel: 'Guerre',
-        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        tabBarIcon: ({focused, horizontal, tintColor}) => {
           return (
             <Image
               source={SwordsIcon}
-              style={{ tintColor, width: 30, height: 30 }}
+              style={{tintColor, width: 30, height: 30}}
             />
           );
         },
@@ -67,12 +67,12 @@ const GameNavigator = createBottomTabNavigator(
     History: {
       screen: HistoryNavigator,
       navigationOptions: {
-        tabBarLabel: 'Stats',
-        tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        tabBarLabel: 'Historique',
+        tabBarIcon: ({focused, horizontal, tintColor}) => {
           return (
             <Image
               source={HistoryIcon}
-              style={{ tintColor, width: 30, height: 30 }}
+              style={{tintColor, width: 30, height: 30}}
             />
           );
         },
