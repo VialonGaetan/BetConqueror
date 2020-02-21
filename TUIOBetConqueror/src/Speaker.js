@@ -9,7 +9,7 @@ const speak = (message) => {
     utterThis.lang = "fr-FR";
     console.log(synth.getVoices())
     utterThis.voice = synth.getVoices()[7];
-    //synth.speak(utterThis);
+    synth.speak(utterThis);
 }
 
 

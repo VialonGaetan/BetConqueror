@@ -161,9 +161,11 @@ class GameInstance {
         this.plotAndCamp = [];
 
         this.currentTour = [];
-
         this.tourNumber = 0;
 
+        this.currentTourRuturnSpawn = [];
+        this.tourNumberRuturnSpawn = 0;
+        this.isRuturnSpawn = false;
         return gameInstance
     }
 
@@ -196,7 +198,19 @@ class GameInstance {
         this.tourNumber++;
     }
 
-
+    setCurrentTourRuturnSpawn(tour) {
+        this.currentTourRuturnSpawn = tour;
+        this.tourNumberRuturnSpawn++;
+        this.isRuturnSpawn=true;
+    }
+    removePlayerRuturnSpawn(tag) {
+        const temp=[];
+        this.currentTourRuturnSpawn.forEach(item => {
+            if(tag!=item.tag){
+                temp.push(item);
+            }
+        });
+    }
     getCurrentTourNumber() {
         return this.tourNumber;
     }

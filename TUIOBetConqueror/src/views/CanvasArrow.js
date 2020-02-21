@@ -20,29 +20,35 @@ class CanvasArrow {
     this.movingInProgress = false;
   }
 
-  drawArrow(startXArrow, startYArrow, endArrowsPoints,currentPlayer) {
+  drawArrow(arrows) {
     this.movingInProgress = true;
     //we keep the values
-    this.currentStartXArrow = startXArrow;
-    this.currentStartYArrow = startYArrow;
-    this.currentEndArrowsPoints = endArrowsPoints;
-    const xIncrement = [];
-    const yIncrement = [];
-    const intermediateX = [];
-    const intermediateY = [];
-    for (let i = 0; i < endArrowsPoints.length; i++) {
-      xIncrement[i] = (endArrowsPoints[i].endX - startXArrow) / 100;
-      yIncrement[i] = (endArrowsPoints[i].endY - startYArrow) / 100;
-      intermediateX[i] = 0;
-      intermediateY[i] = 0;
-    }
+    this.currentStartXArrow = arrows[0].startXArrow;
+    this.currentStartYArrow = arrows[0].startYArrow;
+    this.currentEndArrowsPoints = arrows[0].endArrowsPoints;
+    arrows.forEach(arrow =>{
+      const arrowsAnimationData=[]
+      for (let i = 0; i < arrow.endArrowsPoints.length; i++) {
+        let arrowAnimationData = {
+          xIncrement: (arrow.endArrowsPoints[i].endX - arrow.startXArrow) / 100,
+          yIncrement: (arrow.endArrowsPoints[i].endY - arrow.startYArrow) / 100,
+          intermediateX: 0,
+          intermediateY: 0,
+        };
+        arrowsAnimationData.push(arrowAnimationData);
+      }
+      arrow.arrowAnimationData=arrowsAnimationData;
+    });
+
     let t = 0;
     const canvaArrow = this;
     this.timer = setInterval(function () {
-      for (let i = 0; i < endArrowsPoints.length; i++) {
-        intermediateX[i] += xIncrement[i];
-        intermediateY[i] += yIncrement[i];
-      }
+      arrows.forEach(arrow => {
+        arrow.arrowAnimationData.forEach(data => {
+          data.intermediateX +=data.xIncrement;
+          data.intermediateY +=data.yIncrement;
+        })
+      })
       t = t + 1;
       if (t > 100) {
         clearInterval(this.timer);
@@ -50,15 +56,17 @@ class CanvasArrow {
       }
       canvaArrow.clearCanvas();
       // draw the animation
-      for (let i = 0; i < endArrowsPoints.length; i++) {
-        const newX = startXArrow + intermediateX[i];
-        const newY = startYArrow + intermediateY[i];
-        canvaArrow.ctx.beginPath();
-        canvaArrow.ctx.fillStyle = `rgba(${currentPlayer.r},${currentPlayer.g},${currentPlayer.b},0.3)`;
-        canvaArrow.arrow(startXArrow, startYArrow, newX, newY, [0, 0, -20, 5, -10, 5]);
-        canvaArrow.ctx.fill();
-        canvaArrow.ctx.closePath();
-      }
+      arrows.forEach(arrow => {
+        arrow.arrowAnimationData.forEach(data => {
+          const newX = arrow.startXArrow + data.intermediateX;
+          const newY = arrow.startYArrow + data.intermediateY;
+          canvaArrow.ctx.beginPath();
+          canvaArrow.ctx.fillStyle = `rgba(${arrow.player.r},${arrow.player.g},${arrow.player.b},0.3)`;
+          canvaArrow.arrow(arrow.startXArrow, arrow.startYArrow, newX, newY, [0, 0, -20, 5, -10, 5]);
+          canvaArrow.ctx.fill();
+          canvaArrow.ctx.closePath();
+        });
+      });
     }, 30);
   }
 
@@ -66,6 +74,10 @@ class CanvasArrow {
     if (this.movingInProgress) {
       this.clearInterval();
       this.clearCanvas();
+      console.log("bob");
+      console.log(this.currentEndArrowsPoints);
+      console.log("bob");
+      console.log(displacementEndArrowPoints);
       // draw the animation
       this.currentEndArrowsPoints.forEach(element => {
         this.ctx.beginPath();

@@ -90,15 +90,13 @@ const onMoveEvent = (message) => {
 
 
 const newRoundEvent = (message) => {
-    let background = document.getElementById("game-container");
-    background.style.backgroundImage = "url('assets/sea.jpg')";
-    let animator = document.querySelectorAll("lottie-player");
-    animator.forEach((lottie) => {
-        lottie.style.visibility = "hidden";
-    });
-    audio.src = 'assets/naval.mp3'
-    audio.play();
+    if(gameInstance.tourNumber==0){
+        setBackGroundRound();
+    }
 
+    while(gameInstance.currentTourRuturnSpawn.length != 0){
+
+    }
     let round = message.players;
     updateGame(round);
 
@@ -113,10 +111,7 @@ const newRoundEvent = (message) => {
     speak(currentPlayer.faction + ", c'est à votre tour. Jouez le pion " + currentPlayer.tag);
 
     drawArrows(currentPlayer);
-
-
 }
-
 
 const updateGame = (newCurrentRound) => {
     let newOrderPlayers = [];
@@ -140,11 +135,81 @@ const updateCurrentPlayerText = () => {
 
 const drawArrows = (currentPlayer) => {
     //draw arrows
+    const arrows = [];
     let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
-    if (currentPlayer.x === 0 && currentPlayer.y === 0)
-        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement), currentPlayer);
-    else
-        newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement), currentPlayer);
+    if (currentPlayer.x === 0 && currentPlayer.y === 0) {
+        const arrow = {
+            startXArrow: gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX,
+            startYArrow: gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY,
+            endArrowsPoints: gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement),
+            player: currentPlayer,
+            arrowAnimationData: [],
+        };
+        arrows.push(arrow);
+        newCampOrPlot2.canvasArrow.drawArrow(arrows);
+    } else {
+        const arrow = {
+            startXArrow: currentPlayer.x,
+            startYArrow: currentPlayer.y,
+            endArrowsPoints: gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement),
+            player: currentPlayer,
+            arrowAnimationData: [],
+        };
+        arrows.push(arrow);
+        newCampOrPlot2.canvasArrow.drawArrow(arrows);
+    }
 }
 
+const setReturnSpawn = (newCurrentReturnSpawn) => {
+    let newOrderPlayers = [];
+    newCurrentReturnSpawn.forEach(el => {
+        let player = {
+            tag: el.unity,
+            spawn: el.spawn,
+            position: gameInstance.getPositionByTag(el.unity)
+        };
+        newOrderPlayers.push(player);
+    });
+    gameInstance.setCurrentTourRuturnSpawn(newOrderPlayers);
+}
+
+const onWarsEnd = (message) => {
+    setBackGroundRound();
+    let round = message.players;
+    setReturnSpawn(round);
+
+    drawArrowsReturnToSpawn(gameInstance.currentTourRuturnSpawn);
+}
+
+const drawArrowsReturnToSpawn = (players) => {
+    let randomPlot = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
+    //draw arrows
+    const arrows=[];
+    players.forEach(player => {
+        const currentPlayer = gameInstance.getPositionByTag(player.tag);
+        const arrow = {
+            startXArrow: currentPlayer.x,
+            startYArrow: currentPlayer.y,
+            endArrowsPoints: {
+                endX: gameInstance.endArrowsPointsPlots[currentPlayer.spawn].endX,
+                endY: gameInstance.endArrowsPointsPlots[currentPlayer.spawn].endY,
+            },
+            player: currentPlayer,
+            arrowAnimationData: [],
+        };
+        arrows.push(arrow);
+    });
+    randomPlot.canvasArrow.drawArrow(arrows);
+}
+
+const setBackGroundRound = () =>{
+    let background = document.getElementById("game-container");
+    background.style.backgroundImage = "url('assets/sea.jpg')";
+    let animator = document.querySelectorAll("lottie-player");
+    animator.forEach((lottie) => {
+        lottie.style.visibility = "hidden";
+    });
+    audio.src = 'assets/naval.mp3'
+    audio.play();
+}
 export default mySocketHandler;

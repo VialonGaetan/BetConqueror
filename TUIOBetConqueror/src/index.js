@@ -17,7 +17,7 @@ tuioManager.start();
 
 
 //const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
-const SERVER_ADRESS = "ws://192.168.1.6:8080/game";
+const SERVER_ADRESS = "ws://192.168.1.29:8080/game";
 
 const socketClient = new SocketClient();
 socketClient.start(SERVER_ADRESS);
@@ -69,8 +69,6 @@ const buildApp = () => {
         myQrCode.style.justifyContent = "center";
         myQrCode.style.width = "10em";
         myQrCode.style.height = "10em";
-
-
       }
     );
 
@@ -85,6 +83,5 @@ const buildApp = () => {
 };
 
 $(window).ready(() => {
-
   buildApp();
 });
