@@ -2,6 +2,7 @@ package org.polytech.si5.betConqueror.protocol.key;
 
 public enum GameJsonKey {
     RESPONSE("response"),
+    MONEY("money"),
     RESULT("result"),
     ORDER("order"),
     TAG("tag"),

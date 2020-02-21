@@ -12,12 +12,14 @@ public class Player {
     private Race race;
     private Optional<WebSocketSession> session;
     private String name;
+    private int numberOfPiece;
 
     public Player(Race race) {
         this.id = UUID.randomUUID().toString();
         this.race = race;
         this.name = new String();
         this.session = Optional.empty();
+        this.numberOfPiece = 10;
     }
 
 
@@ -49,6 +51,18 @@ public class Player {
 
     public String getId() {
         return id;
+    }
+
+    public int getNumberOfPiece() {
+        return numberOfPiece;
+    }
+
+    public void setNumberOfPiece(int numberOfPiece) {
+        this.numberOfPiece = numberOfPiece;
+    }
+
+    public void addNumberOfPiece(int numberOfPiece) {
+        this.numberOfPiece += numberOfPiece;
     }
 
     @Override

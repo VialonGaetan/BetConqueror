@@ -45,6 +45,8 @@ public class StartRoundEvent implements EventProtocol {
 
         game.getTable().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateMessageToTable(newRound).toString()));
 
+        game.getPlayerByUnity(newRound.getOrderPlayers().iterator().next()).getSession().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateVibrateMessage().toString()));
+
 
 
     }
@@ -68,6 +70,13 @@ public class StartRoundEvent implements EventProtocol {
         }
 
         response.add(GameJsonKey.PLAYERS.key,orderedPlayers);
+
+        return response;
+    }
+
+    private JsonObject generateVibrateMessage(){
+        JsonObject response = new JsonObject();
+        response.addProperty(GameJsonKey.RESPONSE.key, "MOVE");
 
         return response;
     }
