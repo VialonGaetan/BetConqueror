@@ -17,7 +17,7 @@ tuioManager.start();
 
 
 //const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
-const SERVER_ADRESS = "ws://192.168.1.29:8080/game";
+const SERVER_ADRESS = "ws://192.168.1.6:8080/game";
 
 const socketClient = new SocketClient();
 socketClient.start(SERVER_ADRESS);
@@ -27,7 +27,35 @@ audio.volume = 0;
 audio.loop = true;
 
 
-socketClient._client.onmessage = e => mySocketHandler(e)
+socketClient._client.onmessage = e => mySocketHandler(e);
+
+let currentRotation = 0;
+
+function everySecond() {
+  var newDate = new Date();
+  var s = newDate.getSeconds();
+  var m = newDate.getMinutes();
+  var h = newDate.getHours();
+  currentRotation += 4;
+  var degreesToRotate = currentRotation + 1;
+
+  s = modifyTime(s);
+  m = modifyTime(m);
+
+  //document.getElementById("time").innerHTML = h + ":" + m + ":" + s;
+
+  $("#toto").css({
+    'transform': 'rotate(' + degreesToRotate + 'deg)'
+  });
+
+}
+
+function modifyTime(t) {
+  if (t < 10) {
+    t = "0" + t;
+  };
+  return t;
+}
 
 /* App Code */
 const buildApp = () => {
@@ -41,9 +69,12 @@ const buildApp = () => {
         myQrCode.style.justifyContent = "center";
         myQrCode.style.width = "10em";
         myQrCode.style.height = "10em";
+
+
       }
     );
 
+    //setInterval(everySecond, 300);
     audio.src = 'assets/0267.mp3'
     audio.play();
     const welcomeMessage1 = "Bienvenue jeunes aventuriers, vous êtes ici pour une expérience formidable dans le jeu Bet Conqueror. Pour commencer une partie, veuillez vous equiper d'un smartphone avec l'application Bet conqueror mobile."

@@ -17,96 +17,96 @@ class GameInstance {
                 faction: "Francais",
                 position: 5,
                 spawn: 5,
-                color: "blue",
+                color: "red",
                 x: 0,
                 y: 0,
-                r:0,
-                g:0,
-                b:250
+                r: 255,
+                g: 0,
+                b: 0
             },
             {
                 tag: "E1",
                 faction: "Francais",
                 position: 5,
                 spawn: 5,
-                color: "blue",
+                color: "red",
                 x: 0,
                 y: 0,
-                r:0,
-                g:0,
-                b:250
+                r: 255,
+                g: 0,
+                b: 0
             },
             {
                 tag: "E2",
-                faction: "Olmeques",
+                faction: "Maya",
                 position: 6,
                 spawn: 6,
                 x: 0,
                 y: 0,
-                color: "green",
-                r:0,
-                g:250,
-                b:0
+                color: "yellow",
+                r: 255,
+                g: 255,
+                b: 0
             },
             {
                 tag: "E3",
-                faction: "Olmeques",
+                faction: "Maya",
                 position: 6,
                 spawn: 6,
-                color: "green",
+                color: "yellow",
                 x: 0,
                 y: 0,
-                r:0,
-                g:250,
-                b:0
+                r: 255,
+                g: 255,
+                b: 0
             },
             {
                 tag: "E4",
-                faction: "Maya",
+                faction: "Olmeques",
                 position: 7,
                 spawn: 7,
-                color: "red",
+                color: "green",
                 x: 0,
                 y: 0,
-                r:250,
-                g:0,
-                b:0
+                r: 51,
+                g: 153,
+                b: 102
             },
             {
                 tag: "E5",
-                faction: "Maya",
+                faction: "Olmeques",
                 position: 7,
                 spawn: 7,
-                color: "red",
+                color: "green",
                 x: 0,
                 y: 0,
-                r:250,
-                g:0,
-                b:0
+                r: 0,
+                g: 255,
+                b: 0
             },
             {
                 tag: "E6",
                 faction: "Espagnol",
                 position: 8,
                 spawn: 8,
-                color: "yellow",
+                color: "blue",
                 x: 0,
                 y: 0,
-                r:250,
-                g:250,
-                b:0
+                r: 0,
+                g: 0,
+                b: 255
             },
             {
                 tag: "E7",
                 faction: "Espagnol",
                 position: 8,
                 spawn: 8,
-                color: "yellow",
+                color: "blue",
                 x: 0,
                 y: 0,
-                r:250,
-                g:250,
-                b:0
+                r: 0,
+                g: 0,
+                b: 255
             },
         ]
 
@@ -206,12 +206,14 @@ class GameInstance {
     }
 
     getCurrentPlayer() {
-        return this.unities.find((el) => el.tag == this.currentTour[0].tag);
+        if (this.currentTour.length > 0)
+            return this.unities.find((el) => el.tag == this.currentTour[0].tag);
+        return undefined
         //return this.unities[0];
     }
 
     getPlotOrCamp(position) {
-        console.log("GET CAMP POSITION : " + position)
+        //console.log("GET CAMP POSITION : " + position)
         return this.plotAndCamp[position];
     }
 

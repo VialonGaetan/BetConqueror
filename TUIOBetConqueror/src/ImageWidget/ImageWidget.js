@@ -97,22 +97,26 @@ class ImageWidget extends TUIOWidget {
    */
   onTagUpdate(tuioTag) {
     let gameInstance = new GameInstance();
-    if (typeof (this._lastTagsValues[tuioTag.id]) !== 'undefined') {
-      let currentPlayer = GameInstance.getInstance().getCurrentPlayer();
-      if (currentPlayer != undefined) {
-        if (currentPlayer.tag === (tuioTag.id)) {
-          if (currentPlayer.position !== this.camp.id) {
+    if (tuioTag === undefined || tuioTag.id === undefined || !gameInstance.unities.some((unity) => unity.tag === tuioTag.id))
+      return
 
-            new GameInstance().getPlotOrCamp(currentPlayer.position).removeHighlight();
-            this.camp.highLight(currentPlayer);
-            const tempID = []
-            tempID.push(this.camp.id);
-            this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(tempID),gameInstance.getCurrentPlayer());
-            gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
-          }
+    let currentPlayer = gameInstance.getCurrentPlayer();
+    if (currentPlayer == undefined)
+      return
+    if (currentPlayer != undefined) {
+      if (currentPlayer.tag === (tuioTag.id)) {
+        if (currentPlayer.position !== this.camp.id) {
+
+          gameInstance.getPlotOrCamp(currentPlayer.position).removeHighlight();
+          this.camp.highLight(currentPlayer);
+          const tempID = []
+          tempID.push(this.camp.id);
+          this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(tempID), gameInstance.getCurrentPlayer());
+          gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
         }
       }
     }
+
   }
 }
 

@@ -12,7 +12,7 @@ const gameInstance = new GameInstance();
 const mySocketHandler = (e) => {
     if (e.data !== undefined && JSON.parse(e.data).response !== undefined) {
         let message = JSON.parse(e.data);
-        console.log(JSON.stringify(message));
+        console.log(message);
 
         switch (message.response) {
             case "RACE_SELECTED":
@@ -64,6 +64,7 @@ const onFactionSelected = (message) => {
                 "Pris par " + el.username;
             document.getElementById(race + "Text").className =
                 "text-badge-taken";
+            document.getElementById(race + "Text").style.color = el.color;
         }
     });
 }
@@ -141,9 +142,9 @@ const drawArrows = (currentPlayer) => {
     //draw arrows
     let newCampOrPlot2 = gameInstance.getPlotOrCamp(gameInstance.getCurrentPlayer().position);
     if (currentPlayer.x === 0 && currentPlayer.y === 0)
-        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement),currentPlayer);
+        newCampOrPlot2.canvasArrow.drawArrow(gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endX, gameInstance.getEndArrowsOfPosition(currentPlayer.spawn).endY, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement), currentPlayer);
     else
-        newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement),currentPlayer);
+        newCampOrPlot2.canvasArrow.drawArrow(currentPlayer.x, currentPlayer.y, gameInstance.getEndArrowsPointsPlot(newCampOrPlot2.possibleDisplacement), currentPlayer);
 }
 
 export default mySocketHandler;

@@ -69,9 +69,23 @@ body {
 
 }
 
+.Maya-badge{
+  transform: rotate(90deg);
+}
+.French-badge{
+  transform: rotate(180deg);
+}
+.Espagnol-badge{
+  transform: rotate(0deg);
+}
+.Olmeques-badge{
+  transform: rotate(270deg);
+}
+
 .home-body{
 
    background-image: url("./../../assets/fond3.jpeg");
+   position: absolute;
    background-size: cover;
    min-width: 100vw;
    min-height: 100vh;
@@ -86,8 +100,10 @@ body {
 }
 .firstDiv{
   justify-content: center;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
 }
 
 .secondDiv{
@@ -123,4 +139,22 @@ body {
     justify-content: center;
     color: #ff6767;
     font-size: 2em;
+}
+
+ #cog {
+	-webkit-animation: cog 30s infinite;			
+	-moz-animation: cog 30s infinite;
+	-ms-animation: cog 30s infinite; 			
+	animation: cog 30s infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-timing-function: linear;		
+	-ms-animation-timing-function: linear;
+	animation-timing-function: linear	
+}
+@keyframes cog {
+100%{ 
+	-moz-transform: rotate(360deg);
+	-ms-transform: rotate(360deg);
+	transform: rotate(360deg)
+}
 }

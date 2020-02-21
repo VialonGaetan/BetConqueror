@@ -39,7 +39,8 @@ class ButtonWidget extends TUIOWidget {
         this._domElem = $('<button>');
         this.activate = false;
         this.disable();
-        this._domElem.css('background-color', `blue`);
+        this._domElem.css('background-color', `transparent`);
+        this._domElem.css('background-image', `url('assets/endOfTurn.png')`);
         this._domElem.css('width', `${width}px`);
         this._domElem.css('height', `${height}px`);
         this._domElem.css('position', 'absolute');
