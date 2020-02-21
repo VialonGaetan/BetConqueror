@@ -93,7 +93,7 @@ function GameView(props) {
         wars.find(war => war.id === data.warId).hasBet = true;
         setPieces(pieces - data.amount);
       } else if (data.response === 'WAR_RESULT') {
-        const warResults = JSON.parse(data.result);
+        const warResults = data.result;
         props.navigation.navigate('WaitingWar', { pieces, warResults });
       }
     }
