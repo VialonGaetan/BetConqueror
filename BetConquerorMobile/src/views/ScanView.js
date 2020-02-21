@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, ActivityIndicator, View} from 'react-native';
-import {RNCamera} from 'react-native-camera';
+import { StyleSheet, Text, ActivityIndicator, View } from 'react-native';
+import { RNCamera } from 'react-native-camera';
 import GameWebSocket from '../services/GameWebSocket';
 
 export class ScanView extends React.Component {
@@ -48,13 +48,16 @@ export class ScanView extends React.Component {
               e.data !== undefined &&
               RegExp('ws://(S*)').test(e.data)
             ) {
+              this.setState({ ready: false });
               console.log(e.data);
               let socket = GameWebSocket.getInstance();
               await socket.start(e.data);
               if (socket.isConnected) {
                 this.setState({ready: false});
                 this.props.navigation.navigate('ChooseName');
+                //this.setState({ready: true});
               } else {
+                this.setState({ ready: true });
               }
             }
           }}>

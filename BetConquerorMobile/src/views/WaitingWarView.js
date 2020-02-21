@@ -21,6 +21,7 @@ import {
   FlatList,
   Image,
   Dimensions,
+  Vibration,
 } from 'react-native';
 import War from '../models/war';
 import hourglassIcon from '../../assets/hourglass.png';
@@ -35,7 +36,7 @@ import EspagnolIcon from '../../assets/icons/EspagnolIcon.png';
 import OlmequesIcon from '../../assets/icons/OlmequesIcon.png';
 import MayaIcon from '../../assets/icons/MayaIcon.png';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const WaitingWarView = props => {
   const _client = GameWebSocket.getInstance();
@@ -54,6 +55,9 @@ const WaitingWarView = props => {
         props.navigation.navigate('GameScreen', {
           wars,
         });
+      } else if (data.response === 'MOVE') {
+        Vibration.vibrate(1000);
+        alert("C'est à votre tour");
       }
     }
   };
@@ -125,9 +129,9 @@ const WaitingWarView = props => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               {getIconFromUnity(unities[0].username, 2)}
-              <View style={{flex: 0.2}}></View>
+              <View style={{ flex: 0.2 }}></View>
               {getIconFromUnity(unities[1].username, 2)}
             </View>
             <Text>VS</Text>
@@ -143,15 +147,15 @@ const WaitingWarView = props => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               {getIconFromUnity(unities[0].username, 2)}
-              <View style={{flex: 0.2}}></View>
+              <View style={{ flex: 0.2 }}></View>
               {getIconFromUnity(unities[1].username, 2)}
             </View>
             <Text>VS</Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               {getIconFromUnity(unities[2].username, 2)}
-              <View style={{flex: 0.2}}></View>
+              <View style={{ flex: 0.2 }}></View>
               {getIconFromUnity(unities[3].username, 2)}
             </View>
           </View>
@@ -246,26 +250,26 @@ const WaitingWarView = props => {
         });
 
         return [
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <Image
-              style={{width: width / 5, height: height / 9}}
+              style={{ width: width / 5, height: height / 9 }}
               source={getTerritoryFromId(war.territoryId)}
             />
           </View>,
           getWarVsRow(war.players),
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             {JSON.parse(war.winner).unity ? (
               getIconFromUnity(JSON.parse(war.winner).unity, 1)
             ) : (
-              <View></View>
-            )}
+                <View></View>
+              )}
           </View>,
           stringMises,
         ];
       });
 
       return (
-        <View style={{flex: 0}}>
+        <View style={{ flex: 0 }}>
           <Text
             style={{
               flex: 0,
@@ -275,7 +279,7 @@ const WaitingWarView = props => {
             }}>
             Résultat de vos dernières guerres
           </Text>
-          <Table style={{margin: 10}} borderStyle={{borderWidth: 1}}>
+          <Table style={{ margin: 10 }} borderStyle={{ borderWidth: 1 }}>
             <Row
               data={tableHead}
               flexArr={[1.1, 1, 1.1]}
@@ -297,7 +301,7 @@ const WaitingWarView = props => {
                 <Row
                   key={index}
                   data={rowData}
-                  style={([styles.row], {backgroundColor})}
+                  style={([styles.row], { backgroundColor })}
                   textStyle={styles.text}
                   flexArr={[1.1, 1, 1.1]}
                 />
@@ -310,15 +314,15 @@ const WaitingWarView = props => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 0}}>
-        <Text style={{alignSelf: 'center', fontSize: 20, fontWeight: 'bold'}}>
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 0 }}>
+        <Text style={{ alignSelf: 'center', fontSize: 20, fontWeight: 'bold' }}>
           Tour x
         </Text>
-        <View style={{flexDirection: 'row', marginTop: 40}}>
+        <View style={{ flexDirection: 'row', marginTop: 40 }}>
           <Image
             source={hourglassIcon}
-            style={{width: width / 3, height: height / 6}}
+            style={{ width: width / 3, height: height / 6 }}
           />
           <Text
             style={{
@@ -339,25 +343,25 @@ const WaitingWarView = props => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+        <Text style={{ fontSize: 14, fontWeight: 'bold' }}>
           Pièces pour les guerres à venir :{' '}
         </Text>
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{pieces + 10} </Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{pieces + 10} </Text>
         <Image source={CoinIcon} />
       </View>
 
-      <View style={{flex: 0.5}}>{renderWarResults()}</View>
+      <View style={{ flex: 0.5 }}>{renderWarResults()}</View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  head: {height: width / 8, backgroundColor: '#f1f8ff'},
-  wrapper: {flexDirection: 'row'},
-  title: {flex: 2},
-  row: {height: 50},
-  text: {textAlign: 'center'},
-  textOwn: {fontSize: 20, fontWeight: 'bold', margin: 20},
+  head: { height: width / 8, backgroundColor: '#f1f8ff' },
+  wrapper: { flexDirection: 'row' },
+  title: { flex: 2 },
+  row: { height: 50 },
+  text: { textAlign: 'center' },
+  textOwn: { fontSize: 20, fontWeight: 'bold', margin: 20 },
 });
 
 WaitingWarView.navigationOptions = {
