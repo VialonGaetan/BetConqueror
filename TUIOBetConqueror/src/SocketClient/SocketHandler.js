@@ -47,6 +47,7 @@ const onWarsStart = () => {
     let animator = document.querySelectorAll("lottie-player");
     animator.forEach((lottie) => {
         lottie.style.visibility = "visible";
+        lottie.reset();
         lottie.play();
     });
     let message = "Les guerres commencent. Allez miser sur votre application pour conquerir les territoires."

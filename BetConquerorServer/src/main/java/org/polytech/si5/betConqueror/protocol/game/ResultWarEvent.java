@@ -34,6 +34,7 @@ public class ResultWarEvent implements EventProtocol {
 
         for (War war : round.getWars()) {
             if (!war.getBetPlayers().isEmpty()){
+
                 war.getTerritory().setOwner(Collections.max(war.getBetPlayers().entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
 
             }

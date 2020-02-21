@@ -158,3 +158,11 @@ body {
 	transform: rotate(360deg)
 }
 }
+
+.end-game-container{
+  background-image: url("./../../assets/fond3.jpeg");
+   position: absolute;
+   background-size: cover;
+   min-width: 100vw;
+   min-height: 100vh;
+}
