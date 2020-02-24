@@ -65,6 +65,8 @@ export class ChooseRaceView extends React.Component {
           data.races.forEach((raceResponse, index) => {
             newRaces.find(race => race.name === raceResponse.name).available =
               raceResponse.available;
+            newRaces.find(race => race.name === raceResponse.name).username =
+              raceResponse.username;
 
             if (raceResponse.playerID === this._client.playerID) {
               newRaces.find(
@@ -99,7 +101,7 @@ export class ChooseRaceView extends React.Component {
     let opacity = 1;
     let borderColor = 'transparent';
     if (!race.available) {
-      opacity = 0.5;
+      opacity = 0.25;
     }
     if (race.isMine) {
       opacity = 1;
@@ -109,9 +111,10 @@ export class ChooseRaceView extends React.Component {
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-between',
+          justifyContent: 'center',
           marginTop: '2%',
           alignSelf: 'center',
+          flex: 1,
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -121,6 +124,7 @@ export class ChooseRaceView extends React.Component {
               username: this._client.username,
             };
             race.available = !race.available;
+            this._client.color = this.getColorFromRaceName(race.name);
             this._client.sendMessage(request);
           }}>
           <Image
@@ -129,13 +133,26 @@ export class ChooseRaceView extends React.Component {
               opacity: opacity,
               width: width / 5,
               height: height / 9,
-              borderWidth: 7,
+              borderWidth: 3,
               borderColor: borderColor,
               borderRadius: width / 10,
               backgroundColor: this.getColorFromRaceName(race.name),
             }}
           />
         </TouchableOpacity>
+        <View style={{flex: 0.2}}></View>
+        {race.username ? (
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              alignSelf: 'center',
+            }}>
+            Pris par {race.username}
+          </Text>
+        ) : (
+          <View></View>
+        )}
       </View>
     );
   }

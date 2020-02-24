@@ -15,16 +15,36 @@ class ZoneComponent extends React.Component {
             height: height / 4.5,
           }}
           source={this.props.imageSource}>
-          {this.props.color ? (
-            <Text
+          {this.props.colorOwner ? (
+            <View
               style={{
-                fontWeight: 'bold',
-                fontSize: 30,
-                alignSelf: 'flex-end',
-                color: this.props.color,
-              }}>
-              X {this.props.numbersOwn}
-            </Text>
+                alignSelf: 'center',
+                top: width / 5,
+                width: width / 10,
+                height: height / 20,
+                borderRadius: 100 / 2,
+                backgroundColor: this.props.colorOwner,
+              }}></View>
+          ) : (
+            <View></View>
+          )}
+          {console.log('*********')}
+          {console.log(this.props.playersSelected)}
+          {this.props.playersSelected ? (
+            this.props.playersSelected.map(player => {
+              console.log('ALLOOO');
+              return (
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 25,
+                    alignSelf: 'flex-end',
+                    color: player.color,
+                  }}>
+                  X {player.numbersOwn.zone0}
+                </Text>
+              );
+            })
           ) : (
             <View></View>
           )}
