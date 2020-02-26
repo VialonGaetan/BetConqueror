@@ -1,4 +1,4 @@
-
+import SocketClient from '../SocketClient/SocketClient';
 
 
 let gameInstance = null
@@ -178,8 +178,8 @@ class GameInstance {
         return this.unities.find((el) => el.tag == String(tag)).position;
     }
 
-    getSpawnByTag(tag) {
-        return this.unities.find((el) => el.tag == String(tag)).spwan;
+    getUnityByTag(tag) {
+        return this.unities.find((el) => el.tag == String(tag));
     }
 
 
@@ -210,6 +210,14 @@ class GameInstance {
                 temp.push(item);
             }
         });
+        this.currentTourRuturnSpawn=temp;
+        if(this.currentTourRuturnSpawn.length==0){
+            this.isRuturnSpawn=false;
+            let request = {
+                request: "NEW_ROUND",
+            }
+            new SocketClient().sendMessage(request);
+        }
     }
     getCurrentTourNumber() {
         return this.tourNumber;
@@ -246,6 +254,12 @@ class GameInstance {
 
         let endArrowsPoints = [];
         endArrowsPointsCopy.forEach(item => endArrowsPoints.push(this.endArrowsPointsPlots[item]));
+        return endArrowsPoints;
+    }
+
+    getEndArrowsPointsSpawn(spawn) {
+        let endArrowsPoints = [];
+        endArrowsPoints.push(this.endArrowsPointsPlots.find((el) => el.position == spawn));
         return endArrowsPoints;
     }
 

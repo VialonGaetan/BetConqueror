@@ -79,7 +79,6 @@ public class MoveUnityEvent implements EventProtocol {
 
     }
 
-
     private JsonObject generateResponse(){
         JsonObject response = new JsonObject();
         response.addProperty(GameJsonKey.RESPONSE.key, "MOVE");

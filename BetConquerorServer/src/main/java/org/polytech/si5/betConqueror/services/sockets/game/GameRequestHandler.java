@@ -5,6 +5,7 @@ import org.polytech.si5.betConqueror.protocol.EventProtocol;
 import org.polytech.si5.betConqueror.protocol.InvalidEvent;
 import org.polytech.si5.betConqueror.protocol.game.BetForAWarEvent;
 import org.polytech.si5.betConqueror.protocol.game.MoveUnityEvent;
+import org.polytech.si5.betConqueror.protocol.game.StartRoundEvent;
 import org.polytech.si5.betConqueror.protocol.init.ChooseNameEvent;
 import org.polytech.si5.betConqueror.protocol.init.ChooseRaceEvent;
 import org.polytech.si5.betConqueror.protocol.init.ConnectTableEvent;
@@ -45,6 +46,9 @@ public class GameRequestHandler implements RequestHandler {
                 break;
             case "BET" :
                 event= new BetForAWarEvent(session, request);
+                break;
+            case "NEW_ROUND":
+                event = new StartRoundEvent();
                 break;
             default:
                 event = new InvalidEvent(session);

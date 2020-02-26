@@ -51,7 +51,6 @@ public class ResultWarEvent implements EventProtocol {
            new EndGameEvent().processEvent();
            return;
        }
-       new StartRoundEvent().processEvent();
     }
 
     private JsonObject generateWarResultMessageForTable() {

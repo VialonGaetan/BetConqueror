@@ -98,12 +98,12 @@ class ImageWidget extends TUIOWidget {
    * @param {TUIOTag} tuioTag - A TUIOTag instance.
    */
   onTagUpdate(tuioTag) {
-    let gameInstance = new GameInstance();
+    const gameInstance = new GameInstance();/*
     if (tuioTag === undefined || tuioTag.id === undefined || !gameInstance.unities.some((unity) => unity.tag === tuioTag.id)) {
       return
     }
-
-    let currentPlayer = gameInstance.getCurrentPlayer();
+*/
+    const currentPlayer = gameInstance.getCurrentPlayer();
     if (currentPlayer == undefined) {
       return
     }
@@ -117,12 +117,12 @@ class ImageWidget extends TUIOWidget {
           tempID.push(this.camp.id);
           this.camp.canvasArrow.drawDisplacement(gameInstance.getEndArrowsPointsPlot(tempID), gameInstance.getCurrentPlayer());
           gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
-        } else {
-          if (gameInstance.isRuturnSpawn) {
-            gameInstance.removePlayerRuturnSpawn(tuioTag.id);
-          }
         }
       }
+    }
+    if (gameInstance.isRuturnSpawn) {
+      gameInstance.removePlayerRuturnSpawn(tuioTag.id);
+      gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
     }
   }
 }
