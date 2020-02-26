@@ -74,10 +74,6 @@ class CanvasArrow {
     if (this.movingInProgress) {
       this.clearInterval();
       this.clearCanvas();
-      console.log("bob");
-      console.log(this.currentEndArrowsPoints);
-      console.log("bob");
-      console.log(displacementEndArrowPoints);
       // draw the animation
       this.currentEndArrowsPoints.forEach(element => {
         this.ctx.beginPath();
