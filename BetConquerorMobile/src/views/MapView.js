@@ -58,6 +58,13 @@ const MapView = props => {
   const numbersOwn3 = {zone0: 2, zone1: 0, zone2: 1, zone3: 2, zone4: 2};
   const numbersOwn4 = {zone0: 3, zone1: 1, zone2: 2, zone3: 0, zone4: 1};
 
+  const zones = [
+    {id: 0, colorOwner: 'red'},
+    {id: 1, colorOwner: 'blue'},
+    {id: 2, colorOwner: 'green'},
+    {id: 3, colorOwner: 'yellow'},
+    {id: 4, colorOwner: 'yellow'},
+  ];
   var players = [
     {icon: FrenchIcon, color: 'red', numbersOwn: numbersOwn1, key: 0},
     {icon: MayaIcon, color: 'yellow', numbersOwn: numbersOwn2, key: 1},
@@ -65,7 +72,24 @@ const MapView = props => {
     {icon: EspagnolIcon, color: 'blue', numbersOwn: numbersOwn4, key: 3},
   ];
 
-  const [playerSelected, selectPlayer] = useState(players[0]);
+  const handleOnPressSelect = player => {
+    console.log('TROLLLLLLLL');
+    let isSelected = false;
+    playersSelected.forEach(p => {
+      if (p.key == player.key) {
+        isSelected = true;
+      }
+    });
+    var newSelect = Object.assign([], playersSelected);
+    if (isSelected) {
+      const newSelectFiltered = newSelect.filter(p => p.key != player.key);
+      return selectPlayer(newSelectFiltered);
+    }
+    newSelect.push(player);
+    selectPlayer(newSelect);
+  };
+
+  const [playersSelected, selectPlayer] = useState([players[0]]);
   return (
     <View style={{flex: 1, backgroundColor: 'lightblue'}}>
       <View
@@ -74,17 +98,22 @@ const MapView = props => {
           justifyContent: 'space-around',
         }}>
         {players.map(player => {
-          console.log(playerSelected.key);
-          console.log(player.key);
+          let backgroundColor = 'lightblue';
+          console.log('^^^^^^^^^^');
+          console.log(playersSelected);
+          playersSelected.forEach(playerSelected => {
+            if (playerSelected.key === player.key) {
+              backgroundColor = 'grey';
+            }
+          });
           return (
             <View
               key={player.key}
               style={{
                 borderWidth: 2,
-                backgroundColor:
-                  playerSelected.key === player.key ? 'grey' : 'lightblue',
+                backgroundColor,
               }}>
-              <TouchableOpacity onPress={() => selectPlayer(player)}>
+              <TouchableOpacity onPress={() => handleOnPressSelect(player)}>
                 <Image
                   style={{
                     margin: 2,
@@ -111,46 +140,46 @@ const MapView = props => {
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <TouchableOpacity onPress={() => onZonePressed(0)}>
             <ZoneComponent
-              numbersOwn={playerSelected.numbersOwn.zone0}
+              colorOwner={zones[0].colorOwner}
+              playersSelected={playersSelected}
               imageSource={Zone4}
               zoneID={0}
-              color={playerSelected.color}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => onZonePressed(1)}>
             <ZoneComponent
-              numbersOwn={playerSelected.numbersOwn.zone1}
+              colorOwner={zones[1].colorOwner}
+              playersSelected={playersSelected}
               imageSource={Zone3}
               zoneID={2}
-              color={playerSelected.color}
             />
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity onPress={() => onZonePressed(2)}>
             <ZoneComponent
-              numbersOwn={playerSelected.numbersOwn.zone2}
+              colorOwner={zones[2].colorOwner}
+              playersSelected={playersSelected}
               imageSource={Zone1}
               zoneID={4}
-              color={playerSelected.color}
             />
           </TouchableOpacity>
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
           <TouchableOpacity onPress={() => onZonePressed(3)}>
             <ZoneComponent
-              numbersOwn={playerSelected.numbersOwn.zone3}
+              colorOwner={zones[3].colorOwner}
+              playersSelected={playersSelected}
               imageSource={Zone2}
               zoneID={1}
-              color={playerSelected.color}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => onZonePressed(4)}>
             <ZoneComponent
-              numbersOwn={playerSelected.numbersOwn.zone4}
+              colorOwner={zones[4].colorOwner}
+              playersSelected={playersSelected}
               imageSource={Zone5}
               zoneID={3}
-              color={playerSelected.color}
             />
           </TouchableOpacity>
         </View>

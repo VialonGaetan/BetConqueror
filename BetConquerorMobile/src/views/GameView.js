@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions, Text, Button, Image } from 'react-native';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import {View, StyleSheet, Dimensions, Text, Button, Image} from 'react-native';
+import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
 import WarComponent from '../components/war';
 import GameWebSocket from '../services/GameWebSocket';
 import CountDown from 'react-native-countdown-component';
@@ -13,6 +13,7 @@ const FirstRoute = props => (
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
+        backgroundColor: props.color,
       }}>
       <Text style={[styles.pieces]}>
         {props.username} - {props.pieces}{' '}
@@ -39,6 +40,7 @@ const SecondRoute = props => (
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center',
+        backgroundColor: props.color,
       }}>
       <Text style={[styles.pieces]}>
         {props.username} - {props.pieces}{' '}
@@ -60,23 +62,23 @@ const SecondRoute = props => (
   </View>
 );
 
-const initialLayout = { width: Dimensions.get('window').width };
+const initialLayout = {width: Dimensions.get('window').width};
 
 function GameView(props) {
   const [pieces, setPieces] = React.useState(10);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'Guerre 1' },
-    { key: 'second', title: 'Guerre 2' },
+    {key: 'first', title: 'Guerre 1'},
+    {key: 'second', title: 'Guerre 2'},
   ]);
 
   const _client = GameWebSocket.getInstance();
 
-  const { username } = _client;
+  const {username, color} = _client;
   const wars = props.navigation.getParam('wars');
 
   const renderScene = SceneMap({
-    first: ({ jumpTo, route }) => (
+    first: ({jumpTo, route}) => (
       <FirstRoute
         username={username}
         pieces={pieces}
@@ -85,9 +87,10 @@ function GameView(props) {
         handleOnPressRecap
         route={route}
         jumpTo={jumpTo}
+        color={color}
       />
     ),
-    second: ({ jumpTo, route }) => (
+    second: ({jumpTo, route}) => (
       <SecondRoute
         username={username}
         pieces={pieces}
@@ -96,6 +99,7 @@ function GameView(props) {
         handleOnPressRecap
         route={route}
         jumpTo={jumpTo}
+        color={color}
       />
     ),
   });
@@ -108,7 +112,7 @@ function GameView(props) {
       amount: value,
     };
     console.log(request);
-    this._client.sendMessage(request);
+    _client.sendMessage(request);
   };
 
   _client._client.onmessage = e => {
@@ -132,7 +136,7 @@ function GameView(props) {
   const renderTabBar = props => (
     <TabBar
       {...props}
-      renderLabel={({ route, focused, color }) => (
+      renderLabel={({route, focused, color}) => (
         <Text
           style={{
             color: 'black',
@@ -142,8 +146,8 @@ function GameView(props) {
           {route.title}
         </Text>
       )}
-      indicatorStyle={{ backgroundColor: 'black' }}
-      style={{ backgroundColor: 'lightgreen' }}
+      indicatorStyle={{backgroundColor: 'black'}}
+      style={{backgroundColor: 'lightgreen'}}
     />
   );
 
@@ -159,7 +163,7 @@ function GameView(props) {
       return (
         <TabView
           renderTabBar={renderTabBar}
-          navigationState={{ index, routes }}
+          navigationState={{index, routes}}
           renderScene={props => renderScene(props)}
           onIndexChange={setIndex}
           initialLayout={initialLayout}></TabView>
@@ -168,12 +172,13 @@ function GameView(props) {
     case 1:
       return (
         <View style={[styles.view]}>
-          <View style={{ flex: 0.05 }}></View>
+          <View style={{flex: 0.05}}></View>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
+              backgroundColor: color,
             }}>
             <Text style={[styles.pieces]}>{username}</Text>
           </View>
