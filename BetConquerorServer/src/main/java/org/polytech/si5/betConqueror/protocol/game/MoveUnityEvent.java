@@ -6,6 +6,7 @@ import org.polytech.si5.betConqueror.components.buisness.Messenger;
 import org.polytech.si5.betConqueror.components.buisness.Round;
 import org.polytech.si5.betConqueror.components.buisness.War;
 import org.polytech.si5.betConqueror.models.Player;
+import org.polytech.si5.betConqueror.models.Race;
 import org.polytech.si5.betConqueror.models.Territory;
 import org.polytech.si5.betConqueror.models.Unity;
 import org.polytech.si5.betConqueror.protocol.EventProtocol;
@@ -13,6 +14,7 @@ import org.polytech.si5.betConqueror.protocol.key.GameJsonKey;
 import org.polytech.si5.betConqueror.protocol.key.InitGameJsonKey;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -76,6 +78,16 @@ public class MoveUnityEvent implements EventProtocol {
             new StartWarEvent().processEvent();
             //new StartRoundEvent().processEvent();
             //new ResultWarEvent().processEvent();
+
+        Iterator<Unity> iterator = currentRound.getOrderPlayers().iterator();
+        while (iterator.hasNext()){
+            Unity currentUnity = iterator.next();
+            if (Race.getRaceFromName(currentUnity).getName() == Race.getRaceFromName(unity).getName() && iterator.hasNext()){
+                Unity unity1 = iterator.next();
+                game.getPlayerByUnity(unity1).getSession().ifPresent(session -> new Messenger(session).sendSpecificMessageToAUser(generateResponse().toString()));
+                return;
+            }
+        }
 
     }
 
