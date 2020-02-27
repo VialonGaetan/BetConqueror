@@ -88,7 +88,7 @@ public class ResultWarEvent implements EventProtocol {
         warPresent.addProperty(GameJsonKey.WAR_ID.key, war.getId());
         if (war.getTerritory().getOwner().isPresent()){
             JsonObject winnerObject = new JsonObject();
-            winnerObject.addProperty(GameJsonKey.UNITY.key, game.getPlayerByUnity(war.getTerritory().getOwner().get()).getRace().getTags().get(0).getTag());
+            winnerObject.addProperty(GameJsonKey.UNITY.key, war.getTerritory().getOwner().get().getTag());
             winnerObject.addProperty(GameJsonKey.USERNAME.key, game.getPlayerByUnity(war.getTerritory().getOwner().get()).getName());
 
             warPresent.add(GameJsonKey.WINNER.key, winnerObject);

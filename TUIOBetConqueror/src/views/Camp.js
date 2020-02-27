@@ -25,7 +25,7 @@ class Camp {
     //this.ctx.strokeStyle = "transparent";
     this.drawImage();
     $('#game-container').append(camp);
-    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100, this.canvasArrow);
+    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100, radius, this.canvasArrow);
     this.button = button;
     $('#game-container').append(button.domElem);
     this.possibleDisplacement = possibleDisplacement;

@@ -30,33 +30,6 @@ audio.loop = true;
 
 socketClient._client.onmessage = e => mySocketHandler(e);
 
-let currentRotation = 0;
-
-function everySecond() {
-  var newDate = new Date();
-  var s = newDate.getSeconds();
-  var m = newDate.getMinutes();
-  var h = newDate.getHours();
-  currentRotation += 4;
-  var degreesToRotate = currentRotation + 1;
-
-  s = modifyTime(s);
-  m = modifyTime(m);
-
-  //document.getElementById("time").innerHTML = h + ":" + m + ":" + s;
-
-  $("#toto").css({
-    'transform': 'rotate(' + degreesToRotate + 'deg)'
-  });
-
-}
-
-function modifyTime(t) {
-  if (t < 10) {
-    t = "0" + t;
-  };
-  return t;
-}
 
 /* App Code */
 const buildApp = () => {

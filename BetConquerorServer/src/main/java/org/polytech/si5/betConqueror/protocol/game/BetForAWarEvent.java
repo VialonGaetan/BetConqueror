@@ -75,6 +75,12 @@ public class BetForAWarEvent implements EventProtocol {
         }
         Unity unity = optionalUnity.get();
 
+        if (currentWar.getBetPlayers().keySet().containsAll(player.getRace().getTags())){
+            currentWar.getBetPlayers().keySet().stream()
+                    .filter(unity1 -> player.getRace().getTags().contains(unity1) && !(unity.equals(unity1))).findAny()
+                    .ifPresent(unity1 -> currentWar.setBetToAPlayer(unity1,0));
+        }
+
 
         
         currentWar.setBetToAPlayer(unity,amount);
