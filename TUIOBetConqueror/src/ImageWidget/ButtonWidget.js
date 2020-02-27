@@ -77,6 +77,7 @@ class ButtonWidget extends TUIOWidget {
                 tag: currentPlayer.tag,
                 territoryId: currentPlayer.position > 4 ? 0 + "" : Math.trunc(currentPlayer.position) + ""
             }
+            currentPlayer.tempPosition = currentPlayer.position;
             new SocketClient().sendMessage(request);
             this.disable();
         }

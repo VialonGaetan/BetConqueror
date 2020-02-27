@@ -11,7 +11,6 @@ const gameInstance = new GameInstance();
 const mySocketHandler = (e) => {
   if (e.data !== undefined && JSON.parse(e.data).response !== undefined) {
     let message = JSON.parse(e.data);
-    console.log(message);
 
     switch (message.response) {
       case 'RACE_SELECTED':
@@ -49,9 +48,7 @@ const onWarsStart = () => {
   let animator = document.querySelectorAll('lottie-player');
   animator.forEach((lottie) => {
     lottie.style.visibility = 'visible';
-    console.log("lottie")
-    console.log(lottie)
-    lottie.goToAndPlay(1,true);
+    lottie.goToAndPlay(1, true);
   });
   let message = 'Les guerres commencent. Allez miser sur votre application pour conquerir les territoires.'
   speak(message);

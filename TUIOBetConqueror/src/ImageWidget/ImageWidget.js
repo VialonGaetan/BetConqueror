@@ -106,9 +106,9 @@ class ImageWidget extends TUIOWidget {
     const currentPlayer = gameInstance.getCurrentPlayer();
     if (currentPlayer != undefined) {
       if (currentPlayer.tag === (tuioTag.id)) {
-        if (currentPlayer.position !== this.camp.id) {
-          gameInstance.getPlotOrCamp(currentPlayer.position)
-            .removeHighlight();
+        console.log()
+        if (currentPlayer.position !== this.camp.id && gameInstance.getPlotOrCamp(currentPlayer.tempPosition).possibleDisplacement.includes(this.camp.id)) {
+          gameInstance.getPlotOrCamp(currentPlayer.position).removeHighlight();
           this.camp.highLight(currentPlayer);
           const tempID = []
           tempID.push(this.camp.id);

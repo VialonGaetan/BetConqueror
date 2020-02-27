@@ -18,7 +18,7 @@ tuioManager.start();
 
 
 //const SERVER_ADRESS = "ws://10.212.120.221:8080/game";
-const SERVER_ADRESS = "ws://192.168.1.15:8080/game";
+const SERVER_ADRESS = "ws://192.168.1.6:8080/game";
 
 const socketClient = new SocketClient();
 socketClient.start(SERVER_ADRESS);

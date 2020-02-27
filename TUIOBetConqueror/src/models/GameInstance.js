@@ -16,6 +16,7 @@ class GameInstance {
                 tag: "E0",
                 faction: "Francais",
                 position: 5,
+                tempPosition: 5,
                 spawn: 5,
                 color: "red",
                 x: 0,
@@ -28,6 +29,7 @@ class GameInstance {
                 tag: "E1",
                 faction: "Francais",
                 position: 5,
+                tempPosition: 5,
                 spawn: 5,
                 color: "red",
                 x: 0,
@@ -40,6 +42,7 @@ class GameInstance {
                 tag: "E2",
                 faction: "Maya",
                 position: 6,
+                tempPosition: 6,
                 spawn: 6,
                 x: 0,
                 y: 0,
@@ -52,6 +55,7 @@ class GameInstance {
                 tag: "E3",
                 faction: "Maya",
                 position: 6,
+                tempPosition: 6,
                 spawn: 6,
                 color: "yellow",
                 x: 0,
@@ -64,6 +68,7 @@ class GameInstance {
                 tag: "E4",
                 faction: "Olmeques",
                 position: 7,
+                tempPosition: 7,
                 spawn: 7,
                 color: "green",
                 x: 0,
@@ -76,6 +81,7 @@ class GameInstance {
                 tag: "E5",
                 faction: "Olmeques",
                 position: 7,
+                tempPosition: 7,
                 spawn: 7,
                 color: "green",
                 x: 0,
@@ -88,6 +94,7 @@ class GameInstance {
                 tag: "E6",
                 faction: "Espagnol",
                 position: 8,
+                tempPosition: 8,
                 spawn: 8,
                 color: "blue",
                 x: 0,
@@ -100,6 +107,7 @@ class GameInstance {
                 tag: "E7",
                 faction: "Espagnol",
                 position: 8,
+                tempPosition: 8,
                 spawn: 8,
                 color: "blue",
                 x: 0,
@@ -184,7 +192,6 @@ class GameInstance {
 
 
     changePositionOfTag(tag, position, x, y) {
-        //console.log("CHANGE POSITION : " + position + " AND TAG " + position)
         if (tag != undefined) {
             let unity = this.unities.find((el) => el.tag == String(tag));
             if (position != undefined && unity != undefined)
@@ -201,18 +208,18 @@ class GameInstance {
     setCurrentTourRuturnSpawn(tour) {
         this.currentTourRuturnSpawn = tour;
         this.tourNumberRuturnSpawn++;
-        this.isRuturnSpawn=true;
+        this.isRuturnSpawn = true;
     }
     removePlayerRuturnSpawn(tag) {
-        const temp=[];
+        const temp = [];
         this.currentTourRuturnSpawn.forEach(item => {
-            if(tag!=item.tag){
+            if (tag != item.tag) {
                 temp.push(item);
             }
         });
-        this.currentTourRuturnSpawn=temp;
-        if(this.currentTourRuturnSpawn.length==0){
-            this.isRuturnSpawn=false;
+        this.currentTourRuturnSpawn = temp;
+        if (this.currentTourRuturnSpawn.length == 0) {
+            this.isRuturnSpawn = false;
             let request = {
                 request: "NEW_ROUND",
             }
@@ -230,12 +237,10 @@ class GameInstance {
     getCurrentPlayer() {
         if (this.currentTour.length > 0)
             return this.unities.find((el) => el.tag == this.currentTour[0].tag);
-        return undefined
-        //return this.unities[0];
+        return undefined;
     }
 
     getPlotOrCamp(position) {
-        //console.log("GET CAMP POSITION : " + position)
         return this.plotAndCamp[position];
     }
 
