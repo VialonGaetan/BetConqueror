@@ -104,9 +104,6 @@ class ImageWidget extends TUIOWidget {
     }
 */
     const currentPlayer = gameInstance.getCurrentPlayer();
-    if (currentPlayer == undefined) {
-      return
-    }
     if (currentPlayer != undefined) {
       if (currentPlayer.tag === (tuioTag.id)) {
         if (currentPlayer.position !== this.camp.id) {
@@ -120,9 +117,10 @@ class ImageWidget extends TUIOWidget {
         }
       }
     }
-    if (gameInstance.isRuturnSpawn) {
+    if (gameInstance.isRuturnSpawn && gameInstance.getPositionByTag(tuioTag.id) !== this.camp.id) {
       gameInstance.removePlayerRuturnSpawn(tuioTag.id);
       gameInstance.changePositionOfTag(tuioTag.id, this.camp.id, tuioTag.x, tuioTag.y);
+      this.camp.canvasArrow.drawDisplacementToSpawn(tuioTag.id);
     }
   }
 }

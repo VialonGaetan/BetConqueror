@@ -16,18 +16,20 @@ class CanvasArrow {
     canvas.width = this.endX - this.startX;
     canvas.height = this.endY - this.startY;
     this.ctx = canvas.getContext('2d');
-    $('#game-container').append(canvas);
+    $('#game-container')
+      .append(canvas);
     this.movingInProgress = false;
   }
 
   drawArrow(arrows) {
+    this.saveArrows = arrows;
     this.movingInProgress = true;
     //we keep the values
     this.currentStartXArrow = arrows[0].startXArrow;
     this.currentStartYArrow = arrows[0].startYArrow;
     this.currentEndArrowsPoints = arrows[0].endArrowsPoints;
-    arrows.forEach(arrow =>{
-      const arrowsAnimationData=[]
+    arrows.forEach(arrow => {
+      const arrowsAnimationData = []
       for (let i = 0; i < arrow.endArrowsPoints.length; i++) {
         let arrowAnimationData = {
           xIncrement: (arrow.endArrowsPoints[i].endX - arrow.startXArrow) / 100,
@@ -37,7 +39,7 @@ class CanvasArrow {
         };
         arrowsAnimationData.push(arrowAnimationData);
       }
-      arrow.arrowAnimationData=arrowsAnimationData;
+      arrow.arrowAnimationData = arrowsAnimationData;
     });
 
     let t = 0;
@@ -45,8 +47,8 @@ class CanvasArrow {
     this.timer = setInterval(function () {
       arrows.forEach(arrow => {
         arrow.arrowAnimationData.forEach(data => {
-          data.intermediateX +=data.xIncrement;
-          data.intermediateY +=data.yIncrement;
+          data.intermediateX += data.xIncrement;
+          data.intermediateY += data.yIncrement;
         })
       })
       t = t + 1;
@@ -61,7 +63,7 @@ class CanvasArrow {
           const newX = arrow.startXArrow + data.intermediateX;
           const newY = arrow.startYArrow + data.intermediateY;
           canvaArrow.ctx.beginPath();
-          canvaArrow.ctx.fillStyle = `rgba(${arrow.player.r},${arrow.player.g},${arrow.player.b},0.3)`;
+          canvaArrow.ctx.fillStyle = `rgba(${arrow.player.r},${arrow.player.g},${arrow.player.b},0.4)`;
           canvaArrow.arrow(arrow.startXArrow, arrow.startYArrow, newX, newY, [0, 0, -20, 5, -10, 5]);
           canvaArrow.ctx.fill();
           canvaArrow.ctx.closePath();
@@ -70,7 +72,7 @@ class CanvasArrow {
     }, 30);
   }
 
-  drawDisplacement(displacementEndArrowPoints,currentPlayer) {
+  drawDisplacement(displacementEndArrowPoints, currentPlayer) {
     if (this.movingInProgress) {
       this.clearInterval();
       this.clearCanvas();
@@ -87,6 +89,28 @@ class CanvasArrow {
         this.ctx.closePath();
       });
     }
+  }
+
+  drawDisplacementToSpawn(tag) {
+    const temp = [];
+    this.saveArrows.forEach(arrow => {
+        if (arrow.player.tag != tag) {
+          temp.push(arrow);
+        }
+      }
+    )
+    this.saveArrows = temp;
+    this.clearInterval();
+    this.clearCanvas();
+
+    // draw the animation
+    this.saveArrows.forEach(arrow => {
+      this.ctx.beginPath();
+      this.ctx.fillStyle = `rgba(${arrow.player.r},${arrow.player.g},${arrow.player.b},1)`;
+      this.arrow(arrow.startXArrow, arrow.startYArrow, arrow.endArrowsPoints[0].endX, arrow.endArrowsPoints[0].endY, [0, 0, -20, 5, -10, 5]);
+      this.ctx.fill();
+      this.ctx.closePath();
+    });
   }
 
   arrow(startX, startY, endX, endY, controlPoints) {
@@ -128,7 +152,7 @@ class CanvasArrow {
     clearInterval(this.timer);
   }
 
-  reset(){
+  reset() {
     this.clearInterval();
     this.clearCanvas();
     this.movingInProgress = false;

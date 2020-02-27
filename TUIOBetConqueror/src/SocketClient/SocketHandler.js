@@ -49,12 +49,12 @@ const onWarsStart = () => {
   let animator = document.querySelectorAll('lottie-player');
   animator.forEach((lottie) => {
     lottie.style.visibility = 'visible';
-    lottie.reset();
-    lottie.play();
+    console.log("lottie")
+    console.log(lottie)
+    lottie.goToAndPlay(1,true);
   });
   let message = 'Les guerres commencent. Allez miser sur votre application pour conquerir les territoires.'
   speak(message);
-
 }
 
 const onFactionSelected = (message) => {
