@@ -34,8 +34,19 @@ public class ResultWarEvent implements EventProtocol {
 
         for (War war : round.getWars()) {
             if (!war.getBetPlayers().isEmpty()){
+                Map.Entry<Unity, Integer> maxBet = Collections.max(war.getBetPlayers().entrySet(), Comparator.comparingInt(Map.Entry::getValue));
+                war.getTerritory().setOwner(maxBet.getKey());
+                war.getTerritory().getUnitiesPresent().forEach(unity -> {
+                    if (unity.equals(maxBet.getKey()))
+                        return;
+                    else if(war.getTerritory().getUnitiesPresent().size() > 1){
+                        int amountGiveToLoser = maxBet.getValue() / (war.getTerritory().getUnitiesPresent().size() - 1);
+                        game.getPlayerByUnity(unity).addNumberOfPiece(amountGiveToLoser);
+                    }
 
-                war.getTerritory().setOwner(Collections.max(war.getBetPlayers().entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey());
+
+
+                });
 
             }
         }
@@ -47,11 +58,16 @@ public class ResultWarEvent implements EventProtocol {
        game.getTable().ifPresent(session ->
                new Messenger(session).sendSpecificMessageToAUser(generateWarResultMessageForTable().toString()));
 
-       if(round.getNumber() == 1){
+       if(gameIsFinish()){
            new EndGameEvent().processEvent();
            return;
        }
     }
+
+    private boolean gameIsFinish(){
+        return round.getNumber() == 1;
+    }
+
 
     private JsonObject generateWarResultMessageForTable() {
         JsonObject response = new JsonObject();
