@@ -58,7 +58,7 @@ const WaitingWarView = props => {
         console.log(wars);
         props.navigation.navigate('GameScreen', {
           wars,
-          pieces: 10,
+          pieces: pieces,
         });
       } else if (data.response === 'MOVE') {
         Vibration.vibrate(1000);
