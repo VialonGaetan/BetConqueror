@@ -56,17 +56,15 @@ class WarComponent extends React.Component {
   state = {
     confirmationDialog: false,
     pieces: this.props.pieces,
-    betValue: 0,
-    hasBet: this.props.war.hasBet,
   };
 
   handleOnPress() {
     this.setState({confirmationDialog: false});
-    if (this.state.betValue > this.props.pieces) {
+    if (this.props.betValue > this.props.pieces) {
       return alert('Mise trop haute : pas assez de pièces');
     }
 
-    if (this.state.betValue < 0) {
+    if (this.props.betValue < 0) {
       return alert('Mise négative');
     }
 
@@ -74,11 +72,11 @@ class WarComponent extends React.Component {
       request: 'BET',
       userId: this._client.playerID,
       warId: this.props.war.id,
-      amount: this.state.betValue,
+      amount: this.props.betValue,
     };
     console.log(request);
     this._client.sendMessage(request);
-    this.setState({hasBet: true});
+    this.props.setHasBet(true);
 
     if (this.props.jumpTo) {
       if (this.props.route.key === 'first') {
@@ -99,16 +97,16 @@ class WarComponent extends React.Component {
   //     e.stopPropagation();
   //     return;
   //   }
-  //   this.setState({betValue: this.state.betValue + key});
+  //   this.setState({betValue: this.props.betValue + key});
   // }
 
   onMinusPress() {
-    if (this.state.betValue <= 0) {
+    if (this.props.betValue <= 0) {
       return;
     }
 
-    if (this.state.betValue % 5 != 0) {
-      const offset = parseInt(this.state.betValue % 5) - 1;
+    if (this.props.betValue % 5 != 0) {
+      const offset = parseInt(this.props.betValue % 5) - 1;
       this.animationRefsOnesBetStack[this.animationRefsOnesBetStack.length - 1]
         .animate({
           from: {translateY: 0, translateX: 0},
@@ -120,22 +118,22 @@ class WarComponent extends React.Component {
           iterationCount: 1,
         })
         .then(() => {
-          this.setState({betValue: parseInt(this.state.betValue) - 1});
+          this.props.setBetValue(parseInt(this.props.betValue) - 1);
         });
     } else {
-      this.setState({betValue: parseInt(this.state.betValue) - 1});
+      this.props.setBetValue(parseInt(this.props.betValue) - 1);
     }
     const newPieces = this.state.pieces + 1;
     this.setState({pieces: newPieces});
   }
 
   onMinusPressFive() {
-    if (this.state.betValue <= 4) {
+    if (this.props.betValue <= 4) {
       return;
     }
 
-    if (this.state.betValue % 5 != 0) {
-      const offset = parseInt(this.state.betValue % 5) - 1;
+    if (this.props.betValue % 5 != 0) {
+      const offset = parseInt(this.props.betValue % 5) - 1;
       this.animationRefsFivesBetStack[
         this.animationRefsFivesBetStack.length - 1
       ]
@@ -149,22 +147,22 @@ class WarComponent extends React.Component {
           iterationCount: 1,
         })
         .then(() => {
-          this.setState({betValue: parseInt(this.state.betValue) - 5});
+          this.props.setBetValue(parseInt(this.props.betValue) - 5);
         });
     } else {
-      this.setState({betValue: parseInt(this.state.betValue) - 5});
+      this.props.setBetValue(parseInt(this.props.betValue) - 5);
     }
     const newPieces = this.state.pieces + 5;
     this.setState({pieces: newPieces});
   }
 
   onMinusPressTen() {
-    if (this.state.betValue <= 10) {
+    if (this.props.betValue <= 9) {
       return;
     }
 
-    if (this.state.betValue % 5 != 0) {
-      const offset = parseInt(this.state.betValue % 5) - 1;
+    if (this.props.betValue % 5 != 0) {
+      const offset = parseInt(this.props.betValue % 5) - 1;
       this.animationRefsOnesBetStack[this.animationRefsTensBetStack.length - 1]
         .animate({
           from: {translateY: 0, translateX: 0},
@@ -176,22 +174,22 @@ class WarComponent extends React.Component {
           iterationCount: 1,
         })
         .then(() => {
-          this.setState({betValue: parseInt(this.state.betValue) - 10});
+          this.props.setBetValue(parseInt(this.props.betValue) - 10);
         });
     } else {
-      this.setState({betValue: parseInt(this.state.betValue) - 10});
+      this.props.setBetValue(parseInt(this.props.betValue) - 10);
     }
     const newPieces = this.state.pieces + 10;
     this.setState({pieces: newPieces});
   }
 
   onPlusPress() {
-    if (parseInt(this.state.betValue) >= this.props.pieces) {
+    if (parseInt(this.props.betValue) >= this.props.pieces) {
       return;
     }
 
     if (this.state.pieces % 5 != 0) {
-      const offset = parseInt(this.state.betValue % 5);
+      const offset = parseInt(this.props.betValue % 5);
       this.animationRefsOnes[this.animationRefsOnes.length - 1]
         .animate({
           from: {translateY: 0, translateX: 0},
@@ -209,18 +207,16 @@ class WarComponent extends React.Component {
       const newPieces = this.state.pieces - 1;
       this.setState({pieces: newPieces});
     }
-    this.setState({
-      betValue: parseInt(this.state.betValue) + 1,
-    });
+    this.props.setBetValue(parseInt(this.props.betValue) + 1);
   }
 
   onPlusPressFive() {
-    if (parseInt(this.state.betValue) + 5 > this.props.pieces) {
+    if (parseInt(this.props.betValue) + 5 > this.props.pieces) {
       return;
     }
 
     if (this.state.pieces % 5 != 0) {
-      const offset = parseInt(this.state.betValue % 5);
+      const offset = parseInt(this.props.betValue % 5);
       this.animationRefsFives[this.animationRefsFives.length - 1]
         .animate({
           from: {translateY: 0, translateX: 0},
@@ -238,18 +234,16 @@ class WarComponent extends React.Component {
       const newPieces = this.state.pieces - 5;
       this.setState({pieces: newPieces});
     }
-    this.setState({
-      betValue: parseInt(this.state.betValue) + 5,
-    });
+    this.props.setBetValue(parseInt(this.props.betValue) + 5);
   }
 
   onPlusPressTen() {
-    if (parseInt(this.state.betValue) + 10 > this.props.pieces) {
+    if (parseInt(this.props.betValue) + 10 > this.props.pieces) {
       return;
     }
 
     if (this.state.pieces % 5 != 0) {
-      const offset = parseInt(this.state.betValue % 5);
+      const offset = parseInt(this.props.betValue % 5);
       this.animationRefsTens[this.animationRefsTens.length - 1]
         .animate({
           from: {translateY: 0, translateX: 0},
@@ -267,13 +261,11 @@ class WarComponent extends React.Component {
       const newPieces = this.state.pieces - 10;
       this.setState({pieces: newPieces});
     }
-    this.setState({
-      betValue: parseInt(this.state.betValue) + 10,
-    });
+    this.props.setBetValue(parseInt(this.props.betValue) + 10);
   }
 
   renderBetInput() {
-    if (!this.state.hasBet) {
+    if (!this.props.hasBet) {
       return (
         <View style={{flex: 0, flexDirection: 'row'}}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
@@ -323,8 +315,18 @@ class WarComponent extends React.Component {
       );
     }
     return (
-      <View style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 20}}>
+      <View
+        style={{
+          flex: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 15,
+          }}>
           Mise envoyée ! {'\n'} En attente de la fin du tour de guerres pour les
           résultats ...
         </Text>
@@ -563,7 +565,7 @@ class WarComponent extends React.Component {
       <View style={{flex: 1}}>
         <Dialog.Container visible={this.state.confirmationDialog}>
           <Dialog.Title>Confirmation</Dialog.Title>
-          <Dialog.Description>Miser {this.state.betValue} ?</Dialog.Description>
+          <Dialog.Description>Miser {this.props.betValue} ?</Dialog.Description>
           <Dialog.Button
             onPress={() => {
               this.setState({confirmationDialog: false});
@@ -576,6 +578,7 @@ class WarComponent extends React.Component {
         <View
           style={{
             alignItems: 'center',
+            justifyContent: 'center',
             width,
             flex: 0.3,
             borderWitdth: 2,
@@ -642,8 +645,10 @@ class WarComponent extends React.Component {
         <View style={{flex: 0, alignItems: 'center'}}>
           {this.renderBetInput()}
         </View>
+
         <View
           style={{
+            top: this.props.hasBet ? 20 : 0,
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
@@ -665,56 +670,16 @@ class WarComponent extends React.Component {
               fontWeight: 'bold',
             }}
             keyboardType={'numeric'}
-            value={'' + this.state.betValue}
+            value={'' + this.props.betValue}
           />
         </View>
         <View style={{flex: 0.1}}></View>
         <View style={{flex: 0, flexDirection: 'row'}}>
-          {this.renderStack(this.state.betValue, true)}
+          {this.renderStack(this.props.betValue, true)}
         </View>
-
-        {/* <Image
-            style={{width: width / 5, height: height / 9}}
-            source={SwordsIcon}
-          /> */}
-        {/* <CountDown
-          until={9999}
-          // onFinish={() => {
-          //   alert('Fin des guerres !');
-          //   bet(wars[0].id, 0);
-          // }}
-          digitStyle={{backgroundColor: 'black'}}
-          digitTxtStyle={{color: 'white'}}
-          size={20}
-          timeToShow={['M', 'S']}
-          timeLabels={{m: 'Minutes', s: 'Secondes'}}
-        /> */}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  background: {
-    width,
-    height,
-  },
-  blue: {
-    position: 'absolute',
-  },
-  green: {
-    position: 'absolute',
-  },
-  red: {
-    position: 'absolute',
-    top: 400,
-    left: 150,
-    width: 200,
-    height: 200,
-  },
-});
 
 export default WarComponent;

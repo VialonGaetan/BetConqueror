@@ -19,12 +19,17 @@ const FirstRoute = props => (
     </View>
 
     <View style={[styles.scene]}>
+      {console.log('YOOOO' + props.betValue)}
       <WarComponent
         style={[styles.war]}
         war={props.war}
         pieces={props.pieces}
         jumpTo={props.jumpTo}
         route={props.route}
+        betValue={props.betValue}
+        setBetValue={props.setBetValue}
+        hasBet={props.hasBet}
+        setHasBet={props.setHasBet}
       />
     </View>
   </View>
@@ -51,6 +56,10 @@ const SecondRoute = props => (
         pieces={props.pieces}
         jumpTo={props.jumpTo}
         route={props.route}
+        betValue={props.betValue}
+        setBetValue={props.setBetValue}
+        hasBet={props.hasBet}
+        setHasBet={props.setHasBet}
       />
     </View>
   </View>
@@ -59,6 +68,12 @@ const SecondRoute = props => (
 const initialLayout = {width: Dimensions.get('window').width};
 
 function GameView(props) {
+  const [betValue1, setBetValue1] = React.useState(0);
+  const [betValue2, setBetValue2] = React.useState(0);
+
+  const [hasBet1, setHasBet1] = React.useState(false);
+  const [hasBet2, setHasBet2] = React.useState(false);
+
   const [pieces, setPieces] = React.useState(10);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -82,6 +97,10 @@ function GameView(props) {
         route={route}
         jumpTo={jumpTo}
         color={color}
+        setBetValue={setBetValue1}
+        betValue={betValue1}
+        hasBet={hasBet1}
+        setHasBet={setHasBet1}
       />
     ),
     second: ({jumpTo, route}) => (
@@ -94,6 +113,10 @@ function GameView(props) {
         route={route}
         jumpTo={jumpTo}
         color={color}
+        setBetValue={setBetValue2}
+        betValue={betValue2}
+        hasBet={hasBet2}
+        setHasBet={setHasBet2}
       />
     ),
   });
@@ -179,7 +202,15 @@ function GameView(props) {
 
           <View style={[styles.scene]}>
             <View style={[styles.war]}>
-              <WarComponent setPieces war={wars[0]} pieces={pieces} />
+              <WarComponent
+                setPieces
+                war={wars[0]}
+                pieces={pieces}
+                setBetValue={setBetValue1}
+                betValue={betValue1}
+                hasBet={hasBet1}
+                setHasBet={setHasBet1}
+              />
             </View>
           </View>
         </View>
