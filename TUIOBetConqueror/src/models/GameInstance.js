@@ -224,6 +224,7 @@ class GameInstance {
                 request: "NEW_ROUND",
             }
             new SocketClient().sendMessage(request);
+            this.plotAndCamp.map((place) => place.removeHighlight());
         }
     }
     getCurrentTourNumber() {

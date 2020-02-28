@@ -4,12 +4,14 @@ const synth = window.speechSynthesis;
 const speak = (message) => {
     synth.cancel();
     let utterThis = new SpeechSynthesisUtterance();
-    utterThis.text = message;
-    utterThis.volume = 1;
+    utterThis.volume = 0;
     utterThis.lang = "fr-FR";
-    console.log(synth.getVoices())
     utterThis.voice = synth.getVoices()[7];
-    //.speak(utterThis);
+    let boucle = message.length / 200;
+    for (let i = 0; i < boucle; i++) {
+        utterThis.text = message.slice(i * 200, (i + 1) * 200);
+        synth.speak(utterThis);
+    }
 }
 
 

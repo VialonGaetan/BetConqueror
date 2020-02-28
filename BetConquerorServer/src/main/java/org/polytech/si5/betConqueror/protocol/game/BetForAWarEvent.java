@@ -84,6 +84,7 @@ public class BetForAWarEvent implements EventProtocol {
 
         
         currentWar.setBetToAPlayer(unity,amount);
+        player.removeNumberOfPiece(amount);
 
 
 

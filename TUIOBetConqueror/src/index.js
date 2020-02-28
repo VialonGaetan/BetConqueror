@@ -45,14 +45,10 @@ const buildApp = () => {
         myQrCode.style.height = "10em";
       }
     );
-
-    //setInterval(everySecond, 300);
     audio.src = 'assets/0267.mp3'
     audio.play();
-    const welcomeMessage1 = "Bienvenue jeunes aventuriers, vous êtes ici pour une expérience formidable dans le jeu Bet Conqueror. Pour commencer une partie, veuillez vous equiper d'un smartphone avec l'application Bet conqueror mobile."
-    const welcomeMessage2 = "Lancez ensuite l'application et scannez le Qrcode present devant vous. Choissisez tous une faction et la partie commencera."
-    speak(welcomeMessage1);
-    speak(welcomeMessage2);
+    const welcomeMessage = "Bienvenue jeunes aventuriers, vous êtes ici pour une expérience formidable dans le jeu Bet Conqueror. Pour commencer une partie, veuillez vous equiper d'un smartphone avec l'application Bet conqueror mobile. Lancez ensuite l'application et scannez le Qrcode present devant vous. Choissisez tous une faction et la partie commencera."
+    speak(welcomeMessage);
   });
 };
 

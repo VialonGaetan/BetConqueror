@@ -3,7 +3,7 @@ import $ from 'jquery/dist/jquery.min';
 import ButtonWidget from './../ImageWidget/ButtonWidget';
 
 class Camp {
-  constructor(x, y, radius, startAngle, endAngle, img, id, canvasArrow, possibleDisplacement) {
+  constructor(x, y, radius, startAngle, endAngle, img, id, canvasArrow, possibleDisplacement, rotation) {
     this.id = id;
     this.x = x;
     this.y = y;
@@ -25,7 +25,7 @@ class Camp {
     //this.ctx.strokeStyle = "transparent";
     this.drawImage();
     $('#game-container').append(camp);
-    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100, radius, this.canvasArrow);
+    const button = new ButtonWidget(this.getStartXDrawButton(), this.getStartYDrawButton(), 100, 100, rotation, this.canvasArrow);
     this.button = button;
     $('#game-container').append(button.domElem);
     this.possibleDisplacement = possibleDisplacement;

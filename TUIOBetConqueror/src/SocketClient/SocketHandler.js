@@ -48,7 +48,7 @@ const onWarsStart = () => {
   let animator = document.querySelectorAll('lottie-player');
   animator.forEach((lottie) => {
     lottie.style.visibility = 'visible';
-    lottie.goToAndPlay(1, true);
+    lottie.play();
   });
   let message = 'Les guerres commencent. Allez miser sur votre application pour conquerir les territoires.'
   speak(message);
@@ -164,7 +164,10 @@ const setReturnSpawn = (results) => {
   const looser = [];
   gameInstance.unities.forEach(item => {
     if (!winners.some((unity) => unity != 'NONE' && item.tag === unity)) {
-      looser.push(item)
+      looser.push(item);
+      item.tempPosition = item.spawn;
+    } else {
+      gameInstance.getPlotOrCamp(item.position).highLight(item);
     }
   })
   let newOrderPlayers = [];

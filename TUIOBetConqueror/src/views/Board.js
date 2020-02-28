@@ -29,10 +29,10 @@ const buildBoard = () => {
   $('#game-container').append(downRightPlot.domElem);
   $('#game-container').append(centerPlot.domElem);
 
-  const downCampForm = new Camp(WINDOW_WIDTH / 2, WINDOW_HEIGHT, WINDOW_WIDTH / 8, Math.PI, 0, 'assets/beach11.png', 5, canvasArrow, [1, 3, 4]);
-  const topCampForm = new Camp(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 8, 0, Math.PI, 'assets/beach4444.png', 6, canvasArrow, [0, 2, 4]);
-  const leftCampForm = new Camp(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI * 1.5, Math.PI / 2, 'assets/beach333.png', 7, canvasArrow, [0, 1, 4]);
-  const rightCampForm = new Camp(WINDOW_WIDTH, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI / 2, Math.PI * 1.5, 'assets/beach5.png', 8, canvasArrow, [2, 3, 4]);
+  const downCampForm = new Camp(WINDOW_WIDTH / 2, WINDOW_HEIGHT, WINDOW_WIDTH / 8, Math.PI, 0, 'assets/beach11.png', 5, canvasArrow, [1, 3, 4], 0);
+  const topCampForm = new Camp(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 8, 0, Math.PI, 'assets/beach4444.png', 6, canvasArrow, [0, 2, 4], 180);
+  const leftCampForm = new Camp(0, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI * 1.5, Math.PI / 2, 'assets/beach333.png', 7, canvasArrow, [0, 1, 4], 90);
+  const rightCampForm = new Camp(WINDOW_WIDTH, WINDOW_HEIGHT / 2, WINDOW_WIDTH / 8, Math.PI / 2, Math.PI * 1.5, 'assets/beach5.png', 8, canvasArrow, [2, 3, 4], 270);
   const lowCamp = new ImageWidget(downCampForm.getStartXEvent(), downCampForm.getStartYEvent(), downCampForm.getWidthEvent(), downCampForm.getHeightEvent(), downCampForm);
   const topCamp = new ImageWidget(topCampForm.getStartXEvent(), topCampForm.getStartYEvent(), topCampForm.getWidthEvent(), topCampForm.getHeightEvent(), topCampForm);
   const leftCamp = new ImageWidget(leftCampForm.getStartXEvent(), leftCampForm.getStartYEvent(), leftCampForm.getWidthEvent(), leftCampForm.getHeightEvent(), leftCampForm);

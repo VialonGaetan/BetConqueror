@@ -41,12 +41,12 @@ class ButtonWidget extends TUIOWidget {
         this.disable();
         this._domElem.css('background-color', `transparent`);
         this._domElem.css('background-image', `url('assets/endOfTurn.png')`);
-        this._domElem.css('transform', 'rotate(' + rotation + 'rad);')
         this._domElem.css('width', `${width}px`);
         this._domElem.css('height', `${height}px`);
         this._domElem.css('position', 'absolute');
         this._domElem.css('left', `${x}px`);
         this._domElem.css('top', `${y}px`);
+        this._domElem.css('transform', `rotate(${rotation}deg)`);
 
     }
 

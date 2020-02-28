@@ -65,6 +65,10 @@ public class Player {
         this.numberOfPiece += numberOfPiece;
     }
 
+    public void removeNumberOfPiece(int numberOfPiece) {
+        this.numberOfPiece -= numberOfPiece;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
