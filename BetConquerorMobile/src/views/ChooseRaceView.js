@@ -137,10 +137,10 @@ export class ChooseRaceView extends React.Component {
               borderColor: borderColor,
               borderRadius: width / 10,
               backgroundColor: this.getColorFromRaceName(race.name),
+              right: race.username ? 40 : 0,
             }}
           />
         </TouchableOpacity>
-        <View style={{flex: 0.2}}></View>
         {race.username ? (
           <Text
             style={{
