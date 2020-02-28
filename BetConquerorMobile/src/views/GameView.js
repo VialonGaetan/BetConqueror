@@ -156,7 +156,7 @@ function GameView(props) {
         const warResults = data.result;
         console.log(warResults.money);
         props.navigation.navigate('WaitingWar', {
-          pieces: warResults.money,
+          pieces: data.money,
           warResults,
         });
       }

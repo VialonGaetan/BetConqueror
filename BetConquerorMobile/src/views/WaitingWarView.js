@@ -43,9 +43,7 @@ const {width, height} = Dimensions.get('window');
 const WaitingWarView = props => {
   const _client = GameWebSocket.getInstance();
 
-  const pieces = props.navigation.getParam('pieces')
-    ? props.navigation.getParam('pieces')
-    : 10;
+  const pieces = parseInt(props.navigation.getParam('pieces'));
 
   _client._client.onmessage = e => {
     //alert(JSON.stringify(e));

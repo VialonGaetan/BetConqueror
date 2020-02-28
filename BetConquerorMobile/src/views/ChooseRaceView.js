@@ -80,7 +80,7 @@ export class ChooseRaceView extends React.Component {
           });
           this.setState({races: newRaces});
         } else if (data.response === 'GAME_START') {
-          this.props.navigation.navigate('WaitingWar');
+          this.props.navigation.navigate('WaitingWar', {pieces: 10});
         } else if (data.response === 'KO') {
           if (data.reason === 'FULL') {
             const resetAction = StackActions.reset({
