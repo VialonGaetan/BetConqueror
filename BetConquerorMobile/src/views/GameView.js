@@ -24,6 +24,9 @@ const FirstRoute = props => (
         style={[styles.war]}
         war={props.war}
         pieces={props.pieces}
+        piecesTour={props.piecesTour}
+        setPieces={props.setPieces}
+        setPiecesTour={props.setPiecesTour}
         jumpTo={props.jumpTo}
         route={props.route}
         betValue={props.betValue}
@@ -54,6 +57,9 @@ const SecondRoute = props => (
         style={[styles.war]}
         war={props.war}
         pieces={props.pieces}
+        piecesTour={props.piecesTour}
+        setPieces={props.setPieces}
+        setPiecesTour={props.setPiecesTour}
         jumpTo={props.jumpTo}
         route={props.route}
         betValue={props.betValue}
@@ -73,8 +79,11 @@ function GameView(props) {
 
   const [hasBet1, setHasBet1] = React.useState(false);
   const [hasBet2, setHasBet2] = React.useState(false);
+  const piecesForTour = props.navigation.getParam('pieces');
+  const [pieces1, setPieces1] = React.useState(piecesForTour);
+  const [pieces2, setPieces2] = React.useState(10);
+  const [piecesTour, setPiecesTour] = React.useState(10);
 
-  const [pieces, setPieces] = React.useState(10);
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {key: 'first', title: 'Guerre 1'},
@@ -90,8 +99,10 @@ function GameView(props) {
     first: ({jumpTo, route}) => (
       <FirstRoute
         username={username}
-        pieces={pieces}
-        setPieces={setPieces}
+        pieces={pieces1}
+        setPieces={setPieces1}
+        piecesTour={piecesTour}
+        setPiecesTour={setPiecesTour}
         war={wars[0]}
         handleOnPressRecap
         route={route}
@@ -106,8 +117,10 @@ function GameView(props) {
     second: ({jumpTo, route}) => (
       <SecondRoute
         username={username}
-        pieces={pieces}
-        setPieces={setPieces}
+        pieces={pieces1}
+        setPieces={setPieces1}
+        piecesTour={piecesTour}
+        setPiecesTour={setPiecesTour}
         war={wars[1]}
         handleOnPressRecap
         route={route}
@@ -139,9 +152,9 @@ function GameView(props) {
       const data = JSON.parse(e.data);
       if (data.response === 'BET') {
         wars.find(war => war.id === data.warId).hasBet = true;
-        setPieces(pieces - data.amount);
       } else if (data.response === 'WAR_RESULT') {
         const warResults = data.result;
+        console.log(warResults.money);
         props.navigation.navigate('WaitingWar', {
           pieces: warResults.money,
           warResults,
@@ -203,9 +216,11 @@ function GameView(props) {
           <View style={[styles.scene]}>
             <View style={[styles.war]}>
               <WarComponent
-                setPieces
+                setPieces={setPieces1}
                 war={wars[0]}
-                pieces={pieces}
+                piecesTour={piecesTour}
+                pieces={pieces1}
+                setPiecesTour={setPiecesTour}
                 setBetValue={setBetValue1}
                 betValue={betValue1}
                 hasBet={hasBet1}

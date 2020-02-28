@@ -55,14 +55,10 @@ class WarComponent extends React.Component {
 
   state = {
     confirmationDialog: false,
-    pieces: this.props.pieces,
   };
 
   handleOnPress() {
     this.setState({confirmationDialog: false});
-    if (this.props.betValue > this.props.pieces) {
-      return alert('Mise trop haute : pas assez de pièces');
-    }
 
     if (this.props.betValue < 0) {
       return alert('Mise négative');
@@ -84,6 +80,8 @@ class WarComponent extends React.Component {
       }
       this.props.jumpTo('first');
     }
+
+    this.props.setPiecesTour(this.state.pieces);
   }
 
   // handleOnKeyPress(e) {
@@ -119,12 +117,14 @@ class WarComponent extends React.Component {
         })
         .then(() => {
           this.props.setBetValue(parseInt(this.props.betValue) - 1);
+          const newPieces = this.props.pieces + 1;
+          this.props.setPieces(newPieces);
         });
     } else {
       this.props.setBetValue(parseInt(this.props.betValue) - 1);
+      const newPieces = this.props.pieces + 1;
+      this.props.setPieces(newPieces);
     }
-    const newPieces = this.state.pieces + 1;
-    this.setState({pieces: newPieces});
   }
 
   onMinusPressFive() {
@@ -152,8 +152,8 @@ class WarComponent extends React.Component {
     } else {
       this.props.setBetValue(parseInt(this.props.betValue) - 5);
     }
-    const newPieces = this.state.pieces + 5;
-    this.setState({pieces: newPieces});
+    const newPieces = this.props.pieces + 5;
+    this.props.setPieces(newPieces);
   }
 
   onMinusPressTen() {
@@ -179,16 +179,16 @@ class WarComponent extends React.Component {
     } else {
       this.props.setBetValue(parseInt(this.props.betValue) - 10);
     }
-    const newPieces = this.state.pieces + 10;
-    this.setState({pieces: newPieces});
+    const newPieces = this.props.pieces + 10;
+    this.props.setPieces(newPieces);
   }
 
   onPlusPress() {
-    if (parseInt(this.props.betValue) >= this.props.pieces) {
+    if (this.props.pieces - 1 < 0) {
       return;
     }
 
-    if (this.state.pieces % 5 != 0) {
+    if (this.props.pieces % 5 != 0) {
       const offset = parseInt(this.props.betValue % 5);
       this.animationRefsOnes[this.animationRefsOnes.length - 1]
         .animate({
@@ -200,22 +200,23 @@ class WarComponent extends React.Component {
           iterationCount: 1,
         })
         .then(() => {
-          const newPieces = this.state.pieces - 1;
-          this.setState({pieces: newPieces});
+          const newPieces = this.props.pieces - 1;
+          this.props.setPieces(newPieces);
+          this.props.setBetValue(parseInt(this.props.betValue) + 1);
         });
     } else {
-      const newPieces = this.state.pieces - 1;
-      this.setState({pieces: newPieces});
+      const newPieces = this.props.pieces - 1;
+      this.props.setPieces(newPieces);
+      this.props.setBetValue(parseInt(this.props.betValue) + 1);
     }
-    this.props.setBetValue(parseInt(this.props.betValue) + 1);
   }
 
   onPlusPressFive() {
-    if (parseInt(this.props.betValue) + 5 > this.props.pieces) {
+    if (this.props.pieces - 5 < 0) {
       return;
     }
 
-    if (this.state.pieces % 5 != 0) {
+    if (this.props.pieces % 5 != 0) {
       const offset = parseInt(this.props.betValue % 5);
       this.animationRefsFives[this.animationRefsFives.length - 1]
         .animate({
@@ -227,22 +228,22 @@ class WarComponent extends React.Component {
           iterationCount: 1,
         })
         .then(() => {
-          const newPieces = this.state.pieces - 5;
-          this.setState({pieces: newPieces});
+          const newPieces = this.props.pieces - 5;
+          this.props.setPieces(newPieces);
         });
     } else {
-      const newPieces = this.state.pieces - 5;
-      this.setState({pieces: newPieces});
+      const newPieces = this.props.pieces - 5;
+      this.props.setPieces(newPieces);
     }
     this.props.setBetValue(parseInt(this.props.betValue) + 5);
   }
 
   onPlusPressTen() {
-    if (parseInt(this.props.betValue) + 10 > this.props.pieces) {
+    if (this.props.pieces - 10 < 0) {
       return;
     }
 
-    if (this.state.pieces % 5 != 0) {
+    if (this.props.pieces % 5 != 0) {
       const offset = parseInt(this.props.betValue % 5);
       this.animationRefsTens[this.animationRefsTens.length - 1]
         .animate({
@@ -254,12 +255,12 @@ class WarComponent extends React.Component {
           iterationCount: 1,
         })
         .then(() => {
-          const newPieces = this.state.pieces - 10;
-          this.setState({pieces: newPieces});
+          const newPieces = this.props.pieces - 10;
+          this.props.setPieces(newPieces);
         });
     } else {
-      const newPieces = this.state.pieces - 10;
-      this.setState({pieces: newPieces});
+      const newPieces = this.props.pieces - 10;
+      this.props.setPieces(newPieces);
     }
     this.props.setBetValue(parseInt(this.props.betValue) + 10);
   }
@@ -632,12 +633,12 @@ class WarComponent extends React.Component {
               textAlign: 'center',
               color: 'black',
             }}>
-            {this.state.pieces}
+            {this.props.pieces}
           </Text>
         </View>
         <View style={{flex: 0.1}}></View>
         <View style={{flex: 0, flexDirection: 'row'}}>
-          {this.renderStack(this.state.pieces)}
+          {this.renderStack(this.props.pieces)}
         </View>
 
         <View style={{flex: 0.1}}></View>

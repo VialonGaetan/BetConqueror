@@ -43,6 +43,10 @@ const {width, height} = Dimensions.get('window');
 const WaitingWarView = props => {
   const _client = GameWebSocket.getInstance();
 
+  const pieces = props.navigation.getParam('pieces')
+    ? props.navigation.getParam('pieces')
+    : 10;
+
   _client._client.onmessage = e => {
     //alert(JSON.stringify(e));
     console.log(e);
@@ -56,6 +60,7 @@ const WaitingWarView = props => {
         console.log(wars);
         props.navigation.navigate('GameScreen', {
           wars,
+          pieces: 10,
         });
       } else if (data.response === 'MOVE') {
         Vibration.vibrate(1000);
@@ -63,9 +68,7 @@ const WaitingWarView = props => {
       }
     }
   };
-  const pieces = props.navigation.getParam('pieces')
-    ? props.navigation.getParam('pieces')
-    : 0;
+
   const warResults = props.navigation.getParam('warResults');
 
   const getWarVsRow = unities => {
@@ -399,7 +402,7 @@ const WaitingWarView = props => {
         <Text style={{fontSize: 14, fontWeight: 'bold'}}>
           Pièces pour les guerres à venir :{' '}
         </Text>
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{pieces + 10} </Text>
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{pieces} </Text>
         <Image source={CoinIcon} />
       </View>
 
