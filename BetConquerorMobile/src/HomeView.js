@@ -17,7 +17,9 @@ import {
   Button,
   TouchableOpacity,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
+const {width, height} = Dimensions.get('window');
 
 export class HomeView extends React.Component {
   static navigationOptions = {
@@ -53,26 +55,38 @@ export class HomeView extends React.Component {
         source={require('./../assets/fond3.jpg')}>
         <Text
           style={{
+            fontWeight: 'bold',
+
             color: 'white',
             fontSize: 46,
-            marginBottom: '50%',
+            marginBottom: '70%',
             marginTop: '10%',
           }}>
           Bet Conqueror
         </Text>
         <Text
           style={{
+            fontWeight: 'bold',
             color: 'white',
             fontSize: 26,
             marginBottom: '20%',
             textAlign: 'center',
           }}>
-          Pour rejoindre une partie scanner le QRcode de la table
+          Pour rejoindre une partie {'\n'}Scanne le QRcode de la table
         </Text>
-        <Button
-          title="Rejoindre une partie"
-          onPress={() => this.props.navigation.navigate('Scan')}
-        />
+
+        <TouchableOpacity
+          style={{
+            alignSelf: 'center',
+            justifyContent: 'center',
+            height: height / 20,
+            width: width / 2,
+            borderWidth: 2,
+            backgroundColor: 'lightgreen',
+          }}
+          onPress={() => this.props.navigation.navigate('Scan')}>
+          <Text style={{alignSelf: 'center'}}>Rejoindre une partie</Text>
+        </TouchableOpacity>
 
         <Button
           title="Skip scan"

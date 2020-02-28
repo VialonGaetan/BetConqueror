@@ -12,9 +12,13 @@ import Zone3 from '../../assets/Island3.png';
 import Zone4 from '../../assets/Island4.png';
 import Zone5 from '../../assets/Island5.png';
 import FlatCoinIcon from '../../assets/icons/piece.png';
+import FlatCoinIcon10 from '../../assets/icons/piece10.png';
+import FlatCoinIcon5 from '../../assets/icons/piece5.png';
+
 import CoinIcon from '../../assets/icons/coin.png';
 
 import * as Animatable from 'react-native-animatable';
+import Dialog from 'react-native-dialog';
 
 import {
   SafeAreaView,
@@ -40,18 +44,32 @@ class WarComponent extends React.Component {
   constructor(props) {
     super(props);
     this._client = GameWebSocket.getInstance();
-    this.animationRefs = [];
+    this.animationRefsOnes = [];
+    this.animationRefsFives = [];
+    this.animationRefsTens = [];
+
+    this.animationRefsOnesBetStack = [];
+    this.animationRefsFivesBetStack = [];
+    this.animationRefsTensBetStack = [];
   }
 
   state = {
+    confirmationDialog: false,
+    pieces: this.props.pieces,
     betValue: 0,
     hasBet: this.props.war.hasBet,
   };
 
   handleOnPress() {
+    this.setState({confirmationDialog: false});
     if (this.state.betValue > this.props.pieces) {
       return alert('Mise trop haute : pas assez de pièces');
     }
+
+    if (this.state.betValue < 0) {
+      return alert('Mise négative');
+    }
+
     let request = {
       request: 'BET',
       userId: this._client.playerID,
@@ -70,101 +88,222 @@ class WarComponent extends React.Component {
     }
   }
 
-  handleOnKeyPress(e) {
-    const {key} = e.nativeEvent;
-    if (key === 'Backspace') {
-      const newValue = this.state.betValue.toString().slice(0, -1);
-      this.setState({betValue: newValue});
-      return;
-    }
-    if (isNaN(parseInt(key)) || this.state.betValue.length > 2) {
-      e.stopPropagation();
-      return;
-    }
-    this.setState({betValue: this.state.betValue + key});
-  }
+  // handleOnKeyPress(e) {
+  //   const {key} = e.nativeEvent;
+  //   if (key === 'Backspace') {
+  //     const newValue = this.state.betValue.toString().slice(0, -1);
+  //     this.setState({betValue: newValue});
+  //     return;
+  //   }
+  //   if (isNaN(parseInt(key)) || this.state.betValue.length > 2) {
+  //     e.stopPropagation();
+  //     return;
+  //   }
+  //   this.setState({betValue: this.state.betValue + key});
+  // }
 
   onMinusPress() {
     if (this.state.betValue <= 0) {
       return;
     }
 
-    // this.AnimationRef.animate({
-    //   from: {translateY: height / 2, translateX: width / 2},
-    //   to: {translateY: 0, translateX: width - width / 10},
+    if (this.state.betValue % 5 != 0) {
+      const offset = parseInt(this.state.betValue % 5) - 1;
+      this.animationRefsOnesBetStack[this.animationRefsOnesBetStack.length - 1]
+        .animate({
+          from: {translateY: 0, translateX: 0},
 
-    //   duration: 3000,
-    //   delay: 1,
-    //   iterationCount: 1,
-    // });
+          to: {translateY: -height / 3.9 + offset * 5, translateX: 0},
 
-    this.AnimationRef2.animate({
-      from: {translateY: 0, translateX: width - width / 10},
-      to: {translateY: height / 1.5 - 5, translateX: width / 2},
+          duration: 100,
 
-      duration: 3000,
-      delay: 1,
-      iterationCount: 1,
-    });
-    this.setState({betValue: parseInt(this.state.betValue) - 1});
+          iterationCount: 1,
+        })
+        .then(() => {
+          this.setState({betValue: parseInt(this.state.betValue) - 1});
+        });
+    } else {
+      this.setState({betValue: parseInt(this.state.betValue) - 1});
+    }
+    const newPieces = this.state.pieces + 1;
+    this.setState({pieces: newPieces});
+  }
+
+  onMinusPressFive() {
+    if (this.state.betValue <= 4) {
+      return;
+    }
+
+    if (this.state.betValue % 5 != 0) {
+      const offset = parseInt(this.state.betValue % 5) - 1;
+      this.animationRefsFivesBetStack[
+        this.animationRefsFivesBetStack.length - 1
+      ]
+        .animate({
+          from: {translateY: 0, translateX: 0},
+
+          to: {translateY: -height / 3.9 + offset * 5, translateX: 0},
+
+          duration: 100,
+
+          iterationCount: 1,
+        })
+        .then(() => {
+          this.setState({betValue: parseInt(this.state.betValue) - 5});
+        });
+    } else {
+      this.setState({betValue: parseInt(this.state.betValue) - 5});
+    }
+    const newPieces = this.state.pieces + 5;
+    this.setState({pieces: newPieces});
+  }
+
+  onMinusPressTen() {
+    if (this.state.betValue <= 10) {
+      return;
+    }
+
+    if (this.state.betValue % 5 != 0) {
+      const offset = parseInt(this.state.betValue % 5) - 1;
+      this.animationRefsOnesBetStack[this.animationRefsTensBetStack.length - 1]
+        .animate({
+          from: {translateY: 0, translateX: 0},
+
+          to: {translateY: -height / 3.9 + offset * 5, translateX: 0},
+
+          duration: 100,
+
+          iterationCount: 1,
+        })
+        .then(() => {
+          this.setState({betValue: parseInt(this.state.betValue) - 10});
+        });
+    } else {
+      this.setState({betValue: parseInt(this.state.betValue) - 10});
+    }
+    const newPieces = this.state.pieces + 10;
+    this.setState({pieces: newPieces});
   }
 
   onPlusPress() {
     if (parseInt(this.state.betValue) >= this.props.pieces) {
       return;
     }
-    console.log(this.animationRefs[this.animationRefs.length]);
-    this.animationRefs[this.animationRefs.length - 1].animate({
-      to: {translateY: height / 1.5, translateX: width / 2},
 
-      duration: 3000,
-      delay: 1,
-      iterationCount: 1,
+    if (this.state.pieces % 5 != 0) {
+      const offset = parseInt(this.state.betValue % 5);
+      this.animationRefsOnes[this.animationRefsOnes.length - 1]
+        .animate({
+          from: {translateY: 0, translateX: 0},
+
+          to: {translateY: height / 3.9 - offset * 5, translateX: 0},
+
+          duration: 100,
+          iterationCount: 1,
+        })
+        .then(() => {
+          const newPieces = this.state.pieces - 1;
+          this.setState({pieces: newPieces});
+        });
+    } else {
+      const newPieces = this.state.pieces - 1;
+      this.setState({pieces: newPieces});
+    }
+    this.setState({
+      betValue: parseInt(this.state.betValue) + 1,
     });
+  }
 
-    // this.AnimationRef2.animate({
-    //   from: {translateY: 0, translateX: width - width / 10},
-    //   to: {translateY: height / 2 - 5, translateX: width / 2},
+  onPlusPressFive() {
+    if (parseInt(this.state.betValue) + 5 > this.props.pieces) {
+      return;
+    }
 
-    //   duration: 3000,
-    //   delay: 1,
-    //   iterationCount: 1,
-    // });
-    this.setState({betValue: parseInt(this.state.betValue) + 1});
+    if (this.state.pieces % 5 != 0) {
+      const offset = parseInt(this.state.betValue % 5);
+      this.animationRefsFives[this.animationRefsFives.length - 1]
+        .animate({
+          from: {translateY: 0, translateX: 0},
+
+          to: {translateY: height / 3.9 - offset * 5, translateX: 0},
+
+          duration: 100,
+          iterationCount: 1,
+        })
+        .then(() => {
+          const newPieces = this.state.pieces - 5;
+          this.setState({pieces: newPieces});
+        });
+    } else {
+      const newPieces = this.state.pieces - 5;
+      this.setState({pieces: newPieces});
+    }
+    this.setState({
+      betValue: parseInt(this.state.betValue) + 5,
+    });
+  }
+
+  onPlusPressTen() {
+    if (parseInt(this.state.betValue) + 10 > this.props.pieces) {
+      return;
+    }
+
+    if (this.state.pieces % 5 != 0) {
+      const offset = parseInt(this.state.betValue % 5);
+      this.animationRefsTens[this.animationRefsTens.length - 1]
+        .animate({
+          from: {translateY: 0, translateX: 0},
+
+          to: {translateY: height / 3.9 - offset * 5, translateX: 0},
+
+          duration: 100,
+          iterationCount: 1,
+        })
+        .then(() => {
+          const newPieces = this.state.pieces - 10;
+          this.setState({pieces: newPieces});
+        });
+    } else {
+      const newPieces = this.state.pieces - 10;
+      this.setState({pieces: newPieces});
+    }
+    this.setState({
+      betValue: parseInt(this.state.betValue) + 10,
+    });
   }
 
   renderBetInput() {
     if (!this.state.hasBet) {
       return (
-        <View style={{flex: 0.2, flexDirection: 'row'}}>
+        <View style={{flex: 0, flexDirection: 'row'}}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
-            <TextInput
-              editable={false}
-              style={{
-                borderWidth: 3,
-                borderColor: 'grey',
-                alignSelf: 'center',
-                padding: 5,
-                minWidth: width / 7,
-                height: height / 18,
-                textAlign: 'center',
-                color: 'black',
-              }}
-              keyboardType={'numeric'}
-              value={'' + this.state.betValue}
-              onKeyPress={this.handleOnKeyPress.bind(this)}
-            />
             <View style={{flexDirection: 'column', padding: 10}}>
-              <ImageBackground
-                style={{width: width / 20, height: height / 20}}
-                source={CoinIcon}>
-                <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
-                  <Image source={upIcon} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
-                  <Image source={downIcon} />
-                </TouchableOpacity>
-              </ImageBackground>
+              <TouchableOpacity onPress={this.onPlusPress.bind(this)}>
+                <Image source={upIcon} />
+              </TouchableOpacity>
+              <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>1</Text>
+              <TouchableOpacity onPress={this.onMinusPress.bind(this)}>
+                <Image source={downIcon} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{flexDirection: 'column', padding: 10}}>
+              <TouchableOpacity onPress={this.onPlusPressFive.bind(this)}>
+                <Image source={upIcon} />
+              </TouchableOpacity>
+              <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>5</Text>
+              <TouchableOpacity onPress={this.onMinusPressFive.bind(this)}>
+                <Image source={downIcon} />
+              </TouchableOpacity>
+            </View>
+            <View style={{flexDirection: 'column', padding: 10}}>
+              <TouchableOpacity onPress={this.onPlusPressTen.bind(this)}>
+                <Image source={upIcon} />
+              </TouchableOpacity>
+              <Text style={{alignSelf: 'center', fontWeight: 'bold'}}>10</Text>
+              <TouchableOpacity onPress={this.onMinusPressTen.bind(this)}>
+                <Image source={downIcon} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={{flex: 0.05}}></View>
@@ -173,11 +312,11 @@ class WarComponent extends React.Component {
               alignSelf: 'center',
               justifyContent: 'center',
               height: height / 20,
-              width: width / 7,
+              width: width / 6,
               borderWidth: 2,
               backgroundColor: 'lightgreen',
             }}
-            onPress={this.handleOnPress.bind(this)}>
+            onPress={() => this.setState({confirmationDialog: true})}>
             <Text style={{alignSelf: 'center'}}>Miser</Text>
           </TouchableOpacity>
         </View>
@@ -196,7 +335,6 @@ class WarComponent extends React.Component {
   getTerritoryFromId() {
     let imageSource;
 
-    console.log(this.props.war);
     switch (this.props.war.zoneId) {
       case 0:
         imageSource = Zone4;
@@ -214,16 +352,13 @@ class WarComponent extends React.Component {
         imageSource = Zone5;
         break;
     }
-    console.log('sakjd');
-
-    console.log(imageSource);
 
     return (
       <Image
         style={{
           alignSelf: 'center',
-          width: width / 2.5,
-          height: height / 4.75,
+          width: width / 3,
+          height: height / 5.5,
         }}
         source={imageSource}
       />
@@ -232,7 +367,6 @@ class WarComponent extends React.Component {
   getIconFromUnity(unity) {
     let icon;
     let backgroundColor;
-    console.log(unity);
 
     switch (unity) {
       case 'E0':
@@ -260,7 +394,6 @@ class WarComponent extends React.Component {
         icon = MayaIcon;
         backgroundColor = 'green';
     }
-    console.log(backgroundColor);
     let widthDivisor = 5;
     let heightDivisor = 9;
 
@@ -283,68 +416,25 @@ class WarComponent extends React.Component {
     );
   }
 
-  renderCoinStackTens(number) {
+  renderCoinStackTens(number, bet) {
     let stack = [];
     for (var i = 0; i < number; i++) {
       stack.push(
-        <Image
-          style={{
-            width: 70,
-            height: 70,
-            position: 'absolute',
-            top: i > 0 ? 10 * i - 25 : -25,
-            left: width / 4,
-          }}
-          source={FlatCoinIcon}
-        />,
-      );
-    }
-    return (
-      <View>
-        {stack.map(coin => {
-          return coin;
-        })}
-      </View>
-    );
-  }
-
-  renderCoinStackFives(number) {
-    let stack = [];
-    for (var i = 0; i < number; i++) {
-      stack.push(
-        <Image
-          style={{
-            width: 45,
-            height: 45,
-            position: 'absolute',
-            top: i > 0 ? 8 * i - 8 : -8,
-            left: width / 8,
-          }}
-          source={FlatCoinIcon}
-        />,
-      );
-    }
-    return (
-      <View>
-        {stack.map(coin => {
-          return coin;
-        })}
-      </View>
-    );
-  }
-
-  renderCoinStackOnes(number) {
-    let stack = [];
-    for (var i = 0; i < number; i++) {
-      stack.push(
-        <Animatable.View ref={ref => this.animationRefs.push(ref)}>
+        <Animatable.View
+          ref={ref => {
+            bet
+              ? this.animationRefsTensBetStack.push(ref)
+              : this.animationRefsTens.push(ref);
+          }}>
           <Image
             style={{
+              width: 70,
+              height: 70,
               position: 'absolute',
-              top: i > 0 ? 5 * i : 0,
-              left: width / 30,
+              top: i > 0 ? -10 * i - 25 : -25,
+              left: width / 1.7,
             }}
-            source={FlatCoinIcon}
+            source={FlatCoinIcon10}
           />
         </Animatable.View>,
       );
@@ -357,67 +447,236 @@ class WarComponent extends React.Component {
       </View>
     );
   }
+
+  renderCoinStackFives(number, bet) {
+    let stack = [];
+    for (var i = 0; i < number; i++) {
+      stack.push(
+        <Animatable.View
+          ref={ref => {
+            bet
+              ? this.animationRefsFivesBetStack.push(ref)
+              : this.animationRefsFives.push(ref);
+          }}>
+          <Image
+            style={{
+              width: 45,
+              height: 45,
+              position: 'absolute',
+              top: i > 0 ? -8 * i - 8 : -8,
+              left: width / 2.25,
+            }}
+            source={FlatCoinIcon5}
+          />
+        </Animatable.View>,
+      );
+    }
+    return (
+      <View>
+        {stack.map(coin => {
+          return coin;
+        })}
+      </View>
+    );
+  }
+
+  renderCoinStackOnes(number, bet) {
+    let stack = [];
+    for (var i = 0; i < number; i++) {
+      stack.push(
+        <Animatable.View
+          ref={ref =>
+            bet
+              ? this.animationRefsOnesBetStack.push(ref)
+              : this.animationRefsOnes.push(ref)
+          }>
+          <Image
+            style={{
+              position: 'absolute',
+              top: i > 0 ? -5 * i : 0,
+              left: width / 3,
+            }}
+            source={FlatCoinIcon}
+          />
+        </Animatable.View>,
+      );
+    }
+    if (bet) {
+      //this.animationRefsOnesBetStack.reverse();
+    }
+    return (
+      <View>
+        {stack.map(coin => {
+          return coin;
+        })}
+      </View>
+    );
+  }
+
+  renderStack(pieces, bet) {
+    if (pieces < 5) {
+      return this.renderCoinStackOnes(pieces, bet);
+    } else if (pieces > 4 && pieces < 10) {
+      return (
+        <View>
+          {this.renderCoinStackOnes(pieces - 5, bet)}
+          {this.renderCoinStackFives(1, bet)}
+        </View>
+      );
+    } else if (pieces > 9 && pieces < 25) {
+      return (
+        <View>
+          {this.renderCoinStackOnes(pieces % 5, bet)}
+          {this.renderCoinStackFives(Math.trunc(pieces / 5, bet))}
+        </View>
+      );
+    } else if (pieces > 25) {
+      let tens = Math.trunc(pieces / 10);
+      let fives = Math.trunc((pieces - tens * 10) / 5);
+
+      if (fives == 0 && tens > 1) {
+        tens--;
+        fives += 2;
+      }
+
+      if (fives == 1 && tens > 1) {
+        tens--;
+        fives += 2;
+      }
+
+      if (fives == 2 && tens > 1) {
+        tens--;
+        fives += 2;
+      }
+
+      return (
+        <View>
+          {this.renderCoinStackOnes(pieces % 5, bet)}
+          {this.renderCoinStackFives(fives, bet)}
+          {this.renderCoinStackTens(tens, bet)}
+        </View>
+      );
+    }
+  }
   render() {
     return (
       <View style={{flex: 1}}>
-        <Animatable.View ref={ref => (this.AnimationRef2 = ref)}>
-          <Image style={[styles.green]} source={FlatCoinIcon} />
-        </Animatable.View>
+        <Dialog.Container visible={this.state.confirmationDialog}>
+          <Dialog.Title>Confirmation</Dialog.Title>
+          <Dialog.Description>Miser {this.state.betValue} ?</Dialog.Description>
+          <Dialog.Button
+            onPress={() => {
+              this.setState({confirmationDialog: false});
+            }}
+            label="Annuler"
+          />
+          <Dialog.Button onPress={this.handleOnPress.bind(this)} label="OK" />
+        </Dialog.Container>
 
         <View
           style={{
-            flex: 1,
-            flexDirection: 'column',
+            alignItems: 'center',
+            width,
+            flex: 0.3,
+            borderWitdth: 2,
+            borderColor: 'black',
+            backgroundColor: 'lightblue',
+          }}>
+          {this.getTerritoryFromId()}
+        </View>
+        <View
+          style={{
+            flex: 0.3,
+            flexDirection: 'row',
+            justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <View
+          {this.props.war.players.map((player, index) => {
+            if (index === this.props.war.players.length - 1) {
+              return this.getIconFromUnity(player.username);
+            }
+            return (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {this.getIconFromUnity(player.username)}
+                <Text style={{fontWeight: 'bold', fontSize: 15}}> VS </Text>
+              </View>
+            );
+          })}
+        </View>
+        <View
+          style={{
+            flex: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            right: 55,
+          }}>
+          <Text style={{fontSize: 20}}>Mes pièces {'   '}</Text>
+          <Text
             style={{
-              width,
-              flex: 0.3,
-              borderWitdth: 2,
-              borderColor: 'black',
-              backgroundColor: 'lightblue',
+              fontWeight: 'bold',
+              fontSize: 20,
+              borderWidth: 3,
+              borderColor: 'grey',
+              padding: 5,
+              minWidth: width / 7,
+              height: height / 18,
+              textAlign: 'center',
+              color: 'black',
             }}>
-            {this.getTerritoryFromId()}
-          </View>
-          <View
-            style={{
-              flex: 0.3,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {this.props.war.players.map((player, index) => {
-              if (index === this.props.war.players.length - 1) {
-                return this.getIconFromUnity(player.username);
-              }
-              return (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  {this.getIconFromUnity(player.username)}
-                  <Text style={{fontWeight: 'bold', fontSize: 15}}> VS </Text>
-                </View>
-              );
-            })}
-          </View>
-          <View style={{flexDirection: 'row'}}>
-            <Text>{this.props.pieces}</Text>
-            {this.renderCoinStackOnes(4)}
-            <View></View>
-            {this.renderCoinStackFives(4)}
-            {this.renderCoinStackTens(4)}
-          </View>
+            {this.state.pieces}
+          </Text>
+        </View>
+        <View style={{flex: 0.1}}></View>
+        <View style={{flex: 0, flexDirection: 'row'}}>
+          {this.renderStack(this.state.pieces)}
+        </View>
 
+        <View style={{flex: 0.1}}></View>
+
+        <View style={{flex: 0, alignItems: 'center'}}>
           {this.renderBetInput()}
-          {/* <Image
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            right: 45,
+          }}>
+          <Text style={{fontSize: 20}}>Ma mise {'   '}</Text>
+          <TextInput
+            editable={false}
+            style={{
+              borderWidth: 3,
+              borderColor: 'grey',
+              alignSelf: 'center',
+              padding: 5,
+              minWidth: width / 7,
+              height: height / 18,
+              textAlign: 'center',
+              color: 'black',
+              fontSize: 20,
+              fontWeight: 'bold',
+            }}
+            keyboardType={'numeric'}
+            value={'' + this.state.betValue}
+          />
+        </View>
+        <View style={{flex: 0.1}}></View>
+        <View style={{flex: 0, flexDirection: 'row'}}>
+          {this.renderStack(this.state.betValue, true)}
+        </View>
+
+        {/* <Image
             style={{width: width / 5, height: height / 9}}
             source={SwordsIcon}
           /> */}
-        </View>
         {/* <CountDown
           until={9999}
           // onFinish={() => {

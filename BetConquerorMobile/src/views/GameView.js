@@ -11,14 +11,11 @@ const FirstRoute = props => (
     <View
       style={{
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: props.color,
       }}>
-      <Text style={[styles.pieces]}>
-        {props.username} - {props.pieces}{' '}
-      </Text>
-      <Image source={CoinIcon} />
+      <Text style={[styles.pieces]}>{props.username}</Text>
     </View>
 
     <View style={[styles.scene]}>
@@ -38,14 +35,11 @@ const SecondRoute = props => (
     <View
       style={{
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: props.color,
       }}>
-      <Text style={[styles.pieces]}>
-        {props.username} - {props.pieces}{' '}
-      </Text>
-      <Image source={CoinIcon} />
+      <Text style={[styles.pieces]}>{props.username}</Text>
     </View>
 
     {console.log(props)}

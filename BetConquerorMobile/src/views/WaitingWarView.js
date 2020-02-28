@@ -22,6 +22,8 @@ import {
   Image,
   Dimensions,
   Vibration,
+  Animated,
+  Easing,
 } from 'react-native';
 import War from '../models/war';
 import hourglassIcon from '../../assets/hourglass.png';
@@ -309,6 +311,37 @@ const WaitingWarView = props => {
       );
     }
   };
+  const animatedValue = new Animated.Value(0);
+
+  const handleAnimation = () => {
+    // A loop is needed for continuous animation
+    Animated.loop(
+      // Animation consists of a sequence of steps
+      Animated.sequence([
+        // start rotation in one direction (only half the time is needed)
+        Animated.timing(animatedValue, {
+          toValue: 1.0,
+          duration: 150,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        // rotate in other direction, to minimum value (= twice the duration of above)
+        Animated.timing(animatedValue, {
+          toValue: -1.0,
+          duration: 300,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+        // return to begin position
+        Animated.timing(animatedValue, {
+          toValue: 0.0,
+          duration: 150,
+          easing: Easing.linear,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -327,9 +360,22 @@ const WaitingWarView = props => {
       </View>
       <View style={{flex: 0}}>
         <View style={{flexDirection: 'row', marginTop: 40}}>
-          <Image
+          <Animated.Image
             source={hourglassIcon}
-            style={{width: width / 3, height: height / 6}}
+            resizeMode="contain"
+            style={{
+              width: width / 3,
+              height: height / 6,
+
+              transform: [
+                {
+                  rotate: animatedValue.interpolate({
+                    inputRange: [-1, 1],
+                    outputRange: ['-0.1rad', '0.1rad'],
+                  }),
+                },
+              ],
+            }}
           />
           <Text
             style={{
@@ -358,6 +404,7 @@ const WaitingWarView = props => {
       </View>
 
       <View style={{flex: 0.5}}>{renderWarResults()}</View>
+      {handleAnimation()}
     </View>
   );
 };
