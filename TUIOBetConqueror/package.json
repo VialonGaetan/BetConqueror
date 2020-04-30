@@ -13,7 +13,7 @@
   "license": "AtelierIHM",
   "dependencies": {
     "@lottiefiles/lottie-player": "^0.3.0-rc2",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "letteringjs": "^0.7.0",
     "lottie-web": "^5.6.4",
     "qrcode": "^1.4.4",
